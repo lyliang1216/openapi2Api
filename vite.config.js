@@ -10,12 +10,11 @@ export default defineConfig({
       fileName: "bundle",
     },
     rollupOptions: {
-      external: ["fs", "path", "url", "pinyin"],
+      external: ["fs", "path", "pinyin"],
       output: {
         globals: {
           fs: "fs",
           path: "path",
-          url: "url",
           pinyin: "pinyin",
         },
       },

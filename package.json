@@ -1,6 +1,6 @@
 {
   "name": "openapi2api",
-  "version": "1.0.1",
+  "version": "1.0.7",
   "description": "openapi生成api工具",
   "main": "./dist/bundle.mjs",
   "module": "./dist/bundle.mjs",
@@ -14,9 +14,6 @@
   "dependencies": {
     "pinyin": "^4.0.0-alpha.2",
     "vite": "^5.4.2"
-  },
-  "devDependencies": {
-    "vite-plugin-externals": "^0.6.2"
   },
   "repository": {
     "type": "git",

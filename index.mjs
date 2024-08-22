@@ -1,19 +1,25 @@
 import fs from "fs";
 import path from "path";
 import pinyin from "pinyin";
-import { fileURLToPath } from "url";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * api生成工具
  * @param {*} param.openAPI api json内容
  * @param {*} param.baseUrl 地址前缀
+ * @param {*} param.outDir 工具输出目录
  * @param {*} param.apiOutDir api输出目录
  * @param {*} param.interfaceOutDir interface输出目录
  * @param {*} param.requestUrl request引入地址
  */
-const tool = ({ openAPI, baseUrl, apiOutDir, interfaceOutDir, requestUrl }) => {
+const tool = ({
+  openAPI,
+  baseUrl,
+  outDir,
+  apiOutDir,
+  interfaceOutDir,
+  requestUrl,
+}) => {
+  const __dirname = process.cwd() + (outDir[0] === "/" ? "" : "/") + outDir;
   // 类型转换
   const JavaType2JavaScriptType = {
     integer: "number",
@@ -579,22 +585,23 @@ export function useExtApi() {
 export const genApi = ({
   swaggerJsonUrl,
   baseUrl,
+  outDir,
   apiOutDir,
   interfaceOutDir,
   requestUrl,
 }) => {
-  fetch(swaggerJsonUrl) // 替换为你的API URL
+  fetch(swaggerJsonUrl)
     .then((response) => {
       if (!response.ok) {
-        // 如果响应状态码不是 2xx，抛出错误
         throw new Error("获取apijson请求报错 " + response.statusText);
       }
-      return response.json(); // 将响应解析为 JSON
+      return response.json();
     })
     .then((data) => {
       tool({
         openAPI: data,
         baseUrl,
+        outDir,
         apiOutDir,
         interfaceOutDir,
         requestUrl,

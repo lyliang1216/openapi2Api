@@ -356,7 +356,7 @@ const tool = ({
     };
   };
 
-  // 有params参数的
+  // 有params参数的，通过requestbody传参
   const hasParamsApi = (item) => {
     let url = "";
     if (replaceUrlArg(item.url).has) {
@@ -381,7 +381,7 @@ const tool = ({
     return type === "number" ? "number | string" : type;
   };
 
-  // 有query参数的
+  // 有query参数的，通过url传参，这里包含url路径参数和query参数
   const hasQueryApi = (item) => {
     let queryStr = "";
     let url = "";
@@ -404,7 +404,9 @@ const tool = ({
           }`
       )
       .join("");
-    const urlStr = item.query.map((q) => `${q.name}=\${${q.name}}`).join("&");
+    const urlStr = item.query
+      .map((q) => `${q.name}=\${data.${q.name}}`)
+      .join("&");
     return `/**
    * ${item.description}
    ${descStr}
@@ -420,7 +422,7 @@ const tool = ({
     },`;
   };
 
-  // url参数的post请求
+  // url参数的post请求，这里是url参数和requestbody参数
   function hasUrlQueryApi(item) {
     let queryStr = "";
     let url = "";
@@ -584,12 +586,36 @@ export function useExtApi() {
  */
 export const genApi = ({
   swaggerJsonUrl,
+  apiJsonData,
   baseUrl,
   outDir,
   apiOutDir,
   interfaceOutDir,
   requestUrl,
 }) => {
+  const todo = (openAPI) => {
+    // 处理转译字符，目前已知的%C2%AB %C2%BB
+    openAPI = JSON.parse(
+      JSON.stringify(openAPI)
+        .replaceAll("%C2%AB", "«")
+        .replaceAll("%C2%BB", "»")
+    );
+    tool({
+      openAPI,
+      baseUrl,
+      outDir,
+      apiOutDir,
+      interfaceOutDir,
+      requestUrl,
+    });
+  };
+  if (!swaggerJsonUrl && !apiJsonData) {
+    throw "没有传入 swaggerJsonUrl 或 apiJsonData";
+  }
+  if (!swaggerJsonUrl && apiJsonData) {
+    todo(apiJsonData);
+    return false;
+  }
   fetch(swaggerJsonUrl)
     .then((response) => {
       if (!response.ok) {
@@ -598,14 +624,7 @@ export const genApi = ({
       return response.json();
     })
     .then((data) => {
-      tool({
-        openAPI: data,
-        baseUrl,
-        outDir,
-        apiOutDir,
-        interfaceOutDir,
-        requestUrl,
-      });
+      todo(data);
     })
     .catch((error) => {
       console.error("There was a problem with the fetch operation:", error);

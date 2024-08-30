@@ -21,14 +21,15 @@ genApi({
 
 # 参数
 
-| 参数名          | 描述                                                     |
-| --------------- | -------------------------------------------------------- |
-| swaggerJsonUrl  | api json 地址，swagger 文档中按 F12 可看到 json 请求地址 |
-| baseUrl         | api 地址前缀                                             |
-| outDir          | 文件输出目录，如/src/api                                 |
-| apiOutDir       | api 输出目录名                                           |
-| interfaceOutDir | interface 输出目录名                                     |
-| requestUrl      | request 引入地址，使用默认导出，默认路径./request        |
+| 参数名          | 描述                                                                                  |
+| --------------- | ------------------------------------------------------------------------------------- |
+| swaggerJsonUrl  | api json 地址，swagger 文档中按 F12 可看到 json 请求地址，和 apiJsonData 传入一个即可 |
+| apiJsonData     | api 的 json 数据，和 swaggerJsonUrl 传入一个即可                                      |
+| baseUrl         | api 地址前缀                                                                          |
+| outDir          | 文件输出目录，如/src/api                                                              |
+| apiOutDir       | api 输出目录名                                                                        |
+| interfaceOutDir | interface 输出目录名                                                                  |
+| requestUrl      | request 引入地址，使用默认导出，默认路径./request                                     |
 
 # Feature
 

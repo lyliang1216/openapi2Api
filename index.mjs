@@ -56,16 +56,18 @@ const tool = ({
         };
         // 获取query参数
         if (apiConfig.parameters) {
-          api.query = apiConfig.parameters.map((queryItem) => {
-            return {
-              name: queryItem.name,
-              type:
-                JavaType2JavaScriptType[queryItem.schema.type] ||
-                queryItem.schema.type,
-              description: queryItem.description,
-              required: queryItem.required,
-            };
-          });
+          api.query = apiConfig.parameters
+            .filter((queryItem) => queryItem.in !== "header")
+            .map((queryItem) => {
+              return {
+                name: queryItem.name,
+                type:
+                  JavaType2JavaScriptType[queryItem.schema.type] ||
+                  queryItem.schema.type,
+                description: queryItem.description,
+                required: queryItem.required,
+              };
+            });
         }
         // 获取requestBody参数
         if (apiConfig.requestBody) {

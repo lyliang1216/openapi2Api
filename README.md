@@ -25,7 +25,8 @@ genApi({
 | --------------- | ------------------------------------------------------------------------------------- |
 | swaggerJsonUrl  | api json 地址，swagger 文档中按 F12 可看到 json 请求地址，和 apiJsonData 传入一个即可 |
 | apiJsonData     | api 的 json 数据，和 swaggerJsonUrl 传入一个即可                                      |
-| baseUrl         | api 地址前缀                                                                          |
+| baseUrl         | url 去除的公共地址，用于区分模块                                                      |
+| prefixUrl       | 地址前缀，添加在 url 前的标识，通常使用 baseUrl                                       |
 | outDir          | 文件输出目录，如/src/api                                                              |
 | apiOutDir       | api 输出目录名                                                                        |
 | interfaceOutDir | interface 输出目录名                                                                  |

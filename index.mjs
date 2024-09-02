@@ -5,7 +5,8 @@ import pinyin from "pinyin";
 /**
  * api生成工具
  * @param {*} param.openAPI api json内容
- * @param {*} param.baseUrl 地址前缀
+ * @param {*} param.baseUrl url去除的公共地址，用于区分模块
+ * @param {*} param.prefixUrl 地址前缀，添加在url前的标识，通常使用baseUrl
  * @param {*} param.outDir 工具输出目录
  * @param {*} param.apiOutDir api输出目录
  * @param {*} param.interfaceOutDir interface输出目录
@@ -368,7 +369,7 @@ const tool = ({
       item.paramsType
     }, config={}): Promise<${item.resType || "void"}> {
       return request({
-        url: \`${url || item.url}\`,
+        url: \`${prefixUrl}${url || item.url}\`,
         method: '${method}',
         data,
         ...config
@@ -415,7 +416,7 @@ const tool = ({
       item.resType || "void"
     }> {
       return request({
-        url: \`${url ? url : `${item.url}?${urlStr}`}\`,
+        url: \`${prefixUrl}${url ? url : `${item.url}?${urlStr}`}\`,
         method: '${item.method.toUpperCase()}',
         ...config
       })
@@ -442,7 +443,7 @@ const tool = ({
       item.resType || "void"
     }> {
       return request({
-        url: \`${url}\`,
+        url: \`${prefixUrl}${url}\`,
         method: '${item.method.toUpperCase()}',
         ...config
       })
@@ -457,7 +458,7 @@ const tool = ({
       item.resType || "void"
     }> {
       return request({
-        url: \`${item.url}\`,
+        url: \`${prefixUrl}${item.url}\`,
         method: '${item.method.toUpperCase()}',
         ...config
       })
@@ -579,7 +580,8 @@ export function useExtApi() {
 /**
  * api生成工具
  * @param {*} param.swaggerJsonUrl api json地址
- * @param {*} param.baseUrl 地址前缀
+ * @param {*} param.baseUrl url去除的公共地址，用于区分模块
+ * @param {*} param.prefixUrl 地址前缀，添加在url前的标识，通常使用baseUrl
  * @param {*} param.apiOutDir api输出目录
  * @param {*} param.interfaceOutDir interface输出目录
  * @param {*} param.requestUrl request引入地址，使用默认导出，默认路径./request
@@ -588,6 +590,7 @@ export const genApi = ({
   swaggerJsonUrl,
   apiJsonData,
   baseUrl,
+  prefixUrl,
   outDir,
   apiOutDir,
   interfaceOutDir,
@@ -602,7 +605,8 @@ export const genApi = ({
     );
     tool({
       openAPI,
-      baseUrl,
+      baseUrl: baseUrl || "",
+      prefixUrl: prefixUrl || "",
       outDir,
       apiOutDir,
       interfaceOutDir,

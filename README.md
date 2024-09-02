@@ -21,17 +21,18 @@ genApi({
 
 # 参数
 
-| 参数名          | 描述                                                                                  |
-| --------------- | ------------------------------------------------------------------------------------- |
-| swaggerJsonUrl  | api json 地址，swagger 文档中按 F12 可看到 json 请求地址，和 apiJsonData 传入一个即可 |
-| apiJsonData     | api 的 json 数据，和 swaggerJsonUrl 传入一个即可                                      |
-| baseUrl         | url 去除的公共地址，用于区分模块                                                      |
-| prefixUrl       | 地址前缀，添加在 url 前的标识，通常使用 baseUrl                                       |
-| outDir          | 文件输出目录，如/src/api                                                              |
-| exportApiName   | 导出的 api 集合名称                                                                   |
-| apiOutDir       | api 输出目录名                                                                        |
-| interfaceOutDir | interface 输出目录名                                                                  |
-| requestUrl      | request 引入地址，使用默认导出，默认路径./request                                     |
+| 参数名             | 描述                                                                                  |
+| ------------------ | ------------------------------------------------------------------------------------- |
+| swaggerJsonUrl     | api json 地址，swagger 文档中按 F12 可看到 json 请求地址，和 apiJsonData 传入一个即可 |
+| apiJsonData        | api 的 json 数据，和 swaggerJsonUrl 传入一个即可                                      |
+| baseUrl            | url 去除的公共地址，用于区分模块                                                      |
+| prefixUrl          | 地址前缀，添加在 url 前的标识，通常使用 baseUrl                                       |
+| outDir             | 文件输出目录，如/src/api                                                              |
+| exportApiName      | 导出的 api 集合名称                                                                   |
+| apiOutDir          | api 输出目录名                                                                        |
+| interfaceOutDir    | interface 输出目录名                                                                  |
+| requestUrl         | request 引入地址，使用默认导出，默认路径./request                                     |
+| needExtendTemplate | 是否需要拓展 api 的模板，并且在 api 中会自动引入拓展文件                              |
 
 # Feature
 

@@ -12,6 +12,7 @@ import pinyin from "pinyin";
  * @param {*} param.exportApiName 导出的api集合名称
  * @param {*} param.interfaceOutDir interface输出目录
  * @param {*} param.requestUrl request引入地址
+ * @param {*} param.needExtendTemplate 是否需要拓展api模板
  */
 const tool = ({
   openAPI,
@@ -22,6 +23,7 @@ const tool = ({
   exportApiName,
   interfaceOutDir,
   requestUrl,
+  needExtendTemplate,
 }) => {
   const __dirname = process.cwd() + (outDir[0] === "/" ? "" : "/") + outDir;
   // 类型转换
@@ -513,18 +515,18 @@ const tool = ({
 
   const getApiIndexFileContent = () => {
     let content = ``;
+    needExtendTemplate && (content += `import {useExtApi} from './ext'\n`);
     group.forEach((groupItem) => {
       content += `import {use${toPascalCase(
         groupItem.groupName
       )}Api} from './${apiOutDir}/${groupItem.groupName}'\n`;
     });
-    content += `import {useExtApi} from './ext'\n`;
     content += `\n`;
     content += `export const ${exportApiName} = {\n`;
     group.forEach((groupItem) => {
       content += `...use${toPascalCase(groupItem.groupName)}Api(),\n`;
     });
-    content += `...useExtApi(),\n`;
+    needExtendTemplate && (content += `...useExtApi(),\n`);
     content += `}`;
     return content;
   };
@@ -579,7 +581,7 @@ export function useExtApi() {
   genFile(interfaceFileContent, "interfaces.d.ts", interfaceOutDir);
   const apiIndexFileContent = getApiIndexFileContent();
   genFile(apiIndexFileContent, "index.ts", "");
-  genExtFile();
+  needExtendTemplate && genExtFile();
 };
 
 /**
@@ -602,6 +604,7 @@ export const genApi = ({
   exportApiName,
   interfaceOutDir,
   requestUrl,
+  needExtendTemplate,
 }) => {
   const todo = (openAPI) => {
     // 处理转译字符，目前已知的%C2%AB %C2%BB
@@ -619,6 +622,7 @@ export const genApi = ({
       exportApiName: exportApiName || "apis",
       interfaceOutDir,
       requestUrl,
+      needExtendTemplate,
     });
   };
   if (!swaggerJsonUrl && !apiJsonData) {

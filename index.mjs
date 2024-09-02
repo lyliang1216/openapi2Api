@@ -15,6 +15,7 @@ import pinyin from "pinyin";
 const tool = ({
   openAPI,
   baseUrl,
+  prefixUrl,
   outDir,
   apiOutDir,
   interfaceOutDir,

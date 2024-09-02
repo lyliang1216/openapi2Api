@@ -28,6 +28,7 @@ genApi({
 | baseUrl         | url 去除的公共地址，用于区分模块                                                      |
 | prefixUrl       | 地址前缀，添加在 url 前的标识，通常使用 baseUrl                                       |
 | outDir          | 文件输出目录，如/src/api                                                              |
+| exportApiName   | 导出的 api 集合名称                                                                   |
 | apiOutDir       | api 输出目录名                                                                        |
 | interfaceOutDir | interface 输出目录名                                                                  |
 | requestUrl      | request 引入地址，使用默认导出，默认路径./request                                     |
@@ -37,4 +38,4 @@ genApi({
 - 输出目录简化
 - 自动格式化
 
-- 优化参数位置判断，通过parameters中in字段判断
+- 优化参数位置判断，通过 parameters 中 in 字段判断

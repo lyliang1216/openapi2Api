@@ -9,6 +9,7 @@ import pinyin from "pinyin";
  * @param {*} param.prefixUrl 地址前缀，添加在url前的标识，通常使用baseUrl
  * @param {*} param.outDir 工具输出目录
  * @param {*} param.apiOutDir api输出目录
+ * @param {*} param.exportApiName 导出的api集合名称
  * @param {*} param.interfaceOutDir interface输出目录
  * @param {*} param.requestUrl request引入地址
  */
@@ -18,6 +19,7 @@ const tool = ({
   prefixUrl,
   outDir,
   apiOutDir,
+  exportApiName,
   interfaceOutDir,
   requestUrl,
 }) => {
@@ -518,7 +520,7 @@ const tool = ({
     });
     content += `import {useExtApi} from './ext'\n`;
     content += `\n`;
-    content += `export const apis = {\n`;
+    content += `export const ${exportApiName} = {\n`;
     group.forEach((groupItem) => {
       content += `...use${toPascalCase(groupItem.groupName)}Api(),\n`;
     });
@@ -586,6 +588,7 @@ export function useExtApi() {
  * @param {*} param.baseUrl url去除的公共地址，用于区分模块
  * @param {*} param.prefixUrl 地址前缀，添加在url前的标识，通常使用baseUrl
  * @param {*} param.apiOutDir api输出目录
+ * @param {*} param.exportApiName 导出的api集合名称
  * @param {*} param.interfaceOutDir interface输出目录
  * @param {*} param.requestUrl request引入地址，使用默认导出，默认路径./request
  */
@@ -596,6 +599,7 @@ export const genApi = ({
   prefixUrl,
   outDir,
   apiOutDir,
+  exportApiName,
   interfaceOutDir,
   requestUrl,
 }) => {
@@ -612,6 +616,7 @@ export const genApi = ({
       prefixUrl: prefixUrl || "",
       outDir,
       apiOutDir,
+      exportApiName: exportApiName || "apis",
       interfaceOutDir,
       requestUrl,
     });

@@ -9,7 +9,8 @@
     "index.d.ts"
   ],
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "pub": "npm version patch && git push && npm run build && npm publish"
   },
   "dependencies": {
     "pinyin": "^4.0.0-alpha.2",

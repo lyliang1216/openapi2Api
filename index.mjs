@@ -96,7 +96,9 @@ const tool = ({
               if (reqContent[contentTypeItem].schema.items.type) {
                 if (reqContent[contentTypeItem].schema.type === "array") {
                   api.onlyRequestBody =
-                    reqContent[contentTypeItem].schema.items.type + "[]";
+                    JavaType2JavaScriptType[
+                      reqContent[contentTypeItem].schema.items.type
+                    ] + "[]";
                 } else {
                   api.onlyRequestBody =
                     reqContent[contentTypeItem].schema.items.type;
@@ -107,9 +109,9 @@ const tool = ({
                   reqContent[contentTypeItem].schema.items.$ref
                 );
                 if (reqContent[contentTypeItem].schema.type === "array") {
-                  api.paramsType = reqBodyTypeStr + "[]";
+                  api.paramsType = "I" + reqBodyTypeStr + "[]";
                 } else {
-                  api.paramsType = reqBodyTypeStr;
+                  api.paramsType = "I" + reqBodyTypeStr;
                 }
               }
             }
@@ -474,12 +476,13 @@ const tool = ({
       .join(",");
     queryStr += `}`;
     return `/**${item.description} */
-      ${processUrl(item.url)}${method}(data: ${queryStr}, config={}): Promise<${
-      item.resType || "void"
-    }> {
+      ${processUrl(item.url)}${method}(data: ${
+      url ? queryStr : item.onlyRequestBody || "{}"
+    }, config={}): Promise<${item.resType || "void"}> {
       return request({
         url: \`${prefixUrl}${url || item.url}\`,
         method: '${item.method.toUpperCase()}',
+        ${url ? "" : "data,"}
         ...config
       })
     },`;

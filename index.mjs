@@ -52,6 +52,7 @@ const tool = ({
     Object.keys(paths).forEach((url) => {
       Object.keys(paths[url]).forEach((method) => {
         const apiConfig = paths[url][method];
+
         const api = {
           url: url.replace(baseUrl, ""),
           method: method,
@@ -87,6 +88,31 @@ const tool = ({
             }
           } else {
             const contentTypeItem = Object.keys(reqContent)[0];
+            // 添加直接放入requestbody中的内容，没有key值
+            if (
+              reqContent[contentTypeItem].schema &&
+              reqContent[contentTypeItem].schema.type
+            ) {
+              if (reqContent[contentTypeItem].schema.items.type) {
+                if (reqContent[contentTypeItem].schema.type === "array") {
+                  api.onlyRequestBody =
+                    reqContent[contentTypeItem].schema.items.type + "[]";
+                } else {
+                  api.onlyRequestBody =
+                    reqContent[contentTypeItem].schema.items.type;
+                }
+              }
+              if (reqContent[contentTypeItem].schema.items.$ref) {
+                const reqBodyTypeStr = getTypeName(
+                  reqContent[contentTypeItem].schema.items.$ref
+                );
+                if (reqContent[contentTypeItem].schema.type === "array") {
+                  api.paramsType = reqBodyTypeStr + "[]";
+                } else {
+                  api.paramsType = reqBodyTypeStr;
+                }
+              }
+            }
             if (
               reqContent[contentTypeItem].schema &&
               reqContent[contentTypeItem].schema.$ref
@@ -322,6 +348,7 @@ const tool = ({
   // 生成api文件
   const getApiFileContent = () => {
     group = groupBy(apis, "group");
+
     group.forEach((groupItem) => {
       let fileStr = `import request from '${requestUrl || "./request"}'
     /**${groupItem.description} */
@@ -437,6 +464,7 @@ const tool = ({
     if (replaceUrlArg(item.url).has) {
       url = replaceUrlArg(item.url).url;
     }
+
     const method = item.method.toUpperCase();
     queryStr += `{`;
     queryStr += item.query
@@ -450,7 +478,7 @@ const tool = ({
       item.resType || "void"
     }> {
       return request({
-        url: \`${prefixUrl}${url}\`,
+        url: \`${prefixUrl}${url || item.url}\`,
         method: '${item.method.toUpperCase()}',
         ...config
       })

@@ -40,3 +40,4 @@ genApi({
 - 自动格式化
 
 - 优化参数位置判断，通过 parameters 中 in 字段判断
+- 参数直接放入 requestBody 的情况判断

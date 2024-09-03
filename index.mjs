@@ -475,16 +475,19 @@ const tool = ({
       )
       .join(",");
     queryStr += `}`;
-    return `/**${item.description} */
+    return (
+      `/**${item.description} */
       ${processUrl(item.url)}${method}(data: ${
-      url ? queryStr : item.onlyRequestBody || "{}"
-    }, config={}): Promise<${item.resType || "void"}> {
+        url ? queryStr : item.onlyRequestBody || "{}"
+      }, config={}): Promise<${item.resType || "void"}> {
       return request({
         url: \`${prefixUrl}${url || item.url}\`,
-        method: '${item.method.toUpperCase()}',${url ? "" : "\ndata,"}
-        ...config
+        method: '${item.method.toUpperCase()}',` +
+      (url ? "" : "data,") +
+      `...config
       })
-    },`;
+    },`
+    );
   }
 
   // 没有参数的

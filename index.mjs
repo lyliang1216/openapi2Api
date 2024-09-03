@@ -481,8 +481,7 @@ const tool = ({
     }, config={}): Promise<${item.resType || "void"}> {
       return request({
         url: \`${prefixUrl}${url || item.url}\`,
-        method: '${item.method.toUpperCase()}',
-        ${url ? "" : "data,"}
+        method: '${item.method.toUpperCase()}',${url ? "" : "\ndata,"}
         ...config
       })
     },`;

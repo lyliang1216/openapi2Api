@@ -359,6 +359,7 @@ const tool = ({
       groupItem.items.forEach((item) => {
         const isQuery = ["get", "delete"].includes(item.method);
         const isParams = ["post", "put"].includes(item.method);
+
         if (isQuery && item.query) {
           fileStr += hasQueryApi(item);
         } else if (item.paramsType) {
@@ -475,6 +476,12 @@ const tool = ({
       )
       .join(",");
     queryStr += `}`;
+    if (url === "" && queryStr !== "{}") {
+      const urlStr = item.query
+        .map((q) => `${q.name}=\${data.${q.name}}`)
+        .join("&");
+      url = `${item.url}?${urlStr}`;
+    }
     return (
       `/**${item.description} */
       ${processUrl(item.url)}${method}(data: ${

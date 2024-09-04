@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "build": "vite build",
-    "pub": "npm version patch && git push && npm run build && npm publish"
+    "pub": "npm version patch && git push && npm run build && npm publish",
+    "gen:apis": "node ./example/api/genapi.mjs"
   },
   "dependencies": {
     "pinyin": "^4.0.0-alpha.2",

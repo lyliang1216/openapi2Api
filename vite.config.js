@@ -5,7 +5,7 @@ import { resolve } from "path";
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, "index.mjs"),
+      entry: resolve(__dirname, "./packages/index.mjs"),
       name: "genApi",
       fileName: "bundle",
     },

@@ -91,7 +91,7 @@ const tool = ({
             // 添加直接放入requestbody中的内容，没有key值
             if (
               reqContent[contentTypeItem].schema &&
-              reqContent[contentTypeItem].schema.type
+              reqContent[contentTypeItem].schema.items
             ) {
               if (reqContent[contentTypeItem].schema.items.type) {
                 if (reqContent[contentTypeItem].schema.type === "array") {

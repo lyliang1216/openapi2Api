@@ -86,8 +86,6 @@ const tool = ({
           const reqContent = apiConfig.requestBody.content;
           // 是FormData
           if (reqContent["multipart/form-data"]) {
-            console.log(api.url);
-
             const contentTypeItem = Object.keys(reqContent)[0];
             if (reqContent[contentTypeItem].schema) {
               const { properties, required } =
@@ -423,9 +421,6 @@ const tool = ({
     * ${item.description}\n`;
     if (descStr) {
       resStr += `${descStr}\n`;
-    }
-    if (item.url === "/ambition-api/user/file/upload") {
-      console.log(item);
     }
     resStr += `*/\n`;
     resStr += `${processUrl(item.url)}${method}(${

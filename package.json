@@ -1,6 +1,6 @@
 {
   "name": "openapi2api",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "openapi生成api工具",
   "main": "./dist/bundle.mjs",
   "module": "./dist/bundle.mjs",

@@ -5,25 +5,25 @@ import pinyin from "pinyin";
 /**
  * api生成工具
  * @param {*} param.openAPI api json内容
- * @param {*} param.baseUrl url去除的公共地址，用于区分模块
- * @param {*} param.prefixUrl 地址前缀，添加在url前的标识，通常使用baseUrl
  * @param {*} param.outDir 工具输出目录
  * @param {*} param.apiOutDir api输出目录
  * @param {*} param.exportApiName 导出的api集合名称
  * @param {*} param.interfaceOutDir interface输出目录
  * @param {*} param.requestUrl request引入地址
  * @param {*} param.needExtendTemplate 是否需要拓展api模板
+ * @param {*} param.customUrlPlugin 自定义url插件
+ * @param {*} param.customGroupPlugin 自定义group插件
  */
 const tool = ({
   openAPI,
-  baseUrl,
-  prefixUrl,
   outDir,
   apiOutDir,
   exportApiName,
   interfaceOutDir,
   requestUrl,
   needExtendTemplate,
+  customUrlPlugin,
+  customGroupPlugin,
 }) => {
   const __dirname = process.cwd() + (outDir[0] === "/" ? "" : "/") + outDir;
   // 类型转换
@@ -57,11 +57,12 @@ const tool = ({
         const apiConfig = paths[url][method];
 
         const api = {
-          url: url.replace(baseUrl, ""),
+          url: customUrlPlugin ? customUrlPlugin(url, apiConfig.tags) : url,
           method: method,
           description: apiConfig.tags[0] + "-" + apiConfig.summary,
           group: apiConfig.tags[0],
         };
+
         // 获取query和path参数
         if (apiConfig.parameters) {
           api.query = apiConfig.parameters
@@ -280,14 +281,22 @@ const tool = ({
   // 按组分类
   const groupBy = (array, property) => {
     const groups = [];
+    // 当前groupName是第几个
     const nameToIndex = {};
 
     array.forEach((item) => {
+      const customGroupName = customGroupPlugin
+        ? customGroupPlugin(item.url)
+        : "";
+      if (customGroupName) {
+        item.group = customGroupName;
+      }
+
       const name = item[property];
       if (!nameToIndex[name]) {
         nameToIndex[name] = groups.length + 1;
         groups.push({
-          groupName: getGroupName(item.url),
+          groupName: customGroupName || getGroupName(item.url),
           description: name,
           items: [],
         });
@@ -352,6 +361,7 @@ const tool = ({
   // 生成api文件
   const getApiFileContent = () => {
     group = groupBy(apis, "group");
+    console.log(JSON.stringify(group));
 
     group.forEach((groupItem) => {
       let fileStr = `import request from '${requestUrl || "./request"}'
@@ -380,17 +390,16 @@ const tool = ({
       if (querys.length) {
         queryStr = querys
           .map((it) => `${it.name}=\$\{data.${it.name}\}`)
-          .join("");
+          .join("&");
         url += `?${queryStr}`;
-        queryTypeStr += `{`;
-        queryTypeStr += item.query
-          .map(
-            (q) =>
-              `${q.name}${q.required ? "" : "?"}:${urlNumber2String(q.type)}`
-          )
-          .join(",");
-        queryTypeStr += `}`;
       }
+      queryTypeStr += `{`;
+      queryTypeStr += item.query
+        .map(
+          (q) => `${q.name}${q.required ? "" : "?"}:${urlNumber2String(q.type)}`
+        )
+        .join(",");
+      queryTypeStr += `}`;
       descStr = item.query
         .map(
           (q, i) =>
@@ -401,20 +410,20 @@ const tool = ({
         .join("");
     }
     let resStr = "";
-    resStr += `/**${item.description} `;
+    resStr += `/**${item.description}\n`;
     if (descStr) {
       resStr += `${descStr}`;
     }
     resStr += `*/\n`;
     resStr += `${processUrl(item.url)}${method}(${
-      queryTypeStr
+      item.query && item.query.length
         ? `data:${queryTypeStr},`
         : reqBodyTypeStr
         ? `data:${reqBodyTypeStr},`
         : ""
-    } config={}): Promise<${item.resType || "void"}> {`;
+    } config={}): Promise<${item.resType || "void"}> {\n`;
     resStr += `return request({
-        url: \`${url}\`\n,
+        url: \`${url}\`,
         method: '${item.method.toUpperCase()}',\n`;
     if (queryTypeStr || reqBodyTypeStr) {
       resStr += "data,\n";
@@ -553,24 +562,27 @@ export function useExtApi() {
 /**
  * api生成工具
  * @param {*} param.swaggerJsonUrl api json地址
- * @param {*} param.baseUrl url去除的公共地址，用于区分模块
- * @param {*} param.prefixUrl 地址前缀，添加在url前的标识，通常使用baseUrl
+ * @param {*} param.apiJsonData api json数据
+ * @param {*} param.outDir 工具输出目录
  * @param {*} param.apiOutDir api输出目录
  * @param {*} param.exportApiName 导出的api集合名称
  * @param {*} param.interfaceOutDir interface输出目录
- * @param {*} param.requestUrl request引入地址，使用默认导出，默认路径./request
+ * @param {*} param.requestUrl request引入地址
+ * @param {*} param.needExtendTemplate 是否需要拓展api模板
+ * @param {*} param.customUrlPlugin 自定义url插件
+ * @param {*} param.customGroupPlugin 自定义group插件
  */
 export const genApi = ({
   swaggerJsonUrl,
   apiJsonData,
-  baseUrl,
-  prefixUrl,
   outDir,
   apiOutDir,
   exportApiName,
   interfaceOutDir,
   requestUrl,
   needExtendTemplate,
+  customUrlPlugin,
+  customGroupPlugin,
 }) => {
   const todo = (openAPI) => {
     // 处理转译字符，目前已知的%C2%AB %C2%BB
@@ -581,14 +593,14 @@ export const genApi = ({
     );
     tool({
       openAPI,
-      baseUrl: baseUrl || "",
-      prefixUrl: prefixUrl || "",
       outDir,
       apiOutDir,
       exportApiName: exportApiName || "apis",
       interfaceOutDir,
       requestUrl,
       needExtendTemplate,
+      customUrlPlugin,
+      customGroupPlugin,
     });
   };
   if (!swaggerJsonUrl && !apiJsonData) {

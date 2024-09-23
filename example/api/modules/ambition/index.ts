@@ -4,6 +4,10 @@ import {useRoleApi} from './modules/role'
 import {useFileApi} from './modules/file'
 import {usePersonalizationApi} from './modules/personalization'
 import {useUserOperationRecordApi} from './modules/userOperationRecord'
+import {useSpaceApi} from './modules/space'
+import {useSystemTypeApi} from './modules/systemType'
+import {useEnergyTypeApi} from './modules/energyType'
+import {useIconApi} from './modules/icon'
 
 export const ambitionApi = {
 ...useMenuApi(),
@@ -12,4 +16,8 @@ export const ambitionApi = {
 ...useFileApi(),
 ...usePersonalizationApi(),
 ...useUserOperationRecordApi(),
+...useSpaceApi(),
+...useSystemTypeApi(),
+...useEnergyTypeApi(),
+...useIconApi(),
 }

@@ -11,7 +11,7 @@ code?: string;
 /**图标 */
 icon?: string;
 /**顺序 */
-sort?: string;
+sort?: number;
 /**外部数据 */
 extra?: string;
 /**标识符 */
@@ -68,6 +68,12 @@ costTime?: number;
     }
 
     
+    
+ declare interface I {
+
+    }
+
+    
     /**ResponseListMenuTreeVO */
  declare interface IResponseListMenuTreeVO {
 code?: number;
@@ -96,6 +102,88 @@ password?: string;
 code?: number;
 message?: string;
 data?: IPersonalizationVO;
+
+    }
+
+    
+    /**SpaceTreeVO */
+ declare interface ISpaceTreeVO {
+id?: number;
+/**父编码 */
+parent?: number;
+/**排序 */
+sort?: number;
+children?: object[];
+/**编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**描述 */
+description?: string;
+
+    }
+
+    
+    /**SystemTypeTreeVO */
+ declare interface ISystemTypeTreeVO {
+id?: number;
+/**父编码 */
+parent?: number;
+/**排序 */
+sort?: number;
+children?: object[];
+/**编码 */
+code?: string;
+/**名称 */
+name?: string;
+
+    }
+
+    
+    /**EnergyTypeTreeVO */
+ declare interface IEnergyTypeTreeVO {
+id?: number;
+/**父编码 */
+parent?: number;
+/**排序 */
+sort?: number;
+children?: object[];
+/**编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**单位 */
+unit?: string;
+/**碳因子单位 */
+carbonUnit?: string;
+/**碳排放因子 */
+carbonFactor?: number;
+/**标准煤系数 */
+coalRatio?: number;
+/**煤系数单位 */
+coalUnit?: string;
+
+    }
+
+    
+    /**IconTreeVO */
+ declare interface IIconTreeVO {
+id?: number;
+/**父编码 */
+parent?: number;
+/**排序 */
+sort?: number;
+children?: object[];
+/**名称 */
+name?: string;
+/**上传人 */
+creator?: string;
+/**图片 */
+picture?: string;
+/**类型（1-层级2-图片） */
+type?: number;
+/**更新时间 */
+updateTime?: string;
 
     }
 
@@ -130,27 +218,6 @@ searchCount?: boolean;
 optimizeJoinOfCountSql?: boolean;
 maxLimit?: number;
 countId?: string;
-
-    }
-
-    
-    /**OrderItem */
- declare interface IOrderItem {
-/**需要进行排序的字段 */
-column?: string;
-/**是否正序排列，默认 true */
-asc?: boolean;
-
-    }
-
-    
-    /**RoleVO */
- declare interface IRoleVO {
-id?: number;
-/**名称 */
-name?: string;
-/**描述 */
-description?: string;
 
     }
 
@@ -369,6 +436,42 @@ countId?: string;
     }
 
     
+    /**ResponseListSpaceTreeVO */
+ declare interface IResponseListSpaceTreeVO {
+code?: number;
+message?: string;
+data?: ISpaceTreeVO[];
+
+    }
+
+    
+    /**ResponseListSystemTypeTreeVO */
+ declare interface IResponseListSystemTypeTreeVO {
+code?: number;
+message?: string;
+data?: ISystemTypeTreeVO[];
+
+    }
+
+    
+    /**ResponseListEnergyTypeTreeVO */
+ declare interface IResponseListEnergyTypeTreeVO {
+code?: number;
+message?: string;
+data?: IEnergyTypeTreeVO[];
+
+    }
+
+    
+    /**ResponseListIconTreeVO */
+ declare interface IResponseListIconTreeVO {
+code?: number;
+message?: string;
+data?: IIconTreeVO[];
+
+    }
+
+    
     /**MenuDTO */
  declare interface IMenuDTO {
 /**父节点 */
@@ -384,6 +487,17 @@ sort?: string;
 /**外部数据 */
 extra?: string;
 identifier?: string[];
+
+    }
+
+    
+    /**RoleVO */
+ declare interface IRoleVO {
+id?: number;
+/**名称 */
+name?: string;
+/**描述 */
+description?: string;
 
     }
 
@@ -463,19 +577,48 @@ data?: IPageUserOperationRecordVO;
     }
 
     
+    /**UserLoginInfoVO */
+ declare interface IUserLoginInfoVO {
+token?: string;
+userVO?: IUserVO;
+
+    }
+
+    
+    /**PersonalizationDTO */
+ declare interface IPersonalizationDTO {
+name?: string;
+logo?: string;
+color?: string;
+background?: string;
+
+    }
+
+    
+    /**IconVO */
+ declare interface IIconVO {
+id?: number;
+/**父编码 */
+parent?: number;
+/**排序 */
+sort?: number;
+/**名称 */
+name?: string;
+/**上传人 */
+creator?: string;
+/**图片 */
+picture?: string;
+/**类型（1-层级2-图片） */
+type?: number;
+
+    }
+
+    
     /**MenuEditDTO */
  declare interface IMenuEditDTO {
 id?: number;
 name?: string;
 extra?: string;
-
-    }
-
-    
-    /**UserLoginInfoVO */
- declare interface IUserLoginInfoVO {
-token?: string;
-userVO?: IUserVO;
 
     }
 
@@ -494,16 +637,6 @@ isEnable?: string;
 roles?: IRoleVO[];
 /**创建时间 */
 createTime?: string;
-
-    }
-
-    
-    /**PersonalizationDTO */
- declare interface IPersonalizationDTO {
-name?: string;
-logo?: string;
-color?: string;
-background?: string;
 
     }
 
@@ -569,6 +702,86 @@ data?: IUserLoginInfoVO;
     }
 
     
+    /**SystemTypeDTO */
+ declare interface ISystemTypeDTO {
+/**编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**父编码 */
+parent?: number;
+/**排序 */
+sort?: number;
+
+    }
+
+    
+    /**SpaceDTO */
+ declare interface ISpaceDTO {
+/**编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**描述 */
+description?: string;
+/**父编码 */
+parent?: number;
+/**排序 */
+sort?: number;
+
+    }
+
+    
+    /**EnergyTypeDTO */
+ declare interface IEnergyTypeDTO {
+/**能耗分类名称 */
+name?: string;
+/**父级id */
+parent?: number;
+/**能耗分类编号 */
+code?: string;
+/**单位 */
+unit?: string;
+/**碳因子单位 */
+carbonUnit?: string;
+/**碳排放因子 */
+carbonFactor?: number;
+/**标准煤系数 */
+coalRatio?: number;
+/**煤系数单位 */
+coalUnit?: string;
+/**排序 */
+sort?: number;
+
+    }
+
+    
+    /**MenuOrderDTO */
+ declare interface IMenuOrderDTO {
+id?: number;
+order?: string;
+
+    }
+
+    
+    /**OrderItem */
+ declare interface IOrderItem {
+/**需要进行排序的字段 */
+column?: string;
+/**是否正序排列，默认 true */
+asc?: boolean;
+
+    }
+
+    
+    /**RoleMenuDTO */
+ declare interface IRoleMenuDTO {
+menuId?: number;
+identifier?: string[];
+
+    }
+
+    
     /**MenuSortDTO */
  declare interface IMenuSortDTO {
 id?: number;
@@ -579,10 +792,86 @@ ancestors?: number[];
     }
 
     
-    /**RoleMenuDTO */
- declare interface IRoleMenuDTO {
-menuId?: number;
-identifier?: string[];
+    /**SystemTypeEditDTO */
+ declare interface ISystemTypeEditDTO {
+id?: number;
+/**编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**父编码 */
+parent?: number;
+/**排序 */
+sort?: number;
+
+    }
+
+    
+    /**SpaceEditDTO */
+ declare interface ISpaceEditDTO {
+id?: number;
+/**编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**描述 */
+description?: string;
+/**父编码 */
+parent?: number;
+/**排序 */
+sort?: number;
+
+    }
+
+    
+    /**EnergyTypeEditDTO */
+ declare interface IEnergyTypeEditDTO {
+/**id */
+id?: number;
+/**能耗分类名称 */
+name?: string;
+/**父级id */
+parent?: number;
+/**能耗分类编号 */
+code?: string;
+/**单位 */
+unit?: string;
+/**碳因子单位 */
+carbonUnit?: string;
+/**碳排放因子 */
+carbonFactor?: number;
+/**标准煤系数 */
+coalRatio?: number;
+/**煤系数单位 */
+coalUnit?: string;
+/**排序 */
+sort?: number;
+
+    }
+
+    
+    /**PageIconVO */
+ declare interface IPageIconVO {
+/**查询数据列表 */
+records?: IIconVO[];
+/**总数 */
+total?: number;
+/**每页显示条数，默认 10 */
+size?: number;
+/**当前页 */
+current?: number;
+/**排序字段信息 */
+orders?: IOrderItem[];
+/**自动优化 COUNT SQL */
+optimizeCountSql?: boolean;
+/**是否进行 count 查询 */
+searchCount?: boolean;
+/**{@link #optimizeJoinOfCountSql()} */
+optimizeJoinOfCountSql?: boolean;
+/**单页分页条数限制 */
+maxLimit?: number;
+/**countId */
+countId?: string;
 
     }
 
@@ -624,6 +913,15 @@ roleMenuDTOList?: IRoleMenuDTO[];
     }
 
     
+    /**ResponsePageIconVO */
+ declare interface IResponsePageIconVO {
+code?: number;
+message?: string;
+data?: IPageIconVO;
+
+    }
+
+    
     /**ResponsePageUserVO */
  declare interface IResponsePageUserVO {
 code?: number;
@@ -660,6 +958,24 @@ roles?: IRoleVO[];
     }
 
     
+    /**IconDTO */
+ declare interface IIconDTO {
+/**名称 */
+name?: string;
+/**上传人 */
+creator?: string;
+/**图片 */
+picture?: string;
+/**类型（1-层级2-图片） */
+type?: number;
+/**父编码 */
+parent?: number;
+/**排序 */
+sort?: number;
+
+    }
+
+    
     /**UserEditDTO */
  declare interface IUserEditDTO {
 id?: number;
@@ -672,6 +988,26 @@ phone?: string;
 /**是否启用 */
 isEnable?: string;
 roles?: IRoleVO[];
+
+    }
+
+    
+    /**IconEditDTO */
+ declare interface IIconEditDTO {
+/**id */
+id?: number;
+/**名称 */
+name?: string;
+/**上传人 */
+creator?: string;
+/**图片 */
+picture?: string;
+/**类型（1-层级2-图片） */
+type?: number;
+/**父编码 */
+parent?: number;
+/**排序 */
+sort?: number;
 
     }
 

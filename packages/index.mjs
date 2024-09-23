@@ -415,9 +415,6 @@ const tool = ({
       resStr += `${descStr}\n`;
     }
     resStr += `*/\n`;
-    if (item.url.includes("/element-uniqueId")) {
-      console.log(reqBodyTypeStr);
-    }
     resStr += `${processUrl(item.url)}${method}(${
       item.query && item.query.length
         ? `data:${queryTypeStr},`

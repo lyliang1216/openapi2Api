@@ -415,6 +415,9 @@ const tool = ({
       resStr += `${descStr}\n`;
     }
     resStr += `*/\n`;
+    if (item.url.includes("/element-uniqueId")) {
+      console.log(reqBodyTypeStr);
+    }
     resStr += `${processUrl(item.url)}${method}(${
       item.query && item.query.length
         ? `data:${queryTypeStr},`
@@ -425,7 +428,7 @@ const tool = ({
     resStr += `return request({
         url: \`${url}\`,
         method: '${item.method.toUpperCase()}',\n`;
-    if (reqBodyTypeStr) {
+    if (!queryTypeStr && reqBodyTypeStr) {
       resStr += "data,\n";
     }
     resStr += `...config

@@ -1,4 +1,4 @@
-import { genApi } from "../../packages/index2.mjs";
+import { genApi } from "../../packages/index.mjs";
 
 import apiJsonData from "./apiData.json" assert { type: "json" };
 
@@ -12,13 +12,13 @@ genApi({
   requestUrl: "@/utils/service",
 });
 
-// genApi({
-//   swaggerJsonUrl: "http://172.18.14.28:5010/swagger/Bearer/swagger.json",
-//   baseUrl: "/graphics/bearer",
-//   prefixUrl: "/graphics/bearer",
-//   outDir: "/example/api/modules/editor",
-//   apiOutDir: "modules",
-//   exportApiName: "editorApi",
-//   interfaceOutDir: "interfaces",
-//   requestUrl: "@/utils/service",
-// });
+genApi({
+  swaggerJsonUrl: "http://172.18.14.28:5010/swagger/Bearer/swagger.json",
+  baseUrl: "/graphics/bearer",
+  prefixUrl: "/graphics/bearer",
+  outDir: "/example/api/modules/editor",
+  apiOutDir: "modules",
+  exportApiName: "editorApi",
+  interfaceOutDir: "interfaces",
+  requestUrl: "@/utils/service",
+});

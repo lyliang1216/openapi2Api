@@ -2,24 +2,22 @@ import request from '@/utils/service'
     /**user/文件上传与下载 */
       export function useFileApi() {
       return {
-/**user/文件上传与下载-upload */
-      File_UploadPOST(data: FormData, config={}): Promise<IResponseString> {
-      return request({
-        url: `/ambition-api/user/file/upload`,
+/**user/文件上传与下载-upload * @param data.path */
+File_UploadPOST(data:{path?:string}, config={}): Promise<IResponseString> {return request({
+        url: `/file/upload?path=${data.path}`
+,
         method: 'POST',
-        data,
-        ...config
+data,
+...config
       })
     },
-/**
-   * user/文件上传与下载-downloadFile
-   * @param data.filePath 
-   */
-      File_FilesGET(data: {filePath:string}, config={}): Promise<IResponseEntityResource> {
-      return request({
-        url: `/ambition-api/user/file/files?filePath=${data.filePath}`,
+/**user/文件上传与下载-downloadFile * @param data.filePath */
+File_FilesGET(data:{filePath:string}, config={}): Promise<IResponseEntityResource> {return request({
+        url: `/file/files?filePath=${data.filePath}`
+,
         method: 'GET',
-        ...config
+data,
+...config
       })
     },
 }}

@@ -49,8 +49,11 @@ const tool = ({
   // 获取api集合，和请求参数
   const getApiUrlAndParams = () => {
     const { paths } = openAPI;
+    // 遍历所有url
     Object.keys(paths).forEach((url) => {
+      // 遍历每个url下的所有请求方式
       Object.keys(paths[url]).forEach((method) => {
+        // url每个请求方式的配置
         const apiConfig = paths[url][method];
 
         const api = {
@@ -59,7 +62,7 @@ const tool = ({
           description: apiConfig.tags[0] + "-" + apiConfig.summary,
           group: apiConfig.tags[0],
         };
-        // 获取query参数
+        // 获取query和path参数
         if (apiConfig.parameters) {
           api.query = apiConfig.parameters
             .filter((queryItem) => queryItem.in !== "header")
@@ -70,6 +73,7 @@ const tool = ({
                   JavaType2JavaScriptType[queryItem.schema.type] ||
                   queryItem.schema.type,
                 description: queryItem.description,
+                in: api.url.includes(`{${queryItem.name}}`) ? "path" : "query",
                 required: queryItem.required,
               };
             });
@@ -78,51 +82,49 @@ const tool = ({
         if (apiConfig.requestBody) {
           const reqContent = apiConfig.requestBody.content;
           // 是FormData
-          if (apiConfig.requestBody.content["multipart/form-data"]) {
+          if (reqContent["multipart/form-data"]) {
             const contentTypeItem = Object.keys(reqContent)[0];
             if (reqContent[contentTypeItem].schema) {
               const { properties, required } =
                 reqContent[contentTypeItem].schema;
+              // TODO 需要细化FormData类型
               api.params = getPropertiesParams(properties, required);
               api.paramsType = "FormData";
             }
           } else {
             const contentTypeItem = Object.keys(reqContent)[0];
-            // 添加直接放入requestbody中的内容，没有key值
-            if (
-              reqContent[contentTypeItem].schema &&
-              reqContent[contentTypeItem].schema.items
-            ) {
-              if (reqContent[contentTypeItem].schema.items.type) {
-                if (reqContent[contentTypeItem].schema.type === "array") {
-                  api.onlyRequestBody =
-                    JavaType2JavaScriptType[
-                      reqContent[contentTypeItem].schema.items.type
-                    ] + "[]";
-                } else {
-                  api.onlyRequestBody =
-                    reqContent[contentTypeItem].schema.items.type;
-                }
-              }
-              if (reqContent[contentTypeItem].schema.items.$ref) {
+            if (reqContent[contentTypeItem].schema) {
+              // 一般请求对象
+              if (reqContent[contentTypeItem].schema.$ref) {
                 const reqBodyTypeStr = getTypeName(
-                  reqContent[contentTypeItem].schema.items.$ref
+                  reqContent[contentTypeItem].schema.$ref
                 );
-                if (reqContent[contentTypeItem].schema.type === "array") {
-                  api.paramsType = "I" + reqBodyTypeStr + "[]";
-                } else {
-                  api.paramsType = "I" + reqBodyTypeStr;
+                api.paramsType = reqBodyTypeStr;
+              } else if (reqContent[contentTypeItem].schema.items) {
+                // 存在数组的
+                if (reqContent[contentTypeItem].schema.items.type) {
+                  if (reqContent[contentTypeItem].schema.type === "array") {
+                    // 没有interface，直接是内容
+                    api.paramsType =
+                      JavaType2JavaScriptType[
+                        reqContent[contentTypeItem].schema.items.type
+                      ] + "[]";
+                  } else {
+                    api.paramsType =
+                      reqContent[contentTypeItem].schema.items.type;
+                  }
+                }
+                if (reqContent[contentTypeItem].schema.items.$ref) {
+                  const reqBodyTypeStr = getTypeName(
+                    reqContent[contentTypeItem].schema.items.$ref
+                  );
+                  if (reqContent[contentTypeItem].schema.type === "array") {
+                    api.paramsType = "I" + reqBodyTypeStr + "[]";
+                  } else {
+                    api.paramsType = "I" + reqBodyTypeStr;
+                  }
                 }
               }
-            }
-            if (
-              reqContent[contentTypeItem].schema &&
-              reqContent[contentTypeItem].schema.$ref
-            ) {
-              const reqBodyTypeStr = getTypeName(
-                reqContent[contentTypeItem].schema.$ref
-              );
-              api.paramsType = reqBodyTypeStr;
             }
           }
         }
@@ -357,18 +359,7 @@ const tool = ({
       export function use${toPascalCase(groupItem.groupName)}Api() {
       return {\n`;
       groupItem.items.forEach((item) => {
-        const isQuery = ["get", "delete"].includes(item.method);
-        const isParams = ["post", "put"].includes(item.method);
-
-        if (isQuery && item.query) {
-          fileStr += hasQueryApi(item);
-        } else if (item.paramsType) {
-          fileStr += hasParamsApi(item);
-        } else if (isParams && item.query) {
-          fileStr += hasUrlQueryApi(item);
-        } else {
-          fileStr += onlyApi(item);
-        }
+        fileStr += genReqStrContent(item);
         fileStr += "\n";
       });
       fileStr += `}}`;
@@ -376,140 +367,75 @@ const tool = ({
     });
   };
 
-  // 判断是否有url参数
-  const replaceUrlArg = (url) => {
-    // 正则表达式匹配占位符
-    const placeholderPattern = /\{([^}]+)\}/g;
-    // 测试是否有占位符
-    if (placeholderPattern.test(url)) {
-      // 替换所有匹配项
-      return {
-        url: url.replace(placeholderPattern, "${data.$1}"),
-        has: true,
-      };
-    }
-    return {
-      url,
-      has: false,
-    };
-  };
-
-  // 有params参数的，通过requestbody传参
-  const hasParamsApi = (item) => {
-    let url = "";
-    if (replaceUrlArg(item.url).has) {
-      url = replaceUrlArg(item.url).url;
-    }
+  // 生成请求字符串内容
+  const genReqStrContent = (item) => {
+    let url = replacePlaceholders(item.url);
     const method = item.method.toUpperCase();
-    return `/**${item.description} */
-      ${processUrl(item.url)}${method}(data: ${
-      item.paramsType
-    }, config={}): Promise<${item.resType || "void"}> {
-      return request({
-        url: \`${prefixUrl}${url || item.url}\`,
-        method: '${method}',
-        data,
-        ...config
+    let queryStr = "";
+    let queryTypeStr = "";
+    let descStr = "";
+    let reqBodyTypeStr = item.paramsType;
+    if (item.query && item.query.length) {
+      const querys = item.query.filter((it) => it.in === "query");
+      if (querys.length) {
+        queryStr = querys
+          .map((it) => `${it.name}=\$\{data.${it.name}\}`)
+          .join("");
+        url += `?${queryStr}`;
+        queryTypeStr += `{`;
+        queryTypeStr += item.query
+          .map(
+            (q) =>
+              `${q.name}${q.required ? "" : "?"}:${urlNumber2String(q.type)}`
+          )
+          .join(",");
+        queryTypeStr += `}`;
+      }
+      descStr = item.query
+        .map(
+          (q, i) =>
+            `* @param data.${q.name} ${q.description}${
+              i === item.query.length - 1 ? "" : "\n"
+            }`
+        )
+        .join("");
+    }
+    let resStr = "";
+    resStr += `/**${item.description} `;
+    if (descStr) {
+      resStr += `${descStr}`;
+    }
+    resStr += `*/\n`;
+    resStr += `${processUrl(item.url)}${method}(${
+      queryTypeStr
+        ? `data:${queryTypeStr},`
+        : reqBodyTypeStr
+        ? `data:${reqBodyTypeStr},`
+        : ""
+    } config={}): Promise<${item.resType || "void"}> {`;
+    resStr += `return request({
+        url: \`${url}\`\n,
+        method: '${item.method.toUpperCase()}',\n`;
+    if (queryTypeStr || reqBodyTypeStr) {
+      resStr += "data,\n";
+    }
+    resStr += `...config
       })
     },`;
+
+    return resStr;
+  };
+
+  // 替换url中的占位符
+  const replacePlaceholders = (str) => {
+    return str.replace(/\{(\w+)\}/g, function (match, p1) {
+      return "${data." + p1 + "}";
+    });
   };
 
   // url参数number兼容string
   const urlNumber2String = (type) => {
     return type === "number" ? "number | string" : type;
-  };
-
-  // 有query参数的，通过url传参，这里包含url路径参数和query参数
-  const hasQueryApi = (item) => {
-    let queryStr = "";
-    let url = "";
-    if (replaceUrlArg(item.url).has) {
-      url = replaceUrlArg(item.url).url;
-    }
-    const method = item.method.toUpperCase();
-    queryStr += `{`;
-    queryStr += item.query
-      .map(
-        (q) => `${q.name}${q.required ? "" : "?"}:${urlNumber2String(q.type)}`
-      )
-      .join(",");
-    queryStr += `}`;
-    const descStr = item.query
-      .map(
-        (q, i) =>
-          `* @param data.${q.name} ${q.description}${
-            i === item.query.length - 1 ? "" : "\n"
-          }`
-      )
-      .join("");
-    const urlStr = item.query
-      .map((q) => `${q.name}=\${data.${q.name}}`)
-      .join("&");
-    return `/**
-   * ${item.description}
-   ${descStr}
-   */
-      ${processUrl(item.url)}${method}(data: ${queryStr}, config={}): Promise<${
-      item.resType || "void"
-    }> {
-      return request({
-        url: \`${prefixUrl}${url ? url : `${item.url}?${urlStr}`}\`,
-        method: '${item.method.toUpperCase()}',
-        ...config
-      })
-    },`;
-  };
-
-  // url参数的post请求，这里是url参数和requestbody参数
-  function hasUrlQueryApi(item) {
-    let queryStr = "";
-    let url = "";
-    if (replaceUrlArg(item.url).has) {
-      url = replaceUrlArg(item.url).url;
-    }
-
-    const method = item.method.toUpperCase();
-    queryStr += `{`;
-    queryStr += item.query
-      .map(
-        (q) => `${q.name}${q.required ? "" : "?"}:${urlNumber2String(q.type)}`
-      )
-      .join(",");
-    queryStr += `}`;
-    if (url === "" && queryStr !== "{}") {
-      const urlStr = item.query
-        .map((q) => `${q.name}=\${data.${q.name}}`)
-        .join("&");
-      url = `${item.url}?${urlStr}`;
-    }
-    return (
-      `/**${item.description} */
-      ${processUrl(item.url)}${method}(data: ${
-        url ? queryStr : item.onlyRequestBody || "{}"
-      }, config={}): Promise<${item.resType || "void"}> {
-      return request({
-        url: \`${prefixUrl}${url || item.url}\`,
-        method: '${item.method.toUpperCase()}',` +
-      (url ? "" : "data,") +
-      `...config
-      })
-    },`
-    );
-  }
-
-  // 没有参数的
-  const onlyApi = (item) => {
-    const method = item.method.toUpperCase();
-    return `/**${item.description} */
-      ${processUrl(item.url)}${method}(config={}): Promise<${
-      item.resType || "void"
-    }> {
-      return request({
-        url: \`${prefixUrl}${item.url}\`,
-        method: '${item.method.toUpperCase()}',
-        ...config
-      })
-    },`;
   };
 
   // 获取interface文件内容

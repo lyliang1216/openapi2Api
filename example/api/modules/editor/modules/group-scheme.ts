@@ -3,62 +3,59 @@ import request from '@/utils/service'
       export function useGroupSchemeApi() {
       return {
 /**GroupScheme-新建分组方案 */
-      GroupSchemePOST(data: IGroupBo, config={}): Promise<IInt32Response> {
-      return request({
-        url: `/graphics/bearer/group-scheme`,
+GroupSchemePOST(data:IGroupBo, config={}): Promise<IInt32Response> {return request({
+        url: `/group-scheme`
+,
         method: 'POST',
-        data,
-        ...config
+data,
+...config
       })
     },
 /**GroupScheme-保存分组方案 */
-      GroupSchemePUT(data: IUpdateGroupBo, config={}): Promise<IObjectResponse> {
-      return request({
-        url: `/graphics/bearer/group-scheme`,
+GroupSchemePUT(data:IUpdateGroupBo, config={}): Promise<IObjectResponse> {return request({
+        url: `/group-scheme`
+,
         method: 'PUT',
-        data,
-        ...config
+data,
+...config
       })
     },
-/**
-   * GroupScheme-获取分组方案列表
-   * @param data.projectId 项目id
-* @param data.sadiId sadi id
-   */
-      GroupScheme_projectId_sadiIdGET(data: {projectId:number | string,sadiId:number | string}, config={}): Promise<ISADIGroupListResponse> {
-      return request({
-        url: `/graphics/bearer/group-scheme/${data.projectId}/${data.sadiId}`,
+/**GroupScheme-获取分组方案列表 * @param data.projectId 项目id
+* @param data.sadiId sadi id*/
+GroupScheme_projectId_sadiIdGET( config={}): Promise<ISADIGroupListResponse> {return request({
+        url: `/group-scheme/${data.projectId}/${data.sadiId}`
+,
         method: 'GET',
-        ...config
+...config
       })
     },
-/**
-   * GroupScheme-删除分组方案
-   * @param data.projectId 项目id
+/**GroupScheme-删除分组方案 * @param data.projectId 项目id
 * @param data.sadiId sadi id
-* @param data.groupId 分组方案id
-   */
-      GroupScheme_projectId_sadiId_groupIdDELETE(data: {projectId:number | string,sadiId:number | string,groupId:number | string}, config={}): Promise<IObjectResponse> {
-      return request({
-        url: `/graphics/bearer/group-scheme/${data.projectId}/${data.sadiId}/${data.groupId}`,
+* @param data.groupId 分组方案id*/
+GroupScheme_projectId_sadiId_groupIdDELETE( config={}): Promise<IObjectResponse> {return request({
+        url: `/group-scheme/${data.projectId}/${data.sadiId}/${data.groupId}`
+,
         method: 'DELETE',
-        ...config
+...config
       })
     },
 /**GroupScheme-分组方案排序 */
-      GroupScheme_SortPUT(data: IRecordSortBo, config={}): Promise<IObjectResponse> {
-      return request({
-        url: `/graphics/bearer/group-scheme/sort`,
+GroupScheme_SortPUT(data:IRecordSortBo, config={}): Promise<IObjectResponse> {return request({
+        url: `/group-scheme/sort`
+,
         method: 'PUT',
-        data,
-        ...config
+data,
+...config
       })
     },
-/**GroupScheme-复制分组方案 */
-      GroupScheme_Copy_projectId_sadiId_schemeIdPOST(data: {projectId:number | string,sadiId:number | string,schemeId:number | string}, config={}): Promise<IInt32Response> {
-      return request({
-        url: `/graphics/bearer/group-scheme/copy/${data.projectId}/${data.sadiId}/${data.schemeId}`,
-        method: 'POST',...config
+/**GroupScheme-复制分组方案 * @param data.projectId 项目id
+* @param data.sadiId sadi id
+* @param data.schemeId 源分组方案id*/
+GroupScheme_Copy_projectId_sadiId_schemeIdPOST( config={}): Promise<IInt32Response> {return request({
+        url: `/group-scheme/copy/${data.projectId}/${data.sadiId}/${data.schemeId}`
+,
+        method: 'POST',
+...config
       })
     },
 }}

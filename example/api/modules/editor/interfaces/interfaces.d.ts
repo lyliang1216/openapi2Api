@@ -38,17 +38,7 @@ projectId?: number;
 /**sadi id */
 sadiId?: number;
 /**标签 */
-labels?: ISimpleLableBo[];
-
-    }
-
-    
-    /**BlankModelBo */
- declare interface IBlankModelBo {
-/**项目id */
-projectId?: number;
-/**名称 */
-name?: string;
+labels?: ISimpleLabelBo[];
 
     }
 
@@ -398,7 +388,7 @@ id?: number;
 /**方案名称 */
 name?: string;
 /**标签id集合 */
-labels?: ILabelSimpleVo[];
+labels?: ILabelVo[];
 /**排序 */
 order?: number;
 
@@ -412,16 +402,6 @@ code?: IResponseCode;
 data?: ILabelRecordVo[];
 /**返回消息 */
 message?: string;
-
-    }
-
-    
-    /**LabelSimpleVo */
- declare interface ILabelSimpleVo {
-/**标签id */
-id?: number;
-/**标签名称 */
-name?: string;
 
     }
 
@@ -465,8 +445,8 @@ Fixed_Left= 1,
     }
 
     
-    /**LableVo */
- declare interface ILableVo {
+    /**LabelVo */
+ declare interface ILabelVo {
 id?: number;
 /**名称 */
 name?: string;
@@ -490,7 +470,7 @@ isCustomElement?: boolean;
 
     
     /**分页模型 */
- declare interface ILableVoPageResultVo {
+ declare interface ILabelVoPageResultVo {
 /**页码 */
 page?: number;
 /**分页大小 */
@@ -500,15 +480,25 @@ total?: number;
 /**总页数 */
 totalPages?: number;
 /**分页数据 */
-results?: ILableVo[];
+results?: ILabelVo[];
 
     }
 
     
     /**通用response */
- declare interface ILableVoPageResultVoResponse {
+ declare interface ILabelVoPageResultVoResponse {
 code?: IResponseCode;
-data?: ILableVoPageResultVo;
+data?: ILabelVoPageResultVo;
+/**返回消息 */
+message?: string;
+
+    }
+
+    
+    /**通用response */
+ declare interface ILabelVoResponse {
+code?: IResponseCode;
+data?: ILabelVo;
 /**返回消息 */
 message?: string;
 
@@ -546,6 +536,18 @@ code?: IResponseCode;
 data?: IMergeTreeVo[];
 /**返回消息 */
 message?: string;
+
+    }
+
+    
+    /**ModelFromCaseBo */
+ declare interface IModelFromCaseBo {
+/**项目id */
+projectId?: number;
+/**名称 */
+name?: string;
+/**案例id */
+caseFileId?: number;
 
     }
 
@@ -1184,8 +1186,8 @@ removePropertyDefNames?: string[];
     }
 
     
-    /**SimpleLableBo */
- declare interface ISimpleLableBo {
+    /**SimpleLabelBo */
+ declare interface ISimpleLabelBo {
 /**标签id */
 id?: number;
 /**标签内容 */
@@ -1364,8 +1366,8 @@ id?: number;
     }
 
     
-    /**UpdateLableBo */
- declare interface IUpdateLableBo {
+    /**UpdateLabelBo */
+ declare interface IUpdateLabelBo {
 /**项目id */
 projectId?: number;
 /**sadi id */

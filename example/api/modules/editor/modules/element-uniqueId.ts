@@ -9,7 +9,7 @@ import request from '@/utils/service'
 */
 ElementUniqueId_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IUniqueIdVoListResponse> {
 return request({
-        url: `/element-uniqueId/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/element-uniqueId/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -21,7 +21,7 @@ return request({
 */
 ElementUniqueId_Custom_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<ICustomUniqueIdVoListResponse> {
 return request({
-        url: `/element-uniqueId/custom/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/element-uniqueId/custom/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })

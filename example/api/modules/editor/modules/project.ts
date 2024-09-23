@@ -7,7 +7,7 @@ import request from '@/utils/service'
 */
 Project_CurrentGET( config={}): Promise<IInt32Response> {
 return request({
-        url: `/project/current`,
+        url: `/graphics/bearer/project/current`,
         method: 'GET',
 ...config
       })

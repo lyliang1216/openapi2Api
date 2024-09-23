@@ -7,7 +7,7 @@ import request from '@/utils/service'
 */
 ColorSchemePOST(data:IColorRecordBo, config={}): Promise<IInt32Response> {
 return request({
-        url: `/color-scheme`,
+        url: `/graphics/bearer/color-scheme`,
         method: 'POST',
 data,
 ...config
@@ -18,7 +18,7 @@ data,
 */
 ColorSchemePUT(data:FormData, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/color-scheme`,
+        url: `/graphics/bearer/color-scheme`,
         method: 'PUT',
 data,
 ...config
@@ -32,7 +32,7 @@ data,
 */
 ColorScheme_projectId_sadiId_recordIdDELETE(data:{projectId:number | string,sadiId:number | string,recordId:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/color-scheme/${data.projectId}/${data.sadiId}/${data.recordId}`,
+        url: `/graphics/bearer/color-scheme/${data.projectId}/${data.sadiId}/${data.recordId}`,
         method: 'DELETE',
 ...config
       })
@@ -44,7 +44,7 @@ return request({
 */
 ColorScheme_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IColorRecordVoListResponse> {
 return request({
-        url: `/color-scheme/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/color-scheme/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -57,7 +57,7 @@ return request({
 */
 ColorScheme_Data_projectId_sadiId_recordIdGET(data:{projectId:number | string,sadiId:number | string,recordId:number | string}, config={}): Promise<ArrayBuffer> {
 return request({
-        url: `/color-scheme/data/${data.projectId}/${data.sadiId}/${data.recordId}`,
+        url: `/graphics/bearer/color-scheme/data/${data.projectId}/${data.sadiId}/${data.recordId}`,
         method: 'GET',
 ...config
       })
@@ -67,7 +67,7 @@ return request({
 */
 ColorScheme_SortPUT(data:IRecordSortBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/color-scheme/sort`,
+        url: `/graphics/bearer/color-scheme/sort`,
         method: 'PUT',
 data,
 ...config
@@ -81,7 +81,7 @@ data,
 */
 ColorScheme_Copy_projectId_sadiId_schemeIdPOST(data:{projectId:number | string,sadiId:number | string,schemeId:number | string}, config={}): Promise<IInt32Response> {
 return request({
-        url: `/color-scheme/copy/${data.projectId}/${data.sadiId}/${data.schemeId}`,
+        url: `/graphics/bearer/color-scheme/copy/${data.projectId}/${data.sadiId}/${data.schemeId}`,
         method: 'POST',
 ...config
       })

@@ -9,7 +9,7 @@ import request from '@/utils/service'
 */
 GeneralScheme_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IGeneralSchemeVoListResponse> {
 return request({
-        url: `/general-scheme/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/general-scheme/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -19,7 +19,7 @@ return request({
 */
 GeneralSchemePOST(data:IGeneralSchemeBo, config={}): Promise<IInt32Response> {
 return request({
-        url: `/general-scheme`,
+        url: `/graphics/bearer/general-scheme`,
         method: 'POST',
 data,
 ...config
@@ -30,7 +30,7 @@ data,
 */
 GeneralSchemePUT(data:IUpdateGeneralSchemeBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/general-scheme`,
+        url: `/graphics/bearer/general-scheme`,
         method: 'PUT',
 data,
 ...config
@@ -44,7 +44,7 @@ data,
 */
 GeneralScheme_projectId_sadiId_schemeIdDELETE(data:{projectId:number | string,sadiId:number | string,schemeId:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/general-scheme/${data.projectId}/${data.sadiId}/${data.schemeId}`,
+        url: `/graphics/bearer/general-scheme/${data.projectId}/${data.sadiId}/${data.schemeId}`,
         method: 'DELETE',
 ...config
       })
@@ -54,7 +54,7 @@ return request({
 */
 GeneralScheme_SortPUT(data:IRecordSortBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/general-scheme/sort`,
+        url: `/graphics/bearer/general-scheme/sort`,
         method: 'PUT',
 data,
 ...config

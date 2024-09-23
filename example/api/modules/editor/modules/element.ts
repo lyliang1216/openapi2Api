@@ -10,7 +10,7 @@ import request from '@/utils/service'
 */
 Element_projectId_sadiId_elementIdGET(data:{projectId:number | string,sadiId:number | string,elementId:number | string}, config={}): Promise<IElementVoResponse> {
 return request({
-        url: `/element/${data.projectId}/${data.sadiId}/${data.elementId}`,
+        url: `/graphics/bearer/element/${data.projectId}/${data.sadiId}/${data.elementId}`,
         method: 'GET',
 ...config
       })
@@ -22,7 +22,7 @@ return request({
 */
 Element_All_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IElementVoListResponse> {
 return request({
-        url: `/element/all/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/element/all/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -35,7 +35,7 @@ return request({
 */
 Element_Custom_Id_projectId_sadiId_countGET(data:{projectId:number | string,sadiId:number | string,count:number | string}, config={}): Promise<IInt32ListResponse> {
 return request({
-        url: `/element/custom/id/${data.projectId}/${data.sadiId}/${data.count}`,
+        url: `/graphics/bearer/element/custom/id/${data.projectId}/${data.sadiId}/${data.count}`,
         method: 'GET',
 ...config
       })
@@ -45,7 +45,7 @@ return request({
 */
 ElementPOST(data:IAddCustomElementBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/element`,
+        url: `/graphics/bearer/element`,
         method: 'POST',
 data,
 ...config
@@ -56,7 +56,7 @@ data,
 */
 ElementDELETE(data:IDeleteElementBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/element`,
+        url: `/graphics/bearer/element`,
         method: 'DELETE',
 data,
 ...config
@@ -67,7 +67,7 @@ data,
 */
 ElementPUT(data:IUpdateElementBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/element`,
+        url: `/graphics/bearer/element`,
         method: 'PUT',
 data,
 ...config
@@ -78,7 +78,7 @@ data,
 */
 Element_ReplacePOST(data:IReplaceElementBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/element/replace`,
+        url: `/graphics/bearer/element/replace`,
         method: 'POST',
 data,
 ...config

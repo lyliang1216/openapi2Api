@@ -10,7 +10,7 @@ import request from '@/utils/service'
 */
 Property_projectId_sadiId_elementIdGET(data:{projectId:number | string,sadiId:number | string,elementId:number | string}, config={}): Promise<IElementPropertyVoResponse> {
 return request({
-        url: `/property/${data.projectId}/${data.sadiId}/${data.elementId}`,
+        url: `/graphics/bearer/property/${data.projectId}/${data.sadiId}/${data.elementId}`,
         method: 'GET',
 ...config
       })
@@ -20,7 +20,7 @@ return request({
 */
 Property_SearchPOST(data:IPropertySearchBo, config={}): Promise<IPropertySearchVoListResponse> {
 return request({
-        url: `/property/search`,
+        url: `/graphics/bearer/property/search`,
         method: 'POST',
 data,
 ...config
@@ -34,7 +34,7 @@ data,
 */
 Property_Custom_projectId_sadiId_customElementIdGET(data:{projectId:number | string,sadiId:number | string,customElementId:number | string}, config={}): Promise<IElementPropertyVoResponse> {
 return request({
-        url: `/property/custom/${data.projectId}/${data.sadiId}/${data.customElementId}`,
+        url: `/graphics/bearer/property/custom/${data.projectId}/${data.sadiId}/${data.customElementId}`,
         method: 'GET',
 ...config
       })
@@ -44,7 +44,7 @@ return request({
 */
 Property_Sadi_SamePOST(data:IQuerySameSadiPropertyBo, config={}): Promise<ISameSadiPropertyVoListResponse> {
 return request({
-        url: `/property/sadi/same`,
+        url: `/graphics/bearer/property/sadi/same`,
         method: 'POST',
 data,
 ...config

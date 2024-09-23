@@ -7,7 +7,7 @@ import request from '@/utils/service'
 */
 LabelPOST(data:IAddLabelBo, config={}): Promise<IInt32Response> {
 return request({
-        url: `/label`,
+        url: `/graphics/bearer/label`,
         method: 'POST',
 data,
 ...config
@@ -18,7 +18,7 @@ data,
 */
 LabelPUT(data:IUpdateLabelBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/label`,
+        url: `/graphics/bearer/label`,
         method: 'PUT',
 data,
 ...config
@@ -32,7 +32,7 @@ data,
 */
 Label_projectId_sadiId_labelIdGET(data:{projectId:number | string,sadiId:number | string,labelId:number | string}, config={}): Promise<ILabelVoResponse> {
 return request({
-        url: `/label/${data.projectId}/${data.sadiId}/${data.labelId}`,
+        url: `/graphics/bearer/label/${data.projectId}/${data.sadiId}/${data.labelId}`,
         method: 'GET',
 ...config
       })
@@ -45,7 +45,7 @@ return request({
 */
 Label_projectId_sadiId_labelIdDELETE(data:{projectId:number | string,sadiId:number | string,labelId:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/label/${data.projectId}/${data.sadiId}/${data.labelId}`,
+        url: `/graphics/bearer/label/${data.projectId}/${data.sadiId}/${data.labelId}`,
         method: 'DELETE',
 ...config
       })
@@ -55,7 +55,7 @@ return request({
 */
 Label_PagePOST(data:ILabelPageBo, config={}): Promise<ILabelVoPageResultVoResponse> {
 return request({
-        url: `/label/page`,
+        url: `/graphics/bearer/label/page`,
         method: 'POST',
 data,
 ...config
@@ -69,7 +69,7 @@ data,
 */
 Label_Copy_projectId_sadiId_labelIdPOST(data:{projectId:number | string,sadiId:number | string,labelId:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/label/copy/${data.projectId}/${data.sadiId}/${data.labelId}`,
+        url: `/graphics/bearer/label/copy/${data.projectId}/${data.sadiId}/${data.labelId}`,
         method: 'POST',
 ...config
       })
@@ -79,7 +79,7 @@ return request({
 */
 Label_BatchPUT(data:IBatchSetStyleBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/label/batch`,
+        url: `/graphics/bearer/label/batch`,
         method: 'PUT',
 data,
 ...config

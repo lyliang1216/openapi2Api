@@ -7,7 +7,7 @@ import request from '@/utils/service'
 */
 Model_PagePOST(data:IModelPageBo, config={}): Promise<IModelVoPageResultVoResponse> {
 return request({
-        url: `/model/page`,
+        url: `/graphics/bearer/model/page`,
         method: 'POST',
 data,
 ...config
@@ -20,7 +20,7 @@ data,
 */
 Model_Download_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<ArrayBuffer> {
 return request({
-        url: `/model/download/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/model/download/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -30,7 +30,7 @@ return request({
 */
 Model_NewPOST(data:IModelFromCaseBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/model/new`,
+        url: `/graphics/bearer/model/new`,
         method: 'POST',
 data,
 ...config
@@ -43,7 +43,7 @@ data,
 */
 Model_Custom_Download_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<ArrayBuffer> {
 return request({
-        url: `/model/custom/download/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/model/custom/download/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -55,7 +55,7 @@ return request({
 */
 Model_Custom_Exist_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IBooleanResponse> {
 return request({
-        url: `/model/custom/exist/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/model/custom/exist/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -65,7 +65,7 @@ return request({
 */
 Model_Custom_SavePOST(data:FormData, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/model/custom/save`,
+        url: `/graphics/bearer/model/custom/save`,
         method: 'POST',
 data,
 ...config
@@ -78,7 +78,7 @@ data,
 */
 Model_CustomDELETE(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/model/custom?projectId=${data.projectId}&sadiId=${data.sadiId}`,
+        url: `/graphics/bearer/model/custom?projectId=${data.projectId}&sadiId=${data.sadiId}`,
         method: 'DELETE',
 ...config
       })
@@ -90,7 +90,7 @@ return request({
 */
 Model_Hiddens_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IInt32ListResponse> {
 return request({
-        url: `/model/hiddens/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/model/hiddens/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -102,7 +102,7 @@ return request({
 */
 Model_Conf_Download_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<ArrayBuffer> {
 return request({
-        url: `/model/conf/download/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/model/conf/download/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -112,7 +112,7 @@ return request({
 */
 Model_Conf_ImportPOST(data:FormData, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/model/conf/import`,
+        url: `/graphics/bearer/model/conf/import`,
         method: 'POST',
 data,
 ...config
@@ -123,7 +123,7 @@ data,
 */
 Model_ImportPOST(data:FormData, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/model/import`,
+        url: `/graphics/bearer/model/import`,
         method: 'POST',
 data,
 ...config

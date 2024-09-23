@@ -7,7 +7,7 @@ import request from '@/utils/service'
 */
 ViewpointSchemeItemPOST(data:IViewPointItemBo, config={}): Promise<IInt32Response> {
 return request({
-        url: `/viewpoint-scheme-item`,
+        url: `/graphics/bearer/viewpoint-scheme-item`,
         method: 'POST',
 data,
 ...config
@@ -18,7 +18,7 @@ data,
 */
 ViewpointSchemeItemPUT(data:IUpdateViewPointItemBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/viewpoint-scheme-item`,
+        url: `/graphics/bearer/viewpoint-scheme-item`,
         method: 'PUT',
 data,
 ...config
@@ -33,7 +33,7 @@ data,
 */
 ViewpointSchemeItem_projectId_sadiId_recordId_idDELETE(data:{projectId:number | string,sadiId:number | string,recordId:number | string,id:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/viewpoint-scheme-item/${data.projectId}/${data.sadiId}/${data.recordId}/${data.id}`,
+        url: `/graphics/bearer/viewpoint-scheme-item/${data.projectId}/${data.sadiId}/${data.recordId}/${data.id}`,
         method: 'DELETE',
 ...config
       })
@@ -46,7 +46,7 @@ return request({
 */
 ViewpointSchemeItem_projectId_sadiId_recordIdGET(data:{projectId:number | string,sadiId:number | string,recordId:number | string}, config={}): Promise<IViewPointItemVoListResponse> {
 return request({
-        url: `/viewpoint-scheme-item/${data.projectId}/${data.sadiId}/${data.recordId}`,
+        url: `/graphics/bearer/viewpoint-scheme-item/${data.projectId}/${data.sadiId}/${data.recordId}`,
         method: 'GET',
 ...config
       })
@@ -56,7 +56,7 @@ return request({
 */
 ViewpointSchemeItem_SortPUT(data:IViewPointItemSortBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/viewpoint-scheme-item/sort`,
+        url: `/graphics/bearer/viewpoint-scheme-item/sort`,
         method: 'PUT',
 data,
 ...config

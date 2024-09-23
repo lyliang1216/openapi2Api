@@ -7,7 +7,7 @@ import request from '@/utils/service'
 */
 LabelSchemePOST(data:ILabelRecordBo, config={}): Promise<IInt32Response> {
 return request({
-        url: `/label-scheme`,
+        url: `/graphics/bearer/label-scheme`,
         method: 'POST',
 data,
 ...config
@@ -18,7 +18,7 @@ data,
 */
 LabelSchemePUT(data:ISaveLabelRecordBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/label-scheme`,
+        url: `/graphics/bearer/label-scheme`,
         method: 'PUT',
 data,
 ...config
@@ -31,7 +31,7 @@ data,
 */
 LabelScheme_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<ILabelRecordVoListResponse> {
 return request({
-        url: `/label-scheme/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/label-scheme/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -44,7 +44,7 @@ return request({
 */
 LabelScheme_projectId_sadiId_recordIdDELETE(data:{projectId:number | string,sadiId:number | string,recordId:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/label-scheme/${data.projectId}/${data.sadiId}/${data.recordId}`,
+        url: `/graphics/bearer/label-scheme/${data.projectId}/${data.sadiId}/${data.recordId}`,
         method: 'DELETE',
 ...config
       })
@@ -54,7 +54,7 @@ return request({
 */
 LabelScheme_SortPUT(data:IRecordSortBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/label-scheme/sort`,
+        url: `/graphics/bearer/label-scheme/sort`,
         method: 'PUT',
 data,
 ...config
@@ -68,7 +68,7 @@ data,
 */
 LabelScheme_Copy_projectId_sadiId_schemeIdPOST(data:{projectId:number | string,sadiId:number | string,schemeId:number | string}, config={}): Promise<IInt32Response> {
 return request({
-        url: `/label-scheme/copy/${data.projectId}/${data.sadiId}/${data.schemeId}`,
+        url: `/graphics/bearer/label-scheme/copy/${data.projectId}/${data.sadiId}/${data.schemeId}`,
         method: 'POST',
 ...config
       })

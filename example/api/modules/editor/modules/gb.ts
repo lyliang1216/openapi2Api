@@ -7,7 +7,7 @@ import request from '@/utils/service'
 */
 GbGET( config={}): Promise<ISADIStandardListResponse> {
 return request({
-        url: `/gb`,
+        url: `/graphics/bearer/gb`,
         method: 'GET',
 ...config
       })
@@ -19,7 +19,7 @@ return request({
 */
 Gb_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IStandardVoListResponse> {
 return request({
-        url: `/gb/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/gb/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })

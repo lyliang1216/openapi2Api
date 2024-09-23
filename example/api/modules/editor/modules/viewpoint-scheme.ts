@@ -9,7 +9,7 @@ import request from '@/utils/service'
 */
 ViewpointScheme_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IViewPointVoListResponse> {
 return request({
-        url: `/viewpoint-scheme/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/viewpoint-scheme/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -19,7 +19,7 @@ return request({
 */
 ViewpointSchemePOST(data:IViewPointBo, config={}): Promise<IInt32Response> {
 return request({
-        url: `/viewpoint-scheme`,
+        url: `/graphics/bearer/viewpoint-scheme`,
         method: 'POST',
 data,
 ...config
@@ -30,7 +30,7 @@ data,
 */
 ViewpointSchemePUT(data:IUpdateViewPointBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/viewpoint-scheme`,
+        url: `/graphics/bearer/viewpoint-scheme`,
         method: 'PUT',
 data,
 ...config
@@ -44,7 +44,7 @@ data,
 */
 ViewpointScheme_projectId_sadiId_schemeIdDELETE(data:{projectId:number | string,sadiId:number | string,schemeId:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/viewpoint-scheme/${data.projectId}/${data.sadiId}/${data.schemeId}`,
+        url: `/graphics/bearer/viewpoint-scheme/${data.projectId}/${data.sadiId}/${data.schemeId}`,
         method: 'DELETE',
 ...config
       })
@@ -54,7 +54,7 @@ return request({
 */
 ViewpointScheme_SortPUT(data:IRecordSortBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/viewpoint-scheme/sort`,
+        url: `/graphics/bearer/viewpoint-scheme/sort`,
         method: 'PUT',
 data,
 ...config
@@ -68,7 +68,7 @@ data,
 */
 ViewpointScheme_Download_projectId_sadiId_schemeIdGET(data:{projectId:number | string,sadiId:number | string,schemeId:number | string}, config={}): Promise<ArrayBuffer> {
 return request({
-        url: `/viewpoint-scheme/download/${data.projectId}/${data.sadiId}/${data.schemeId}`,
+        url: `/graphics/bearer/viewpoint-scheme/download/${data.projectId}/${data.sadiId}/${data.schemeId}`,
         method: 'GET',
 ...config
       })
@@ -78,7 +78,7 @@ return request({
 */
 ViewpointScheme_UploadPOST(data:FormData, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/viewpoint-scheme/upload`,
+        url: `/graphics/bearer/viewpoint-scheme/upload`,
         method: 'POST',
 data,
 ...config
@@ -92,7 +92,7 @@ data,
 */
 ViewpointScheme_Copy_projectId_sadiId_schemeIdPOST(data:{projectId:number | string,sadiId:number | string,schemeId:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/viewpoint-scheme/copy/${data.projectId}/${data.sadiId}/${data.schemeId}`,
+        url: `/graphics/bearer/viewpoint-scheme/copy/${data.projectId}/${data.sadiId}/${data.schemeId}`,
         method: 'POST',
 ...config
       })

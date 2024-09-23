@@ -7,7 +7,7 @@ import request from '@/utils/service'
 */
 LabelTemplatePOST(data:FormData, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/label-template`,
+        url: `/graphics/bearer/label-template`,
         method: 'POST',
 data,
 ...config
@@ -18,7 +18,7 @@ data,
 */
 LabelTemplateGET( config={}): Promise<ILabelTemplateVoListResponse> {
 return request({
-        url: `/label-template`,
+        url: `/graphics/bearer/label-template`,
         method: 'GET',
 ...config
       })
@@ -28,7 +28,7 @@ return request({
 */
 LabelTemplatePUT(data:FormData, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/label-template`,
+        url: `/graphics/bearer/label-template`,
         method: 'PUT',
 data,
 ...config
@@ -40,7 +40,7 @@ data,
 */
 LabelTemplate_idDELETE(data:{id:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/label-template/${data.id}`,
+        url: `/graphics/bearer/label-template/${data.id}`,
         method: 'DELETE',
 ...config
       })
@@ -51,7 +51,7 @@ return request({
 */
 LabelTemplate_Copy_idPOST(data:{id:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/label-template/copy/${data.id}`,
+        url: `/graphics/bearer/label-template/copy/${data.id}`,
         method: 'POST',
 ...config
       })

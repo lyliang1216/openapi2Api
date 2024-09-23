@@ -7,7 +7,7 @@ import request from '@/utils/service'
 */
 GroupSchemePOST(data:IGroupBo, config={}): Promise<IInt32Response> {
 return request({
-        url: `/group-scheme`,
+        url: `/graphics/bearer/group-scheme`,
         method: 'POST',
 data,
 ...config
@@ -18,7 +18,7 @@ data,
 */
 GroupSchemePUT(data:IUpdateGroupBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/group-scheme`,
+        url: `/graphics/bearer/group-scheme`,
         method: 'PUT',
 data,
 ...config
@@ -31,7 +31,7 @@ data,
 */
 GroupScheme_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<ISADIGroupListResponse> {
 return request({
-        url: `/group-scheme/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/group-scheme/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -44,7 +44,7 @@ return request({
 */
 GroupScheme_projectId_sadiId_groupIdDELETE(data:{projectId:number | string,sadiId:number | string,groupId:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/group-scheme/${data.projectId}/${data.sadiId}/${data.groupId}`,
+        url: `/graphics/bearer/group-scheme/${data.projectId}/${data.sadiId}/${data.groupId}`,
         method: 'DELETE',
 ...config
       })
@@ -54,7 +54,7 @@ return request({
 */
 GroupScheme_SortPUT(data:IRecordSortBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/group-scheme/sort`,
+        url: `/graphics/bearer/group-scheme/sort`,
         method: 'PUT',
 data,
 ...config
@@ -68,7 +68,7 @@ data,
 */
 GroupScheme_Copy_projectId_sadiId_schemeIdPOST(data:{projectId:number | string,sadiId:number | string,schemeId:number | string}, config={}): Promise<IInt32Response> {
 return request({
-        url: `/group-scheme/copy/${data.projectId}/${data.sadiId}/${data.schemeId}`,
+        url: `/graphics/bearer/group-scheme/copy/${data.projectId}/${data.sadiId}/${data.schemeId}`,
         method: 'POST',
 ...config
       })

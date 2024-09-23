@@ -5,6 +5,7 @@ import pinyin from "pinyin";
 /**
  * api生成工具
  * @param {*} param.openAPI api json内容
+ * @param {*} param.baseUrl baseUrl 会拼接在最后生成的url前
  * @param {*} param.outDir 工具输出目录
  * @param {*} param.apiOutDir api输出目录
  * @param {*} param.exportApiName 导出的api集合名称
@@ -17,6 +18,7 @@ import pinyin from "pinyin";
  */
 const tool = ({
   openAPI,
+  baseUrl,
   outDir,
   apiOutDir,
   exportApiName,
@@ -433,7 +435,7 @@ const tool = ({
         : ""
     } config={}): Promise<${item.resType || "void"}> {\n`;
     resStr += `return request({
-        url: \`${url}\`,
+        url: \`${baseUrl || ""}${url}\`,
         method: '${item.method.toUpperCase()}',\n`;
     if ((!queryTypeStr && reqBodyTypeStr) || isFormData) {
       resStr += "data,\n";
@@ -573,6 +575,7 @@ export function useExtApi() {
  * api生成工具
  * @param {*} param.swaggerJsonUrl api json地址
  * @param {*} param.apiJsonData api json数据
+ * @param {*} param.baseUrl baseUrl 会拼接在最后生成的url前
  * @param {*} param.outDir 工具输出目录
  * @param {*} param.apiOutDir api输出目录
  * @param {*} param.exportApiName 导出的api集合名称
@@ -586,6 +589,7 @@ export function useExtApi() {
 export const genApi = ({
   swaggerJsonUrl,
   apiJsonData,
+  baseUrl,
   outDir,
   apiOutDir,
   exportApiName,
@@ -606,6 +610,7 @@ export const genApi = ({
     tool({
       openAPI,
       outDir,
+      baseUrl,
       apiOutDir,
       exportApiName: exportApiName || "apis",
       interfaceOutDir,

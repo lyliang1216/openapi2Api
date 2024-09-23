@@ -9,7 +9,7 @@ import request from '@/utils/service'
 */
 VisibilityScheme_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IVsisibilityRecordVoListResponse> {
 return request({
-        url: `/visibility-scheme/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/visibility-scheme/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -19,7 +19,7 @@ return request({
 */
 VisibilitySchemePOST(data:IVisibilityRecordBo, config={}): Promise<IInt32Response> {
 return request({
-        url: `/visibility-scheme`,
+        url: `/graphics/bearer/visibility-scheme`,
         method: 'POST',
 data,
 ...config
@@ -30,7 +30,7 @@ data,
 */
 VisibilitySchemePUT(data:IUpdateVisibilityRecordBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/visibility-scheme`,
+        url: `/graphics/bearer/visibility-scheme`,
         method: 'PUT',
 data,
 ...config
@@ -44,7 +44,7 @@ data,
 */
 VisibilityScheme_projectId_sadiId_recordIdDELETE(data:{projectId:number | string,sadiId:number | string,recordId:number | string}, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/visibility-scheme/${data.projectId}/${data.sadiId}/${data.recordId}`,
+        url: `/graphics/bearer/visibility-scheme/${data.projectId}/${data.sadiId}/${data.recordId}`,
         method: 'DELETE',
 ...config
       })
@@ -54,7 +54,7 @@ return request({
 */
 VisibilityScheme_SortPUT(data:IRecordSortBo, config={}): Promise<IObjectResponse> {
 return request({
-        url: `/visibility-scheme/sort`,
+        url: `/graphics/bearer/visibility-scheme/sort`,
         method: 'PUT',
 data,
 ...config
@@ -68,7 +68,7 @@ data,
 */
 VisibilityScheme_Copy_projectId_sadiId_schemeIdPOST(data:{projectId:number | string,sadiId:number | string,schemeId:number | string}, config={}): Promise<IInt32Response> {
 return request({
-        url: `/visibility-scheme/copy/${data.projectId}/${data.sadiId}/${data.schemeId}`,
+        url: `/graphics/bearer/visibility-scheme/copy/${data.projectId}/${data.sadiId}/${data.schemeId}`,
         method: 'POST',
 ...config
       })

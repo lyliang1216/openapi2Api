@@ -53,6 +53,7 @@ genApi({
 | ------------------- | --------------------------------------------------------------------------------------------------- |
 | swaggerJsonUrl      | api json 地址，swagger 文档中按 F12 可看到 json 请求地址，和 apiJsonData 传入一个即可               |
 | apiJsonData         | api 的 json 数据，和 swaggerJsonUrl 传入一个即可                                                    |
+| baseUrl             | baseUrl 会添加到生成的 url 前面                                                                     |
 | outDir              | 文件输出目录，如/src/api                                                                            |
 | exportApiName       | 导出的 api 集合名称                                                                                 |
 | apiOutDir           | api 输出目录名                                                                                      |

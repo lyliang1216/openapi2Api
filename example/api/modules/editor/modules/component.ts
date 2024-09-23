@@ -8,7 +8,7 @@ import request from '@/utils/service'
 */
 Component_Download_exFileIdGET(data:{exFileId:number | string}, config={}): Promise<ArrayBuffer> {
 return request({
-        url: `/component/download/${data.exFileId}`,
+        url: `/graphics/bearer/component/download/${data.exFileId}`,
         method: 'GET',
 ...config
       })

@@ -9,7 +9,7 @@ import request from '@/utils/service'
 */
 Tree_MergeTree_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IMergeTreeVoListResponse> {
 return request({
-        url: `/tree/merge-tree/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/tree/merge-tree/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -21,7 +21,7 @@ return request({
 */
 Tree_SpaceTree_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<ISpaceTreeVoListResponse> {
 return request({
-        url: `/tree/space-tree/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/tree/space-tree/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -33,7 +33,7 @@ return request({
 */
 Tree_Su_LayerTree_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<ISULayerTreeVoListResponse> {
 return request({
-        url: `/tree/su/layer-tree/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/tree/su/layer-tree/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -45,7 +45,7 @@ return request({
 */
 Tree_Su_ComponentTree_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<ISUComponentTreeVoListResponse> {
 return request({
-        url: `/tree/su/component-tree/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/tree/su/component-tree/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -57,7 +57,7 @@ return request({
 */
 Tree_ElementTree_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IElementTreeVoListResponse> {
 return request({
-        url: `/tree/element-tree/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/tree/element-tree/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -69,7 +69,7 @@ return request({
 */
 Tree_StoreyTree_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IStoreyTreeVoListResponse> {
 return request({
-        url: `/tree/storey-tree/${data.projectId}/${data.sadiId}`,
+        url: `/graphics/bearer/tree/storey-tree/${data.projectId}/${data.sadiId}`,
         method: 'GET',
 ...config
       })
@@ -79,7 +79,7 @@ return request({
 */
 Tree_SceneTreeGET( config={}): Promise<ISceneTreeVoListResponse> {
 return request({
-        url: `/tree/scene-tree`,
+        url: `/graphics/bearer/tree/scene-tree`,
         method: 'GET',
 ...config
       })
@@ -89,7 +89,7 @@ return request({
 */
 Tree_CaseTreeGET( config={}): Promise<ICaseTreeVoListResponse> {
 return request({
-        url: `/tree/case-tree`,
+        url: `/graphics/bearer/tree/case-tree`,
         method: 'GET',
 ...config
       })

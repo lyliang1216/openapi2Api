@@ -361,7 +361,6 @@ const tool = ({
   // 生成api文件
   const getApiFileContent = () => {
     group = groupBy(apis, "group");
-    console.log(JSON.stringify(group));
 
     group.forEach((groupItem) => {
       let fileStr = `import request from '${requestUrl || "./request"}'
@@ -410,9 +409,10 @@ const tool = ({
         .join("");
     }
     let resStr = "";
-    resStr += `/**${item.description}\n`;
+    resStr += `/** 
+    * ${item.description}\n`;
     if (descStr) {
-      resStr += `${descStr}`;
+      resStr += `${descStr}\n`;
     }
     resStr += `*/\n`;
     resStr += `${processUrl(item.url)}${method}(${

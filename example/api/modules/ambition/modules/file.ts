@@ -4,12 +4,12 @@ import request from '@/utils/service'
       return {
 /** 
     * user/文件上传与下载-upload
-* @param data.path 
 */
-File_UploadPOST(data:{path?:string}, config={}): Promise<IResponseString> {
+File_UploadPOST(data:FormData, config={}): Promise<IResponseString> {
 return request({
-        url: `/ambition-api/user/file/upload?path=${data.path}`,
+        url: `/ambition-api/user/file/upload`,
         method: 'POST',
+data,
 ...config
       })
     },

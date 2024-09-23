@@ -86,6 +86,8 @@ const tool = ({
           const reqContent = apiConfig.requestBody.content;
           // 是FormData
           if (reqContent["multipart/form-data"]) {
+            console.log(api.url);
+
             const contentTypeItem = Object.keys(reqContent)[0];
             if (reqContent[contentTypeItem].schema) {
               const { properties, required } =
@@ -390,7 +392,9 @@ const tool = ({
     let queryTypeStr = "";
     let descStr = "";
     let reqBodyTypeStr = item.paramsType;
-    if (item.query && item.query.length) {
+    // TODO FormData判断需要细化
+    const isFormData = item.paramsType === "FormData";
+    if (item.query && item.query.length && !isFormData) {
       const querys = item.query.filter((it) => it.in === "query");
       if (querys.length) {
         queryStr = querys
@@ -420,9 +424,14 @@ const tool = ({
     if (descStr) {
       resStr += `${descStr}\n`;
     }
+    if (item.url === "/ambition-api/user/file/upload") {
+      console.log(item);
+    }
     resStr += `*/\n`;
     resStr += `${processUrl(item.url)}${method}(${
-      item.query && item.query.length
+      isFormData
+        ? "data:FormData,"
+        : item.query && item.query.length
         ? `data:${queryTypeStr},`
         : reqBodyTypeStr
         ? `data:${reqBodyTypeStr},`
@@ -431,7 +440,7 @@ const tool = ({
     resStr += `return request({
         url: \`${url}\`,
         method: '${item.method.toUpperCase()}',\n`;
-    if (!queryTypeStr && reqBodyTypeStr) {
+    if ((!queryTypeStr && reqBodyTypeStr) || isFormData) {
       resStr += "data,\n";
     }
     resStr += `...config

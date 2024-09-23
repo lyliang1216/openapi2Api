@@ -31,6 +31,14 @@ genApi({
       return url.replace("/ambition-api/thing", "").slice(1).split("/")[0];
     }
   },
+  customReqNamePlugin: (url, name) => {
+    if (url.includes("/ambition-api/user")) {
+      return name.replace("AmbitionApi_User_", "");
+    }
+    if (url.includes("/ambition-api/thing")) {
+      return name.replace("AmbitionApi_Thing_", "");
+    }
+  },
 });
 
 genApi({

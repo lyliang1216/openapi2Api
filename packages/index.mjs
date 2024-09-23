@@ -13,6 +13,7 @@ import pinyin from "pinyin";
  * @param {*} param.needExtendTemplate 是否需要拓展api模板
  * @param {*} param.customUrlPlugin 自定义url插件
  * @param {*} param.customGroupPlugin 自定义group插件
+ * @param {*} param.customReqNamePlugin 自定义请求方法名称插件
  */
 const tool = ({
   openAPI,
@@ -24,6 +25,7 @@ const tool = ({
   needExtendTemplate,
   customUrlPlugin,
   customGroupPlugin,
+  customReqNamePlugin,
 }) => {
   const __dirname = process.cwd() + (outDir[0] === "/" ? "" : "/") + outDir;
   // 类型转换
@@ -329,7 +331,11 @@ const tool = ({
 
     result = result.replace(/\{|\}/g, "");
 
-    return result;
+    if (customReqNamePlugin) {
+      return customReqNamePlugin(url, result) || result;
+    } else {
+      return result;
+    }
   };
 
   // 生成文件
@@ -571,6 +577,7 @@ export function useExtApi() {
  * @param {*} param.needExtendTemplate 是否需要拓展api模板
  * @param {*} param.customUrlPlugin 自定义url插件
  * @param {*} param.customGroupPlugin 自定义group插件
+ * @param {*} param.customReqNamePlugin 自定义请求方法名称插件
  */
 export const genApi = ({
   swaggerJsonUrl,
@@ -583,6 +590,7 @@ export const genApi = ({
   needExtendTemplate,
   customUrlPlugin,
   customGroupPlugin,
+  customReqNamePlugin,
 }) => {
   const todo = (openAPI) => {
     // 处理转译字符，目前已知的%C2%AB %C2%BB
@@ -601,6 +609,7 @@ export const genApi = ({
       needExtendTemplate,
       customUrlPlugin,
       customGroupPlugin,
+      customReqNamePlugin,
     });
   };
   if (!swaggerJsonUrl && !apiJsonData) {

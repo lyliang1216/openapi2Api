@@ -425,7 +425,7 @@ const tool = ({
     resStr += `return request({
         url: \`${url}\`,
         method: '${item.method.toUpperCase()}',\n`;
-    if (queryTypeStr || reqBodyTypeStr) {
+    if (reqBodyTypeStr) {
       resStr += "data,\n";
     }
     resStr += `...config

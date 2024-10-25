@@ -15,6 +15,7 @@ import pinyin from "pinyin";
  * @param {*} param.customUrlPlugin 自定义url插件
  * @param {*} param.customGroupPlugin 自定义group插件
  * @param {*} param.customReqNamePlugin 自定义请求方法名称插件
+ * @param {*} param.customInterFacePlugin 自定义interface内容插件
  */
 const tool = ({
   openAPI,
@@ -28,6 +29,7 @@ const tool = ({
   customUrlPlugin,
   customGroupPlugin,
   customReqNamePlugin,
+  customInterFacePlugin,
 }) => {
   const __dirname = process.cwd() + (outDir[0] === "/" ? "" : "/") + outDir;
   // 类型转换
@@ -469,12 +471,16 @@ const tool = ({
     ${item.description ? `/**${item.description} */` : ""}
  declare interface ${item.typePinYinName} {
 `;
-        item.type?.forEach((it) => {
-          if (it.description) {
-            str += `/**${it.description} */\n`;
-          }
-          str += `${it.key}${it.required ? "" : "?"}: ${it.value};\n`;
-        });
+        if (customInterFacePlugin) {
+          str += customInterFacePlugin(item);
+        } else {
+          item.type?.forEach((it) => {
+            if (it.description) {
+              str += `/**${it.description} */\n`;
+            }
+            str += `${it.key}${it.required ? "" : "?"}: ${it.value};\n`;
+          });
+        }
 
         str += `
     }\n
@@ -585,6 +591,7 @@ export function useExtApi() {
  * @param {*} param.customUrlPlugin 自定义url插件
  * @param {*} param.customGroupPlugin 自定义group插件
  * @param {*} param.customReqNamePlugin 自定义请求方法名称插件
+ * @param {*} param.customInterFacePlugin 自定义interface内容插件
  */
 export const genApi = ({
   swaggerJsonUrl,
@@ -599,6 +606,7 @@ export const genApi = ({
   customUrlPlugin,
   customGroupPlugin,
   customReqNamePlugin,
+  customInterFacePlugin,
 }) => {
   const todo = (openAPI) => {
     // 处理转译字符，目前已知的%C2%AB %C2%BB
@@ -619,6 +627,7 @@ export const genApi = ({
       customUrlPlugin,
       customGroupPlugin,
       customReqNamePlugin,
+      customInterFacePlugin,
     });
   };
   if (!swaggerJsonUrl && !apiJsonData) {

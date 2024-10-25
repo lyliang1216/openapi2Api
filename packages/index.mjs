@@ -471,15 +471,23 @@ const tool = ({
     ${item.description ? `/**${item.description} */` : ""}
  declare interface ${item.typePinYinName} {
 `;
-        if (customInterFacePlugin) {
-          str += customInterFacePlugin(item);
-        } else {
+        const defaultFn = () => {
           item.type?.forEach((it) => {
             if (it.description) {
               str += `/**${it.description} */\n`;
             }
             str += `${it.key}${it.required ? "" : "?"}: ${it.value};\n`;
           });
+        };
+        if (customInterFacePlugin) {
+          const customInterfaceObj = customInterFacePlugin(item);
+          if (Object.keys(customInterfaceObj).includes(item.typePinYinName)) {
+            str += customInterfaceObj[item.typePinYinName];
+          } else {
+            defaultFn();
+          }
+        } else {
+          defaultFn();
         }
 
         str += `

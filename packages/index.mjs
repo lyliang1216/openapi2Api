@@ -88,6 +88,7 @@ const tool = ({
         // 获取requestBody参数
         if (apiConfig.requestBody) {
           const reqContent = apiConfig.requestBody.content;
+
           // 是FormData
           if (reqContent["multipart/form-data"]) {
             const contentTypeItem = Object.keys(reqContent)[0];
@@ -131,6 +132,11 @@ const tool = ({
                     api.paramsType = "I" + reqBodyTypeStr;
                   }
                 }
+              } else if (reqContent[contentTypeItem].schema.type) {
+                api.paramsType =
+                  JavaType2JavaScriptType[
+                    reqContent[contentTypeItem].schema.type
+                  ] || "any";
               }
             }
           }

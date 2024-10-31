@@ -51,11 +51,11 @@ return request({
       })
     },
 /** 
-    * Label-分页查询标签实例
+    * Label-获取所有标签实例
 */
-Label_PagePOST(data:ILabelPageBo, config={}): Promise<ILabelVoPageResultVoResponse> {
+Label_AllPOST(data:IAllLabelBo, config={}): Promise<ILabelVoListResponse> {
 return request({
-        url: `/graphics/bearer/label/page`,
+        url: `/graphics/bearer/label/all`,
         method: 'POST',
 data,
 ...config

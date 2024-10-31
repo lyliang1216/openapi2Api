@@ -27,6 +27,23 @@ templateId?: number;
 elementId?: number;
 /**是否自定义构件 */
 isCustomElement?: boolean;
+/**图标点的位置,用于引线计算 */
+pointLocation?: number[];
+/**模板的位置,用于引线计算 */
+templateLocation?: number[];
+
+    }
+
+    
+    /**AllLabelBo */
+ declare interface IAllLabelBo {
+/**项目id */
+projectId?: number;
+/**sadi id */
+sadiId?: number;
+/**名称 */
+name?: string;
+labelType?: ILabelType;
 
     }
 
@@ -353,22 +370,6 @@ Click= 2,
     }
 
     
-    /**LabelPageBo */
- declare interface ILabelPageBo {
-/**页码 */
-page?: number;
-/**分页大小 */
-pageSize?: number;
-/**项目id */
-projectId?: number;
-/**sadi id */
-sadiId?: number;
-/**名称 */
-name?: string;
-
-    }
-
-    
     /**LabelRecordBo */
  declare interface ILabelRecordBo {
 /**项目id */
@@ -437,10 +438,10 @@ message?: string;
     
     /**标签类型 */
  declare enum ILabelType {
-/**默认 */
-Default= 0,
-/**固定左侧 */
-Fixed_Left= 1,
+/**三维标签 */
+ThreeDim= 0,
+/**二维标签 */
+TwoDim= 1,
 
     }
 
@@ -465,30 +466,19 @@ labelTemplateId?: number;
 elementId?: number;
 /**是否自定义构件 */
 isCustomElement?: boolean;
-
-    }
-
-    
-    /**分页模型 */
- declare interface ILabelVoPageResultVo {
-/**页码 */
-page?: number;
-/**分页大小 */
-pageSize?: number;
-/**总数 */
-total?: number;
-/**总页数 */
-totalPages?: number;
-/**分页数据 */
-results?: ILabelVo[];
+/**图标点的位置,用于引线计算 */
+pointLocation?: number[];
+/**模板的位置,用于引线计算 */
+templateLocation?: number[];
 
     }
 
     
     /**通用response */
- declare interface ILabelVoPageResultVoResponse {
+ declare interface ILabelVoListResponse {
 code?: IResponseCode;
-data?: ILabelVoPageResultVo;
+/**结果对象 */
+data?: ILabelVo[];
 /**返回消息 */
 message?: string;
 
@@ -570,6 +560,7 @@ projectId?: number;
 id?: number;
 /**名称 */
 name?: string;
+/**更新时间 */
 updateTime?: string;
 
     }
@@ -732,22 +723,6 @@ projectId?: number;
 sadiId?: number;
 /**id集合 */
 ids?: number[];
-
-    }
-
-    
-    /**ReplaceElementBo */
- declare interface IReplaceElementBo {
-/**项目id */
-projectId?: number;
-/**sadi id */
-sadiId?: number;
-/**待添加的构件 */
-newElements?: INewElementBo[];
-/**待删除的索引集合 */
-indices?: number[];
-/**待删除的自定义构件id集合 */
-customElementIds?: number[];
 
     }
 
@@ -1382,6 +1357,10 @@ templateId?: number;
 elementId?: number;
 /**是否自定义构件 */
 isCustomElement?: boolean;
+/**图标点的位置,用于引线计算 */
+pointLocation?: number[];
+/**模板的位置,用于引线计算 */
+templateLocation?: number[];
 /**标签id */
 id?: number;
 /**名称 */

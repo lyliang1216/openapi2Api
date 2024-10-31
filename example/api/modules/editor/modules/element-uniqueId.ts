@@ -3,7 +3,7 @@ import request from '@/utils/service'
       export function useElementUniqueIdApi() {
       return {
 /** 
-    * ElementUniqueId-方案传递
+    * ElementUniqueId-获取原生构件UniqueId
 * @param data.projectId 项目id
 * @param data.sadiId sadi id
 */
@@ -15,7 +15,7 @@ return request({
       })
     },
 /** 
-    * ElementUniqueId-自定义构件方案传递
+    * ElementUniqueId-获取自定义构件UniqueId
 * @param data.projectId 项目id
 * @param data.sadiId sadi id
 */

@@ -73,4 +73,27 @@ return request({
 ...config
       })
     },
+/** 
+    * LabelScheme-下载标签方案
+* @param data.projectId 项目id
+* @param data.sadiId sadi id
+*/
+LabelScheme_Download_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<ArrayBuffer> {
+return request({
+        url: `/graphics/bearer/label-scheme/download/${data.projectId}/${data.sadiId}`,
+        method: 'GET',
+...config
+      })
+    },
+/** 
+    * LabelScheme-上传标签方案
+*/
+LabelScheme_ImportPOST(data:FormData, config={}): Promise<IObjectResponse> {
+return request({
+        url: `/graphics/bearer/label-scheme/import`,
+        method: 'POST',
+data,
+...config
+      })
+    },
 }}

@@ -76,10 +76,11 @@ return request({
     },
 /** 
     * Tree-获取场景树信息
+* @param data.name 名称
 */
-Tree_SceneTreeGET( config={}): Promise<ISceneTreeVoListResponse> {
+Tree_SceneTreeGET(data:{name?:string}, config={}): Promise<ISceneTreeVoListResponse> {
 return request({
-        url: `/graphics/bearer/tree/scene-tree`,
+        url: `/graphics/bearer/tree/scene-tree?name=${data.name}`,
         method: 'GET',
 ...config
       })

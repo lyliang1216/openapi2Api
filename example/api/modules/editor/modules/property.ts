@@ -3,7 +3,7 @@ import request from '@/utils/service'
       export function usePropertyApi() {
       return {
 /** 
-    * Property-获取属性
+    * Property-获取原生构件属性
 * @param data.projectId 项目id
 * @param data.sadiId sadi id
 * @param data.elementId 构件id

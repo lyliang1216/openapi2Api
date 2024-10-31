@@ -8,6 +8,17 @@ import {useSpaceApi} from './modules/space'
 import {useSystemTypeApi} from './modules/systemType'
 import {useEnergyTypeApi} from './modules/energyType'
 import {useIconApi} from './modules/icon'
+import {useDeviceTypeApi} from './modules/deviceType'
+import {useLogicPointTemplateApi} from './modules/logicPointTemplate'
+import {useSystemConfigurationApi} from './modules/systemConfiguration'
+import {useDeviceApi} from './modules/device'
+import {usePhysicalPointApi} from './modules/physicalPoint'
+import {useLogicPointApi} from './modules/logicPoint'
+import {useAlarmConfigApi} from './modules/alarmConfig'
+import {useAlarmRecordApi} from './modules/alarmRecord'
+import {useAlarmTemplateApi} from './modules/alarmTemplate'
+import {useAlgorithmApi} from './modules/algorithm'
+import {useSend2Api} from './modules/send2'
 
 export const ambitionApi = {
 ...useMenuApi(),
@@ -20,4 +31,15 @@ export const ambitionApi = {
 ...useSystemTypeApi(),
 ...useEnergyTypeApi(),
 ...useIconApi(),
+...useDeviceTypeApi(),
+...useLogicPointTemplateApi(),
+...useSystemConfigurationApi(),
+...useDeviceApi(),
+...usePhysicalPointApi(),
+...useLogicPointApi(),
+...useAlarmConfigApi(),
+...useAlarmRecordApi(),
+...useAlarmTemplateApi(),
+...useAlgorithmApi(),
+...useSend2Api(),
 }

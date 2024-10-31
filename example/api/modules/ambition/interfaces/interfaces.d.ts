@@ -68,8 +68,61 @@ costTime?: number;
     }
 
     
+    /**JSObject */
+ declare interface IJSObject {
+
+    }
+
+    
+    /**key */
+ declare interface IKey {
+
+    }
+
+    
     
  declare interface I {
+
+    }
+
+    
+    /**PhysicalPointVO */
+ declare interface IPhysicalPointVO {
+id?: number;
+/**点位编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**是否启用（1启用，2禁用） */
+isEnable?: number;
+/**点位配置信息 */
+configuration?: IJSONObject;
+/**关联设备 */
+deviceNumber?: string;
+/**通道 */
+channelCode?: string;
+
+    }
+
+    
+    /**AlgorithmVO */
+ declare interface IAlgorithmVO {
+/**id */
+id?: number;
+/**名称 */
+name?: string;
+/**编码(英文名) */
+code?: string;
+/**流程id */
+flowId?: string;
+/**返回值类型 */
+returnType?: string;
+/**返回值 */
+returnValue?: string;
+/**创建时间 */
+createTime?: string;
+/**更新时间 */
+updateTime?: string;
 
     }
 
@@ -188,6 +241,105 @@ updateTime?: string;
     }
 
     
+    /**DeviceTypeTreeVO */
+ declare interface IDeviceTypeTreeVO {
+id?: number;
+/**父编码 */
+parent?: number;
+/**排序 */
+sort?: number;
+children?: object[];
+/**编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**图标 */
+picture?: string;
+/**描述 */
+description?: string;
+/**相关资料 */
+relatedFile?: string;
+/**更新时间 */
+updateTime?: string;
+
+    }
+
+    
+    /**LogicPointTemplateVO */
+ declare interface ILogicPointTemplateVO {
+id?: number;
+/**关联设备类型 */
+deviceTypeCode?: string;
+/**点位编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**转存周期定时任务id */
+storageJobId?: number;
+/**采集定时任务id */
+collectJobId?: number;
+/**显示顺序 */
+sort?: number;
+/**显示控件 */
+showType?: string;
+/**空值默认值 */
+defaultData?: string;
+/**是否表达式（1虚点表达式，2虚点算法） */
+isFormula?: number;
+/**是否实点（1实点，2虚点） */
+isRealPoint?: number;
+/**点位配置信息 */
+monitorExpr?: IJSONObject;
+/**点位配置信息 */
+controlExpr?: IJSONObject;
+/**监测算法 */
+monitorAlgorithmId?: number;
+/**控制算法 */
+controlAlgorithmId?: number;
+/**数据类型 */
+dataType?: string;
+/**取值范围上限 */
+dataUpperLimit?: number;
+/**取值范围下限 */
+dataLowerLimit?: number;
+/**单位 */
+unit?: string;
+/**是否继承（1是，2否） */
+isInherit?: number;
+/**是否显示（1是，2否） */
+isDisplay?: number;
+/**是否枚举（1是，2否） */
+isEnum?: number;
+/**是否默认（1是，2否） */
+isDefault?: number;
+/**具体枚举 */
+enumDetail?: IJSONArray[];
+/**是否可写（1是，2否） */
+isWrite?: number;
+/**创建时间 */
+createTime?: string;
+/**更新时间 */
+updateTime?: string;
+
+    }
+
+    
+    /**JSONObject */
+ declare interface IJSONObject {
+key?: IKey1;
+
+    }
+
+    
+    /**ResponseListAlarmTemplateVO */
+ declare interface IResponseListAlarmTemplateVO {
+code?: number;
+message?: string;
+data?: IAlarmTemplateVO[];
+
+    }
+
+    
     /**ResponseString */
  declare interface IResponseString {
 code?: number;
@@ -206,17 +358,27 @@ newPasswordConfirm?: string;
     }
 
     
-    /**Page«RoleVO» */
+    /**PageRoleVO */
  declare interface IPageRoleVO {
+/**查询数据列表 */
 records?: IRoleVO[];
+/**总数 */
 total?: number;
+/**每页显示条数，默认 10 */
 size?: number;
+/**当前页 */
 current?: number;
+/**排序字段信息 */
 orders?: IOrderItem[];
+/**自动优化 COUNT SQL */
 optimizeCountSql?: boolean;
+/**是否进行 count 查询 */
 searchCount?: boolean;
+/**{@link #optimizeJoinOfCountSql()} */
 optimizeJoinOfCountSql?: boolean;
+/**单页分页条数限制 */
 maxLimit?: number;
+/**countId */
 countId?: string;
 
     }
@@ -472,6 +634,152 @@ data?: IIconTreeVO[];
     }
 
     
+    /**MenuListVO */
+ declare interface IMenuListVO {
+id?: number;
+/**父节点 */
+parent?: number;
+/**名称 */
+name?: string;
+/**编码 */
+code?: string;
+/**图标 */
+icon?: string;
+/**顺序 */
+sort?: number;
+/**外部数据 */
+extra?: string;
+/**标识符 */
+identifier?: string[];
+
+    }
+
+    
+    /**ResponseListDeviceTypeTreeVO */
+ declare interface IResponseListDeviceTypeTreeVO {
+code?: number;
+message?: string;
+data?: IDeviceTypeTreeVO[];
+
+    }
+
+    
+    /**key1 */
+ declare interface IKey1 {
+
+    }
+
+    
+    /**SystemConfigurationVO */
+ declare interface ISystemConfigurationVO {
+id?: number;
+/**配置编码 */
+code?: string;
+/**描述 */
+description?: string;
+/**参数详情 */
+params?: IObject;
+
+    }
+
+    
+    /**DeviceVO */
+ declare interface IDeviceVO {
+id?: number;
+/**名称 */
+name?: string;
+/**设备编号 */
+number?: string;
+/**空间编号 */
+spaceCode?: string;
+/**空间名称 */
+spaceName?: string;
+/**设备类型 */
+deviceTypeCode?: string;
+/**设备类型名称 */
+deviceTypeName?: string;
+/**系统类型 */
+systemTypeCode?: string;
+/**系统类型名称 */
+systemTypeName?: string;
+/**能耗类型 */
+energyTypeCode?: string;
+/**能耗类型名称 */
+energyTypeName?: string;
+/**描述 */
+description?: string;
+/**关联设备编码 */
+relatedDeviceNumber?: string;
+/**关联设备名称 */
+relatedDeviceName?: string;
+/**是否启用（1启用，2禁用） */
+isEnable?: number;
+/**是否控制器（1是，2否） */
+isController?: number;
+/**通道是否启用（1启用，2禁用） */
+channelEnable?: number;
+/**协议（1-Modbus RTU，2-modbus TCP，3-Bacnet，4-Mqtt，5-Knx，6-OPC UA，7-Http） */
+protocol?: number;
+/**通道编码 */
+channelCode?: string;
+/**点位配置信息 */
+channelConfiguration?: IJSONObject;
+/**通信状态 */
+communicationState?: string;
+/**连接状态 */
+connectionState?: string;
+/**故障状态 */
+faultState?: string;
+/**控制状态 */
+controlState?: string;
+/**运行状态 */
+runningState?: string;
+
+    }
+
+    
+    /**PagePhysicalPointVO */
+ declare interface IPagePhysicalPointVO {
+/**查询数据列表 */
+records?: IPhysicalPointVO[];
+/**总数 */
+total?: number;
+/**每页显示条数，默认 10 */
+size?: number;
+/**当前页 */
+current?: number;
+/**排序字段信息 */
+orders?: IOrderItem[];
+/**自动优化 COUNT SQL */
+optimizeCountSql?: boolean;
+/**是否进行 count 查询 */
+searchCount?: boolean;
+/**{@link #optimizeJoinOfCountSql()} */
+optimizeJoinOfCountSql?: boolean;
+/**单页分页条数限制 */
+maxLimit?: number;
+/**countId */
+countId?: string;
+
+    }
+
+    
+    /**PageAlgorithmVO */
+ declare interface IPageAlgorithmVO {
+records?: IAlgorithmVO[];
+total?: number;
+size?: number;
+current?: number;
+orders?: IOrderItem[];
+optimizeCountSql?: boolean;
+searchCount?: boolean;
+optimizeJoinOfCountSql?: boolean;
+maxLimit?: number;
+countId?: string;
+
+    }
+
+    
     /**MenuDTO */
  declare interface IMenuDTO {
 /**父节点 */
@@ -483,7 +791,7 @@ code?: string;
 /**图标 */
 icon?: string;
 /**顺序 */
-sort?: string;
+sort?: number;
 /**外部数据 */
 extra?: string;
 identifier?: string[];
@@ -502,7 +810,7 @@ description?: string;
     }
 
     
-    /**Response«Page«RoleVO»» */
+    /**ResponsePageRoleVO */
  declare interface IResponsePageRoleVO {
 code?: number;
 message?: string;
@@ -610,6 +918,102 @@ creator?: string;
 picture?: string;
 /**类型（1-层级2-图片） */
 type?: number;
+
+    }
+
+    
+    /**ResponseListMenuListVO */
+ declare interface IResponseListMenuListVO {
+code?: number;
+message?: string;
+data?: IMenuListVO[];
+
+    }
+
+    
+    /**PageLogicPointTemplateVO */
+ declare interface IPageLogicPointTemplateVO {
+/**查询数据列表 */
+records?: ILogicPointTemplateVO[];
+/**总数 */
+total?: number;
+/**每页显示条数，默认 10 */
+size?: number;
+/**当前页 */
+current?: number;
+/**排序字段信息 */
+orders?: IOrderItem[];
+/**自动优化 COUNT SQL */
+optimizeCountSql?: boolean;
+/**是否进行 count 查询 */
+searchCount?: boolean;
+/**{@link #optimizeJoinOfCountSql()} */
+optimizeJoinOfCountSql?: boolean;
+/**单页分页条数限制 */
+maxLimit?: number;
+/**countId */
+countId?: string;
+
+    }
+
+    
+    /**Object */
+ declare interface IObject {
+
+    }
+
+    
+    /**ResponseSystemConfigurationVO */
+ declare interface IResponseSystemConfigurationVO {
+code?: number;
+message?: string;
+data?: ISystemConfigurationVO;
+
+    }
+
+    
+    /**JSONArray */
+ declare interface IJSONArray {
+
+    }
+
+    
+    /**ResponsePagePhysicalPointVO */
+ declare interface IResponsePagePhysicalPointVO {
+code?: number;
+message?: string;
+data?: IPagePhysicalPointVO;
+
+    }
+
+    
+    /**DeviceTypeVO */
+ declare interface IDeviceTypeVO {
+/**id */
+id?: number;
+/**编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**父编码 */
+parent?: number;
+/**图标 */
+picture?: string;
+/**描述 */
+description?: string;
+/**相关资料 */
+relatedFile?: string;
+/**排序 */
+sort?: number;
+
+    }
+
+    
+    /**ResponsePageAlgorithmVO */
+ declare interface IResponsePageAlgorithmVO {
+code?: number;
+message?: string;
+data?: IPageAlgorithmVO;
 
     }
 
@@ -722,10 +1126,10 @@ sort?: number;
 code?: string;
 /**名称 */
 name?: string;
-/**描述 */
-description?: string;
 /**父编码 */
 parent?: number;
+/**描述 */
+description?: string;
 /**排序 */
 sort?: number;
 
@@ -734,12 +1138,12 @@ sort?: number;
     
     /**EnergyTypeDTO */
  declare interface IEnergyTypeDTO {
+/**能耗分类编号 */
+code?: string;
 /**能耗分类名称 */
 name?: string;
 /**父级id */
 parent?: number;
-/**能耗分类编号 */
-code?: string;
 /**单位 */
 unit?: string;
 /**碳因子单位 */
@@ -752,6 +1156,70 @@ coalRatio?: number;
 coalUnit?: string;
 /**排序 */
 sort?: number;
+
+    }
+
+    
+    /**DeviceTypeDTO */
+ declare interface IDeviceTypeDTO {
+/**编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**父编码 */
+parent?: number;
+/**图标 */
+picture?: string;
+/**描述 */
+description?: string;
+/**相关资料 */
+relatedFile?: string;
+/**排序 */
+sort?: number;
+
+    }
+
+    
+    /**ResponsePageLogicPointTemplateVO */
+ declare interface IResponsePageLogicPointTemplateVO {
+code?: number;
+message?: string;
+data?: IPageLogicPointTemplateVO;
+
+    }
+
+    
+    /**PageDeviceVO */
+ declare interface IPageDeviceVO {
+/**查询数据列表 */
+records?: IDeviceVO[];
+/**总数 */
+total?: number;
+/**每页显示条数，默认 10 */
+size?: number;
+/**当前页 */
+current?: number;
+/**排序字段信息 */
+orders?: IOrderItem[];
+/**自动优化 COUNT SQL */
+optimizeCountSql?: boolean;
+/**是否进行 count 查询 */
+searchCount?: boolean;
+/**{@link #optimizeJoinOfCountSql()} */
+optimizeJoinOfCountSql?: boolean;
+/**单页分页条数限制 */
+maxLimit?: number;
+/**countId */
+countId?: string;
+
+    }
+
+    
+    /**ResponseDeviceTypeVO */
+ declare interface IResponseDeviceTypeVO {
+code?: number;
+message?: string;
+data?: IDeviceTypeVO;
 
     }
 
@@ -786,7 +1254,7 @@ identifier?: string[];
  declare interface IMenuSortDTO {
 id?: number;
 parent?: number;
-sort?: string;
+sort?: number;
 ancestors?: number[];
 
     }
@@ -814,10 +1282,10 @@ id?: number;
 code?: string;
 /**名称 */
 name?: string;
-/**描述 */
-description?: string;
 /**父编码 */
 parent?: number;
+/**描述 */
+description?: string;
 /**排序 */
 sort?: number;
 
@@ -828,12 +1296,12 @@ sort?: number;
  declare interface IEnergyTypeEditDTO {
 /**id */
 id?: number;
+/**能耗分类编号 */
+code?: string;
 /**能耗分类名称 */
 name?: string;
 /**父级id */
 parent?: number;
-/**能耗分类编号 */
-code?: string;
 /**单位 */
 unit?: string;
 /**碳因子单位 */
@@ -872,6 +1340,143 @@ optimizeJoinOfCountSql?: boolean;
 maxLimit?: number;
 /**countId */
 countId?: string;
+
+    }
+
+    
+    /**DeviceTypeEditDTO */
+ declare interface IDeviceTypeEditDTO {
+/**id */
+id?: number;
+/**编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**父编码 */
+parent?: number;
+/**图标 */
+picture?: string;
+/**描述 */
+description?: string;
+/**相关资料 */
+relatedFile?: string;
+/**排序 */
+sort?: number;
+
+    }
+
+    
+    /**ResponseListSystemConfigurationVO */
+ declare interface IResponseListSystemConfigurationVO {
+code?: number;
+message?: string;
+data?: ISystemConfigurationVO[];
+
+    }
+
+    
+    /**ResponsePageDeviceVO */
+ declare interface IResponsePageDeviceVO {
+code?: number;
+message?: string;
+data?: IPageDeviceVO;
+
+    }
+
+    
+    /**PhysicalPointDTO */
+ declare interface IPhysicalPointDTO {
+/**点位编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**是否启用（1启用，2禁用） */
+isEnable?: number;
+/**点位配置信息 */
+configuration?: IJSONObject;
+/**关联设备 */
+deviceNumber?: string;
+/**通道 */
+channelCode?: string;
+
+    }
+
+    
+    /**AlgorithmDTO */
+ declare interface IAlgorithmDTO {
+/**名称 */
+name?: string;
+/**编码(英文名) */
+code?: string;
+/**流程id */
+flowId?: string;
+/**返回值类型 */
+returnType?: string;
+/**返回值 */
+returnValue?: string;
+
+    }
+
+    
+    /**LogicPointVO */
+ declare interface ILogicPointVO {
+id?: number;
+/**关联设备 */
+deviceNumber?: string;
+/**点位编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**转存周期定时任务id */
+storageJobId?: number;
+/**采集定时任务id */
+quartzJobId?: number;
+/**显示顺序 */
+sort?: number;
+/**显示控件 */
+showType?: string;
+/**空值默认值 */
+defaultData?: string;
+/**是否表达式（1虚点表达式，2虚点算法，3实点表达式） */
+isFormula?: number;
+/**是否实点（1实点，2虚点） */
+isRealPoint?: number;
+/**点位配置信息 */
+monitorExpr?: IJSONObject;
+/**点位配置信息 */
+controlExpr?: IJSONObject;
+/**监测算法 */
+monitorAlgorithmId?: number;
+/**控制算法 */
+controlAlgorithmId?: number;
+/**点位配置信息 */
+parseExpr?: IJSONObject;
+/**数据类型 */
+dataType?: string;
+/**取值范围上限 */
+dataUpperLimit?: number;
+/**取值范围下限 */
+dataLowerLimit?: number;
+/**单位 */
+unit?: string;
+/**是否继承（1是，2否） */
+isInherit?: number;
+/**是否显示（1是，2否） */
+isDisplay?: number;
+/**是否枚举（1是，2否） */
+isEnum?: number;
+/**是否默认（1是，2否） */
+isDefault?: number;
+/**具体枚举 */
+enumDetail?: IJSONArray[];
+/**设定值 */
+setValue?: string;
+/**是否可写（1是，2否） */
+isWrite?: number;
+/**创建时间 */
+createTime?: string;
+/**更新时间 */
+updateTime?: string;
 
     }
 
@@ -922,6 +1527,52 @@ data?: IPageIconVO;
     }
 
     
+    /**UnitTreeVO */
+ declare interface IUnitTreeVO {
+label?: string;
+children?: string[];
+
+    }
+
+    
+    /**PhysicalPointEditDTO */
+ declare interface IPhysicalPointEditDTO {
+/**id */
+id?: number;
+/**点位编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**是否启用（1启用，2禁用） */
+isEnable?: number;
+/**点位配置信息 */
+configuration?: IJSONObject;
+/**关联设备 */
+deviceNumber?: string;
+/**通道 */
+channelCode?: string;
+
+    }
+
+    
+    /**AlgorithmEditDTO */
+ declare interface IAlgorithmEditDTO {
+/**id */
+id?: number;
+/**名称 */
+name?: string;
+/**编码(英文名) */
+code?: string;
+/**流程id */
+flowId?: string;
+/**返回值类型 */
+returnType?: string;
+/**返回值 */
+returnValue?: string;
+
+    }
+
+    
     /**ResponsePageUserVO */
  declare interface IResponsePageUserVO {
 code?: number;
@@ -939,6 +1590,47 @@ name?: string;
 /**描述 */
 description?: string;
 roleMenuDTOList?: IRoleMenuDTO[];
+
+    }
+
+    
+    /**key2 */
+ declare interface IKey2 {
+
+    }
+
+    
+    /**ResponseListUnitTreeVO */
+ declare interface IResponseListUnitTreeVO {
+code?: number;
+message?: string;
+data?: IUnitTreeVO[];
+
+    }
+
+    
+    /**PageLogicPointVO */
+ declare interface IPageLogicPointVO {
+/**查询数据列表 */
+records?: ILogicPointVO[];
+/**总数 */
+total?: number;
+/**每页显示条数，默认 10 */
+size?: number;
+/**当前页 */
+current?: number;
+/**排序字段信息 */
+orders?: IOrderItem[];
+/**自动优化 COUNT SQL */
+optimizeCountSql?: boolean;
+/**是否进行 count 查询 */
+searchCount?: boolean;
+/**{@link #optimizeJoinOfCountSql()} */
+optimizeJoinOfCountSql?: boolean;
+/**单页分页条数限制 */
+maxLimit?: number;
+/**countId */
+countId?: string;
 
     }
 
@@ -976,6 +1668,51 @@ sort?: number;
     }
 
     
+    /**key3 */
+ declare interface IKey3 {
+
+    }
+
+    
+    /**DeviceDTO */
+ declare interface IDeviceDTO {
+/**名称 */
+name?: string;
+/**设备编号 */
+number?: string;
+/**空间编号 */
+spaceCode?: string;
+/**设备类型 */
+deviceTypeCode?: string;
+/**系统类型 */
+systemTypeCode?: string;
+/**能耗类型 */
+energyTypeCode?: string;
+/**描述 */
+description?: string;
+/**关联设备编码 */
+relatedDeviceNumber?: string;
+/**是否启用（1启用，2禁用） */
+isEnable?: number;
+/**是否控制器（1是，2否） */
+isController?: number;
+/**是否批量新增（1启用，2禁用） */
+isBatch?: number;
+/**生成数量 */
+deviceCount?: number;
+
+    }
+
+    
+    /**ResponsePageLogicPointVO */
+ declare interface IResponsePageLogicPointVO {
+code?: number;
+message?: string;
+data?: IPageLogicPointVO;
+
+    }
+
+    
     /**UserEditDTO */
  declare interface IUserEditDTO {
 id?: number;
@@ -1008,6 +1745,1007 @@ type?: number;
 parent?: number;
 /**排序 */
 sort?: number;
+
+    }
+
+    
+    /**LogicPointTemplate */
+ declare interface ILogicPointTemplate {
+id?: number;
+/**关联设备类型 */
+deviceTypeCode?: string;
+/**点位编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**转存周期定时任务id */
+storageJobId?: number;
+/**采集定时任务id */
+collectJobId?: number;
+/**显示顺序 */
+sort?: number;
+/**显示控件 */
+showType?: string;
+/**空值默认值 */
+defaultData?: number;
+/**是否表达式（1虚点表达式，2虚点算法） */
+isFormula?: number;
+/**是否实点（1实点，2虚点） */
+isRealPoint?: number;
+/**点位配置信息 */
+monitorExpr?: IJSONObject;
+/**点位配置信息 */
+controlExpr?: IJSONObject;
+/**监测算法 */
+monitorAlgorithmId?: number;
+/**控制算法 */
+controlAlgorithmId?: number;
+/**数据类型 */
+dataType?: string;
+/**取值范围上限 */
+dataUpperLimit?: number;
+/**取值范围下限 */
+dataLowerLimit?: number;
+/**单位 */
+unit?: string;
+/**是否继承（1是，2否） */
+isInherit?: number;
+/**是否显示（1是，2否） */
+isDisplay?: number;
+/**是否枚举（1是，2否） */
+isEnum?: number;
+/**是否默认（1是，2否） */
+isDefault?: number;
+/**具体枚举 */
+enumDetail?: string;
+/**是否可写（1是，2否） */
+isWrite?: number;
+/**创建时间 */
+createTime?: string;
+/**更新时间 */
+updateTime?: string;
+
+    }
+
+    
+    /**DeviceEditDTO */
+ declare interface IDeviceEditDTO {
+/**id */
+id?: number;
+/**名称 */
+name?: string;
+/**设备编号 */
+number?: string;
+/**空间编号 */
+spaceCode?: string;
+/**设备类型 */
+deviceTypeCode?: string;
+/**系统类型 */
+systemTypeCode?: string;
+/**能耗类型 */
+energyTypeCode?: string;
+/**描述 */
+description?: string;
+/**关联设备编码 */
+relatedDeviceNumber?: string;
+/**是否启用（1启用，2禁用） */
+isEnable?: number;
+/**是否控制器（1是，2否） */
+isController?: number;
+
+    }
+
+    
+    /**key4 */
+ declare interface IKey4 {
+
+    }
+
+    
+    /**ChannelDTO */
+ declare interface IChannelDTO {
+/**设备number */
+deviceNumber?: string;
+/**协议（1-Modbus RTU，2-modbus TCP，3-Bacnet，4-Mqtt，5-Knx，6-OPC UA，7-Http） */
+protocol?: number;
+/**通道是否启用（1启用，2禁用） */
+channelEnable?: number;
+/**通道编码 */
+channelCode?: string;
+/**点位配置信息 */
+channelConfiguration?: IJSONObject;
+
+    }
+
+    
+    /**key5 */
+ declare interface IKey5 {
+
+    }
+
+    
+    /**ResponseListLogicPointTemplateVO */
+ declare interface IResponseListLogicPointTemplateVO {
+code?: number;
+message?: string;
+data?: ILogicPointTemplateVO[];
+
+    }
+
+    
+    /**key6 */
+ declare interface IKey6 {
+
+    }
+
+    
+    /**ResponseLong */
+ declare interface IResponseLong {
+code?: number;
+message?: string;
+data?: number;
+
+    }
+
+    
+    /**ChannelVO */
+ declare interface IChannelVO {
+/**设备number */
+deviceNumber?: string;
+/**协议（1-Modbus RTU，2-modbus TCP，3-Bacnet，4-Mqtt，5-Knx，6-OPC UA，7-Http） */
+protocol?: number;
+/**通道是否启用（1启用，2禁用） */
+channelEnable?: number;
+/**通道编码 */
+channelCode?: string;
+/**点位配置信息 */
+channelConfiguration?: IJSONObject;
+
+    }
+
+    
+    /**ResponseListLogicPointVO */
+ declare interface IResponseListLogicPointVO {
+code?: number;
+message?: string;
+data?: ILogicPointVO[];
+
+    }
+
+    
+    /**key7 */
+ declare interface IKey7 {
+
+    }
+
+    
+    /**ResponseChannelVO */
+ declare interface IResponseChannelVO {
+code?: number;
+message?: string;
+data?: IChannelVO;
+
+    }
+
+    
+    /**key8 */
+ declare interface IKey8 {
+
+    }
+
+    
+    /**LogicPointTemplateDTO */
+ declare interface ILogicPointTemplateDTO {
+/**关联设备类型 */
+deviceTypeCode?: string;
+/**点位编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**转存周期定时任务id */
+storageJobId?: number;
+/**采集定时任务id */
+collectJobId?: number;
+/**显示顺序 */
+sort?: number;
+/**显示控件 */
+showType?: string;
+/**空值默认值 */
+defaultData?: string;
+/**是否表达式（1虚点表达式，2虚点算法） */
+isFormula?: number;
+/**是否实点（1实点，2虚点） */
+isRealPoint?: number;
+/**点位配置信息 */
+monitorExpr?: IJSONObject;
+/**点位配置信息 */
+controlExpr?: IJSONObject;
+/**监测算法 */
+monitorAlgorithmId?: number;
+/**控制算法 */
+controlAlgorithmId?: number;
+/**数据类型 */
+dataType?: string;
+/**取值范围上限 */
+dataUpperLimit?: number;
+/**取值范围下限 */
+dataLowerLimit?: number;
+/**单位 */
+unit?: string;
+/**是否继承（1是，2否） */
+isInherit?: number;
+/**是否显示（1是，2否） */
+isDisplay?: number;
+/**是否枚举（1是，2否） */
+isEnum?: number;
+/**是否默认（1是，2否） */
+isDefault?: number;
+/**具体枚举 */
+enumDetail?: IJSONArray[];
+/**是否可写（1是，2否） */
+isWrite?: number;
+
+    }
+
+    
+    /**LogicPointTemplateEditDTO */
+ declare interface ILogicPointTemplateEditDTO {
+/**id */
+id?: number;
+/**关联设备类型 */
+deviceTypeCode?: string;
+/**点位编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**转存周期定时任务id */
+storageJobId?: number;
+/**采集定时任务id */
+collectJobId?: number;
+/**显示顺序 */
+sort?: number;
+/**显示控件 */
+showType?: string;
+/**空值默认值 */
+defaultData?: string;
+/**是否表达式（1虚点表达式，2虚点算法） */
+isFormula?: number;
+/**是否实点（1实点，2虚点） */
+isRealPoint?: number;
+/**点位配置信息 */
+monitorExpr?: IJSONObject;
+/**点位配置信息 */
+controlExpr?: IJSONObject;
+/**监测算法 */
+monitorAlgorithmId?: number;
+/**控制算法 */
+controlAlgorithmId?: number;
+/**数据类型 */
+dataType?: string;
+/**取值范围上限 */
+dataUpperLimit?: number;
+/**取值范围下限 */
+dataLowerLimit?: number;
+/**单位 */
+unit?: string;
+/**是否继承（1是，2否） */
+isInherit?: number;
+/**是否显示（1是，2否） */
+isDisplay?: number;
+/**是否枚举（1是，2否） */
+isEnum?: number;
+/**是否默认（1是，2否） */
+isDefault?: number;
+/**具体枚举 */
+enumDetail?: IJSONArray[];
+/**是否可写（1是，2否） */
+isWrite?: number;
+
+    }
+
+    
+    /**LogicPointDTO */
+ declare interface ILogicPointDTO {
+/**关联设备 */
+deviceNumber?: string;
+/**点位编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**转存周期定时任务id */
+storageJobId?: number;
+/**采集定时任务id */
+quartzJobId?: number;
+/**显示顺序 */
+sort?: number;
+/**显示控件 */
+showType?: string;
+/**空值默认值 */
+defaultData?: string;
+/**是否表达式（1虚点表达式，2虚点算法，3实点表达式） */
+isFormula?: number;
+/**是否实点（1实点，2虚点） */
+isRealPoint?: number;
+/**点位配置信息 */
+monitorExpr?: IJSONObject;
+/**点位配置信息 */
+controlExpr?: IJSONObject;
+/**监测算法 */
+monitorAlgorithmId?: number;
+/**控制算法 */
+controlAlgorithmId?: number;
+/**点位配置信息 */
+parseExpr?: IJSONObject;
+/**数据类型 */
+dataType?: string;
+/**取值范围上限 */
+dataUpperLimit?: number;
+/**取值范围下限 */
+dataLowerLimit?: number;
+/**单位 */
+unit?: string;
+/**是否继承（1是，2否） */
+isInherit?: number;
+/**是否显示（1是，2否） */
+isDisplay?: number;
+/**是否枚举（1是，2否） */
+isEnum?: number;
+/**是否默认（1是，2否） */
+isDefault?: number;
+/**具体枚举 */
+enumDetail?: IJSONArray[];
+/**设定值 */
+setValue?: string;
+/**是否可写（1是，2否） */
+isWrite?: number;
+
+    }
+
+    
+    /**LogicPointEditDTO */
+ declare interface ILogicPointEditDTO {
+/**id */
+id?: number;
+/**关联设备 */
+deviceNumber?: string;
+/**点位编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**转存周期定时任务id */
+storageJobId?: number;
+/**采集定时任务id */
+quartzJobId?: number;
+/**显示顺序 */
+sort?: number;
+/**显示控件 */
+showType?: string;
+/**空值默认值 */
+defaultData?: string;
+/**是否表达式（1虚点表达式，2虚点算法，3实点表达式） */
+isFormula?: number;
+/**是否实点（1实点，2虚点） */
+isRealPoint?: number;
+/**点位配置信息 */
+monitorExpr?: IJSONObject;
+/**点位配置信息 */
+controlExpr?: IJSONObject;
+/**监测算法 */
+monitorAlgorithmId?: number;
+/**控制算法 */
+controlAlgorithmId?: number;
+/**点位配置信息 */
+parseExpr?: IJSONObject;
+/**数据类型 */
+dataType?: string;
+/**取值范围上限 */
+dataUpperLimit?: number;
+/**取值范围下限 */
+dataLowerLimit?: number;
+/**单位 */
+unit?: string;
+/**是否继承（1是，2否） */
+isInherit?: number;
+/**是否显示（1是，2否） */
+isDisplay?: number;
+/**是否枚举（1是，2否） */
+isEnum?: number;
+/**是否默认（1是，2否） */
+isDefault?: number;
+/**具体枚举 */
+enumDetail?: IJSONArray[];
+/**设定值 */
+setValue?: string;
+/**是否可写（1是，2否） */
+isWrite?: number;
+
+    }
+
+    
+    /**ResponseListDeviceVO */
+ declare interface IResponseListDeviceVO {
+code?: number;
+message?: string;
+data?: IDeviceVO[];
+
+    }
+
+    
+    /**ResponseDeviceVO */
+ declare interface IResponseDeviceVO {
+code?: number;
+message?: string;
+/**com.afdi.ambition.common.vo.thing.DeviceVO */
+data?: IDeviceVO;
+
+    }
+
+    
+    /**DeviceParamsVO */
+ declare interface IDeviceParamsVO {
+/**id */
+id?: number;
+/**编码 */
+code?: string;
+/**名称 */
+name?: string;
+/**周期 */
+period?: string;
+/**转存任务id */
+storeJobId?: number;
+
+    }
+
+    
+    /**ResponseListDeviceParamsVO */
+ declare interface IResponseListDeviceParamsVO {
+code?: number;
+message?: string;
+data?: IDeviceParamsVO[];
+
+    }
+
+    
+    /**LogicPointRealtimeDataVo */
+ declare interface ILogicPointRealtimeDataVo {
+/**点位名字 */
+name?: string;
+/**点位编码 */
+code?: string;
+/**值 */
+value?: string;
+/**单位 */
+unit?: string;
+/**时间 */
+time?: string;
+
+    }
+
+    
+    /**DeviceRealtimeDataVo */
+ declare interface IDeviceRealtimeDataVo {
+/**设备id */
+deviceId?: number;
+/**设备名称 */
+deviceName?: string;
+params?: ILogicPointRealtimeDataVo[];
+
+    }
+
+    
+    /**ResponseDeviceRealtimeDataVo */
+ declare interface IResponseDeviceRealtimeDataVo {
+code?: number;
+message?: string;
+data?: IDeviceRealtimeDataVo;
+
+    }
+
+    
+    /**LogicPointControlRealtimeDataVo */
+ declare interface ILogicPointControlRealtimeDataVo {
+/**点位名字 */
+name?: string;
+/**点位编码 */
+code?: string;
+/**值 */
+value?: string;
+/**单位 */
+unit?: string;
+/**时间 */
+time?: string;
+/**操作时间 */
+controlTime?: string;
+/**操作值 */
+controlValue?: string;
+/**操作状态 */
+state?: string;
+/**操作类型 */
+controlType?: number;
+
+    }
+
+    
+    /**DeviceControlRealtimeDataVo */
+ declare interface IDeviceControlRealtimeDataVo {
+/**设备id */
+deviceId?: number;
+/**设备名称 */
+deviceName?: string;
+params?: ILogicPointControlRealtimeDataVo[];
+
+    }
+
+    
+    /**ResponseDeviceControlRealtimeDataVo */
+ declare interface IResponseDeviceControlRealtimeDataVo {
+code?: number;
+message?: string;
+data?: IDeviceControlRealtimeDataVo;
+
+    }
+
+    
+    /**Response */
+ declare interface IResponse {
+code?: null;
+message?: null;
+data?: null;
+
+    }
+
+    
+    /**AlarmRealtimeDataVo */
+ declare interface IAlarmRealtimeDataVo {
+/**报警配置id */
+alarmId?: number;
+/**报警名称 */
+alarmName?: string;
+/**报警状态（1报警中，2已解除） */
+alarmState?: number;
+/**报警时间 */
+alarmTime?: string;
+
+    }
+
+    
+    /**DeviceAlarmRealtimeDataVo */
+ declare interface IDeviceAlarmRealtimeDataVo {
+/**设备id */
+deviceId?: number;
+/**设备名称 */
+deviceName?: string;
+params?: IAlarmRealtimeDataVo[];
+
+    }
+
+    
+    /**ResponseDeviceAlarmRealtimeDataVo */
+ declare interface IResponseDeviceAlarmRealtimeDataVo {
+code?: number;
+message?: string;
+data?: IDeviceAlarmRealtimeDataVo;
+
+    }
+
+    
+    /**DeviceAlarmHistoryDataVo */
+ declare interface IDeviceAlarmHistoryDataVo {
+/**数据id */
+id?: number;
+/**报警名称 */
+name?: string;
+/**报警内容 */
+content?: string;
+/**报警级别（1错误，2系统需要确认，3系统无需确认） */
+level?: number;
+/**报警类型（1警告，2报警，3故障） */
+type?: number;
+/**报警状态（1报警中，2已解除） */
+alarmState?: number;
+/**处理状态（1待确认，2已确认） */
+handingState?: number;
+/**开始时间 */
+startTime?: string;
+/**结束时间 */
+endTime?: string;
+/**持续时间 */
+duration?: string;
+
+    }
+
+    
+    /**PageDeviceAlarmHistoryDataVo */
+ declare interface IPageDeviceAlarmHistoryDataVo {
+records?: IDeviceAlarmHistoryDataVo[];
+total?: number;
+size?: number;
+current?: number;
+orders?: IOrderItem[];
+optimizeCountSql?: boolean;
+searchCount?: boolean;
+optimizeJoinOfCountSql?: boolean;
+maxLimit?: number;
+countId?: string;
+
+    }
+
+    
+    /**ResponsePageDeviceAlarmHistoryDataVo */
+ declare interface IResponsePageDeviceAlarmHistoryDataVo {
+code?: number;
+message?: string;
+data?: IPageDeviceAlarmHistoryDataVo;
+
+    }
+
+    
+    /**ResponseListDeviceAlarmHistoryDataVo */
+ declare interface IResponseListDeviceAlarmHistoryDataVo {
+code?: number;
+message?: string;
+data?: IDeviceAlarmHistoryDataVo[];
+
+    }
+
+    
+    /**DeviceHistoryDataVo */
+ declare interface IDeviceHistoryDataVo {
+/**id */
+id?: number;
+/**点位id */
+pointId?: number;
+/**值 */
+value?: string;
+/**单位 */
+unit?: string;
+/**创建时间 */
+createTime?: string;
+
+    }
+
+    
+    /**ResponseListDeviceHistoryDataVo */
+ declare interface IResponseListDeviceHistoryDataVo {
+code?: number;
+message?: string;
+data?: IDeviceHistoryDataVo[];
+
+    }
+
+    
+    /**PageJSONObject */
+ declare interface IPageJSONObject {
+records?: IJSONObject[];
+total?: number;
+size?: number;
+current?: number;
+orders?: IOrderItem[];
+optimizeCountSql?: boolean;
+searchCount?: boolean;
+optimizeJoinOfCountSql?: boolean;
+maxLimit?: number;
+countId?: string;
+
+    }
+
+    
+    /**ResponsePageJSONObject */
+ declare interface IResponsePageJSONObject {
+code?: number;
+message?: string;
+data?: IPageJSONObject;
+
+    }
+
+    
+    /**AlarmConfigVO */
+ declare interface IAlarmConfigVO {
+/**id */
+id?: number;
+/**模版id（alarm_template.id） */
+templateId?: number;
+/**报警名称 */
+name?: string;
+/**报警内容 */
+content?: string;
+/**报警级别（1错误，2系统需要确认，3系统无需确认） */
+level?: number;
+/**报警类型（1警告，2报警，3故障） */
+type?: number;
+/**延迟报警时间（单位秒） */
+delayTime?: number;
+/**计算公式 */
+formula?: string;
+/**设备类型 */
+deviceType?: string;
+/**设备编号 */
+deviceNumber?: string;
+/**是否开启报警项（1开启，2关闭） */
+isEnable?: number;
+/**是否开启报警消息（1开启，2关闭） */
+msgEnable?: number;
+/**消息触发间隔（单位秒） */
+msgTriggerInterval?: number;
+/**消息通知角色 */
+msgNotifyRole?: string;
+/**更新时间 */
+updateTime?: string;
+
+    }
+
+    
+    /**PageAlarmConfigVO */
+ declare interface IPageAlarmConfigVO {
+records?: IAlarmConfigVO[];
+total?: number;
+size?: number;
+current?: number;
+orders?: IOrderItem[];
+optimizeCountSql?: boolean;
+searchCount?: boolean;
+optimizeJoinOfCountSql?: boolean;
+maxLimit?: number;
+countId?: string;
+
+    }
+
+    
+    /**ResponsePageAlarmConfigVO */
+ declare interface IResponsePageAlarmConfigVO {
+code?: number;
+message?: string;
+data?: IPageAlarmConfigVO;
+
+    }
+
+    
+    /**AlarmConfigDTO */
+ declare interface IAlarmConfigDTO {
+/**模版id（alarm_template.id） */
+templateId?: number;
+/**报警名称 */
+name?: string;
+/**报警内容 */
+content?: string;
+/**报警级别（1错误，2系统需要确认，3系统无需确认） */
+level?: number;
+/**报警类型（1警告，2报警，3故障） */
+type?: number;
+/**延迟报警时间（单位秒） */
+delayTime?: number;
+/**计算公式 */
+formula?: string;
+/**设备类型 */
+deviceType?: string;
+/**设备编号 */
+deviceNumber?: string;
+/**是否开启报警项（1开启，2关闭） */
+isEnable?: number;
+/**是否开启报警消息（1开启，2关闭） */
+msgEnable?: number;
+/**消息触发间隔（单位秒） */
+msgTriggerInterval?: number;
+/**消息通知角色 */
+msgNotifyRole?: string;
+
+    }
+
+    
+    /**AlarmConfigEditDTO */
+ declare interface IAlarmConfigEditDTO {
+/**id */
+id?: number;
+/**模版id（alarm_template.id） */
+templateId?: number;
+/**报警名称 */
+name?: string;
+/**报警内容 */
+content?: string;
+/**报警级别（1错误，2系统需要确认，3系统无需确认） */
+level?: number;
+/**报警类型（1警告，2报警，3故障） */
+type?: number;
+/**延迟报警时间（单位秒） */
+delayTime?: number;
+/**计算公式 */
+formula?: string;
+/**设备类型 */
+deviceType?: string;
+/**设备编号 */
+deviceNumber?: string;
+/**是否开启报警项（1开启，2关闭） */
+isEnable?: number;
+/**是否开启报警消息（1开启，2关闭） */
+msgEnable?: number;
+/**消息触发间隔（单位秒） */
+msgTriggerInterval?: number;
+/**消息通知角色 */
+msgNotifyRole?: string;
+
+    }
+
+    
+    /**AlarmRecordVO */
+ declare interface IAlarmRecordVO {
+/**id */
+id?: number;
+/**报警id */
+alarmId?: number;
+/**报警名称 */
+alarmName?: string;
+/**报警内容 */
+alarmContent?: string;
+/**报警级别（1错误，2系统需要确认，3系统无需确认） */
+alarmLevel?: number;
+/**报警类型（1警告，2报警，3故障） */
+alarmType?: number;
+/**报警状态（1报警中，2已解除） */
+alarmState?: number;
+/**设备类型 */
+deviceType?: string;
+/**设备编号 */
+deviceNumber?: string;
+/**处理状态（1待确认，2已确认） */
+handingState?: number;
+/**处理详情 */
+handingContent?: string;
+/**开始时间 */
+startTime?: string;
+/**结束时间 */
+endTime?: string;
+/**报警持续时间（秒） */
+costTimeLen?: number;
+/**设备名称 */
+deviceName?: string;
+/**空间名称 */
+spaceName?: string;
+
+    }
+
+    
+    /**PageAlarmRecordVO */
+ declare interface IPageAlarmRecordVO {
+records?: IAlarmRecordVO[];
+total?: number;
+size?: number;
+current?: number;
+orders?: IOrderItem[];
+optimizeCountSql?: boolean;
+searchCount?: boolean;
+optimizeJoinOfCountSql?: boolean;
+maxLimit?: number;
+countId?: string;
+
+    }
+
+    
+    /**ResponsePageAlarmRecordVO */
+ declare interface IResponsePageAlarmRecordVO {
+code?: number;
+message?: string;
+data?: IPageAlarmRecordVO;
+
+    }
+
+    
+    /**AlarmTemplateVO */
+ declare interface IAlarmTemplateVO {
+/**id */
+id?: number;
+/**报警名称 */
+name?: string;
+/**报警内容 */
+content?: string;
+/**报警级别（1错误，2系统需要确认，3系统无需确认） */
+level?: number;
+/**报警类型（1警告，2报警，3故障） */
+type?: number;
+/**延迟报警时间（单位秒） */
+delayTime?: number;
+/**是否开启报警消息（1开启，2关闭） */
+msgEnable?: number;
+/**消息触发间隔（单位秒） */
+msgTriggerInterval?: number;
+/**消息通知角色 */
+msgNotifyRole?: string;
+/**更新时间 */
+updateTime?: string;
+
+    }
+
+    
+    /**PageAlarmTemplateVO */
+ declare interface IPageAlarmTemplateVO {
+records?: IAlarmTemplateVO[];
+total?: number;
+size?: number;
+current?: number;
+orders?: IOrderItem[];
+optimizeCountSql?: boolean;
+searchCount?: boolean;
+optimizeJoinOfCountSql?: boolean;
+maxLimit?: number;
+countId?: string;
+
+    }
+
+    
+    /**ResponsePageAlarmTemplateVO */
+ declare interface IResponsePageAlarmTemplateVO {
+code?: number;
+message?: string;
+data?: IPageAlarmTemplateVO;
+
+    }
+
+    
+    /**AlarmTemplateDTO */
+ declare interface IAlarmTemplateDTO {
+/**报警名称 */
+name?: string;
+/**报警内容 */
+content?: string;
+/**报警级别（1错误，2系统需要确认，3系统无需确认） */
+level?: number;
+/**报警类型（1警告，2报警，3故障） */
+type?: number;
+/**延迟报警时间（单位秒） */
+delayTime?: number;
+/**是否开启报警消息（1开启，2关闭） */
+msgEnable?: number;
+/**消息触发间隔（单位秒） */
+msgTriggerInterval?: number;
+/**消息通知角色 */
+msgNotifyRole?: string;
+
+    }
+
+    
+    /**AlarmTemplateEditDTO */
+ declare interface IAlarmTemplateEditDTO {
+/**id */
+id?: number;
+/**报警名称 */
+name?: string;
+/**报警内容 */
+content?: string;
+/**报警级别（1错误，2系统需要确认，3系统无需确认） */
+level?: number;
+/**报警类型（1警告，2报警，3故障） */
+type?: number;
+/**延迟报警时间（单位秒） */
+delayTime?: number;
+/**是否开启报警消息（1开启，2关闭） */
+msgEnable?: number;
+/**消息触发间隔（单位秒） */
+msgTriggerInterval?: number;
+/**消息通知角色 */
+msgNotifyRole?: string;
+
+    }
+
+    
+    /**key9 */
+ declare interface IKey9 {
+
+    }
+
+    
+    /**key10 */
+ declare interface IKey10 {
+
+    }
+
+    
+    /**key11 */
+ declare interface IKey11 {
+
+    }
+
+    
+    /**key12 */
+ declare interface IKey12 {
 
     }
 

@@ -72,18 +72,6 @@ data,
       })
     },
 /** 
-    * Model-删除custom-sadi文件
-* @param data.projectId 项目id
-* @param data.sadiId sadi id
-*/
-Model_CustomDELETE(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IObjectResponse> {
-return request({
-        url: `/graphics/bearer/model/custom?projectId=${data.projectId}&sadiId=${data.sadiId}`,
-        method: 'DELETE',
-...config
-      })
-    },
-/** 
     * Model-获取隐藏的构件索引
 * @param data.projectId 项目id
 * @param data.sadiId sadi id

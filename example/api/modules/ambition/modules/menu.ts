@@ -14,6 +14,17 @@ return request({
       })
     },
 /** 
+    * user/(Menu)表控制层-根据角色id查菜单列表
+* @param data.roleId 角色id
+*/
+Menu_GetMenuListByRoleIdGET(data:{roleId:number | string}, config={}): Promise<IResponseListMenuListVO> {
+return request({
+        url: `/ambition-api/user/menu/getMenuListByRoleId?roleId=${data.roleId}`,
+        method: 'GET',
+...config
+      })
+    },
+/** 
     * user/(Menu)表控制层-获取所有菜单树
 */
 Menu_GetMenuTreeGET( config={}): Promise<IResponseListMenuTreeVO> {

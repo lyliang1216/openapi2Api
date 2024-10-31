@@ -73,15 +73,4 @@ data,
 ...config
       })
     },
-/** 
-    * Element-替换构件
-*/
-Element_ReplacePOST(data:IReplaceElementBo, config={}): Promise<IObjectResponse> {
-return request({
-        url: `/graphics/bearer/element/replace`,
-        method: 'POST',
-data,
-...config
-      })
-    },
 }}

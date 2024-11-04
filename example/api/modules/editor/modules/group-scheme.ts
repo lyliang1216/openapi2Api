@@ -29,7 +29,7 @@ data,
 * @param data.projectId 项目id
 * @param data.sadiId sadi id
 */
-GroupScheme_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<ISADIGroupListResponse> {
+GroupScheme_projectId_sadiIdGET(data:{projectId:number | string,sadiId:number | string}, config={}): Promise<IGroupSchemeVoListResponse> {
 return request({
         url: `/graphics/bearer/group-scheme/${data.projectId}/${data.sadiId}`,
         method: 'GET',

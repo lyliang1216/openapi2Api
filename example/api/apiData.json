@@ -70,10 +70,25 @@
             "name": "thing/报警模版(AlarmTemplate)表控制层"
         },
         {
+            "name": "thing/DeviceOperationRecordController"
+        },
+        {
             "name": "intelligence"
         },
         {
             "name": "intelligence/算法(Algorithm)表控制层"
+        },
+        {
+            "name": "view"
+        },
+        {
+            "name": "view/可视化数据集模块 控制器"
+        },
+        {
+            "name": "communication"
+        },
+        {
+            "name": "communication/SseController"
         }
     ],
     "paths": {
@@ -3849,6 +3864,61 @@
                     }
                 },
                 "security": []
+            },
+            "post": {
+                "summary": "inheritPointByCode",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/(LogicPointTemplate)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LogicPointTemplateEditDTO",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseString",
+                                    "description": ""
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
             }
         },
         "/logicPointTemplate/getByPointIds": {
@@ -5109,9 +5179,9 @@
                 "security": []
             }
         },
-        "/device/getChannelByNumber": {
+        "/device/getDeviceTree": {
             "get": {
-                "summary": "getChannelByNumber",
+                "summary": "getDeviceTree",
                 "deprecated": false,
                 "description": "",
                 "tags": [
@@ -5119,7 +5189,86 @@
                 ],
                 "parameters": [
                     {
-                        "name": "number",
+                        "name": "deviceType",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseListDeviceTreeVO"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": [
+                                                {
+                                                    "id": 0,
+                                                    "parent": 0,
+                                                    "sort": 0,
+                                                    "children": [
+                                                        {}
+                                                    ],
+                                                    "type": 0,
+                                                    "typeCode": "",
+                                                    "typeName": "",
+                                                    "deviceName": "",
+                                                    "deviceNumber": "",
+                                                    "channelCode": ""
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/device/getChannelByDeviceId": {
+            "get": {
+                "summary": "getChannelByDeviceId",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/(Device)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "deviceId",
                         "in": "query",
                         "description": "",
                         "required": true,
@@ -5153,7 +5302,7 @@
                                             "code": 0,
                                             "message": "",
                                             "data": {
-                                                "deviceNumber": "",
+                                                "deviceId": 0,
                                                 "protocol": 0,
                                                 "channelEnable": 0,
                                                 "channelCode": "",
@@ -5311,6 +5460,15 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "deviceNumber",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
                     },
                     {
@@ -5551,6 +5709,73 @@
                 "security": []
             }
         },
+        "/physicalPoint/getPointByDeviceNumber": {
+            "get": {
+                "summary": "getPointByDeviceNumber",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/(PhysicalPoint)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "number",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseListPhysicalPointVO"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": [
+                                                {
+                                                    "id": 0,
+                                                    "code": "",
+                                                    "name": "",
+                                                    "isEnable": 0,
+                                                    "configuration": {
+                                                        "": {}
+                                                    },
+                                                    "deviceNumber": "",
+                                                    "channelCode": ""
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
         "/logicPoint/page": {
             "get": {
                 "summary": "page",
@@ -5754,6 +5979,205 @@
                 "security": []
             }
         },
+        "/logicPoint/getPointByDeviceNumber": {
+            "get": {
+                "summary": "getPointByDeviceNumber",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/设备逻辑点位"
+                ],
+                "parameters": [
+                    {
+                        "name": "number",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseListLogicPointVO"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": [
+                                                {
+                                                    "id": 0,
+                                                    "deviceNumber": "",
+                                                    "code": "",
+                                                    "name": "",
+                                                    "storageJobId": 0,
+                                                    "collectJobId": 0,
+                                                    "sort": 0,
+                                                    "showType": "",
+                                                    "defaultData": "",
+                                                    "isFormula": 0,
+                                                    "isRealPoint": 0,
+                                                    "monitorExpr": {
+                                                        "": {}
+                                                    },
+                                                    "controlExpr": {
+                                                        "": {}
+                                                    },
+                                                    "monitorAlgorithmId": 0,
+                                                    "controlAlgorithmId": 0,
+                                                    "parseExpr": {
+                                                        "": {}
+                                                    },
+                                                    "dataType": "",
+                                                    "dataUpperLimit": 0,
+                                                    "dataLowerLimit": 0,
+                                                    "unit": "",
+                                                    "isInherit": 0,
+                                                    "isDisplay": 0,
+                                                    "isEnum": 0,
+                                                    "isDefault": 0,
+                                                    "enumDetail": [
+                                                        {}
+                                                    ],
+                                                    "setValue": "",
+                                                    "isWrite": 0,
+                                                    "createTime": "",
+                                                    "updateTime": ""
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/logicPoint/pointList": {
+            "get": {
+                "summary": "pointList",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/设备逻辑点位"
+                ],
+                "parameters": [
+                    {
+                        "name": "deviceTypeCode",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "number",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseListLogicPointVO"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": [
+                                                {
+                                                    "id": 0,
+                                                    "deviceNumber": "",
+                                                    "code": "",
+                                                    "name": "",
+                                                    "storageJobId": 0,
+                                                    "quartzJobId": 0,
+                                                    "sort": 0,
+                                                    "showType": "",
+                                                    "defaultData": "",
+                                                    "isFormula": 0,
+                                                    "isRealPoint": 0,
+                                                    "monitorExpr": {
+                                                        "": {}
+                                                    },
+                                                    "controlExpr": {
+                                                        "": {}
+                                                    },
+                                                    "monitorAlgorithmId": 0,
+                                                    "controlAlgorithmId": 0,
+                                                    "parseExpr": {
+                                                        "": {}
+                                                    },
+                                                    "dataType": "",
+                                                    "dataUpperLimit": 0,
+                                                    "dataLowerLimit": 0,
+                                                    "unit": "",
+                                                    "isInherit": 0,
+                                                    "isDisplay": 0,
+                                                    "isEnum": 0,
+                                                    "isDefault": 0,
+                                                    "enumDetail": [
+                                                        {}
+                                                    ],
+                                                    "setValue": "",
+                                                    "isWrite": 0,
+                                                    "createTime": "",
+                                                    "updateTime": ""
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
         "/logicPoint/inheritPointByCode": {
             "get": {
                 "summary": "inheritPointByCode",
@@ -5801,6 +6225,61 @@
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseString",
+                                    "description": ""
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            },
+            "post": {
+                "summary": "inheritPointByCode",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/设备逻辑点位"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LogicPointEditDTO",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "",
@@ -6370,6 +6849,71 @@
                 "security": []
             }
         },
+        "/logicPoint/connectOnlyReadRealTimeData": {
+            "get": {
+                "summary": "sse 推送链接 只读点位",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/设备逻辑点位"
+                ],
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "query",
+                        "description": "设备id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "paramsIds",
+                        "in": "query",
+                        "description": "参数id,多个使用\",\"分割",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseString",
+                                    "description": ""
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
         "/logicPoint/getDeviceControlRealtimeData": {
             "get": {
                 "summary": "获取可写点位的实时信息",
@@ -6440,71 +6984,6 @@
                                                     }
                                                 ]
                                             }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "headers": {}
-                    }
-                },
-                "security": []
-            }
-        },
-        "/logicPoint/connectOnlyReadRealTimeData": {
-            "get": {
-                "summary": "sse 推送链接 只读点位",
-                "deprecated": false,
-                "description": "",
-                "tags": [
-                    "thing/设备逻辑点位"
-                ],
-                "parameters": [
-                    {
-                        "name": "deviceId",
-                        "in": "query",
-                        "description": "设备id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "paramsIds",
-                        "in": "query",
-                        "description": "参数id,多个使用\",\"分割",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "ambitionToken",
-                        "in": "header",
-                        "description": "",
-                        "example": "{{ACCESS_TOKEN}}",
-                        "schema": {
-                            "type": "string",
-                            "default": "{{ACCESS_TOKEN}}"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ResponseString",
-                                    "description": ""
-                                },
-                                "examples": {
-                                    "1": {
-                                        "summary": "成功示例",
-                                        "value": {
-                                            "code": 0,
-                                            "message": "",
-                                            "data": ""
                                         }
                                     }
                                 }
@@ -6646,63 +7125,6 @@
                 "security": []
             }
         },
-        "/logicPoint/closeConnect": {
-            "delete": {
-                "summary": "关闭链接",
-                "deprecated": false,
-                "description": "",
-                "tags": [
-                    "thing/设备逻辑点位"
-                ],
-                "parameters": [
-                    {
-                        "name": "ambitionToken",
-                        "in": "header",
-                        "description": "",
-                        "example": "{{ACCESS_TOKEN}}",
-                        "schema": {
-                            "type": "string",
-                            "default": "{{ACCESS_TOKEN}}"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "string",
-                                "description": "链接成功时，返回的uuid"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Response",
-                                    "description": "com.afdi.ambition.common.Response"
-                                },
-                                "examples": {
-                                    "1": {
-                                        "summary": "成功示例",
-                                        "value": {
-                                            "code": null,
-                                            "message": null,
-                                            "data": null
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "headers": {}
-                    }
-                },
-                "security": []
-            }
-        },
         "/logicPoint/getDeviceAlarmRealtimeData": {
             "get": {
                 "summary": "获取报警实时值",
@@ -6768,6 +7190,63 @@
                                                     }
                                                 ]
                                             }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/logicPoint/closeConnect": {
+            "delete": {
+                "summary": "关闭链接",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/设备逻辑点位"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "string",
+                                "description": "链接成功时，返回的uuid"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response",
+                                    "description": "com.afdi.ambition.common.Response"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": null,
+                                            "message": null,
+                                            "data": null
                                         }
                                     }
                                 }
@@ -8210,6 +8689,261 @@
                 "security": []
             }
         },
+        "/deviceOperationRecord/getPageDeviceOperationRecord": {
+            "get": {
+                "summary": "分页",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/DeviceOperationRecordController"
+                ],
+                "parameters": [
+                    {
+                        "name": "pageNo",
+                        "in": "query",
+                        "description": "页码",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "每页显示条数",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "deviceId",
+                        "in": "query",
+                        "description": "设备id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "pointIds",
+                        "in": "query",
+                        "description": "点位id，多个使用\",\"分割",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "description": "开始时间",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "description": "结束时间",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "source",
+                        "in": "query",
+                        "description": "操作来源（0：页面操作，1:定时器，2:算法组态）",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponsePageDeviceOperationRecordPageVO",
+                                    "description": "分页列表"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": {
+                                                "records": [
+                                                    {
+                                                        "id": 0,
+                                                        "name": "",
+                                                        "isRealPoint": 0,
+                                                        "dataUpperLimit": 0,
+                                                        "dataLowerLimit": 0,
+                                                        "unit": "",
+                                                        "defaultData": "",
+                                                        "source": 0,
+                                                        "result": 0,
+                                                        "resultMsg": "",
+                                                        "isSoftwareSend": false,
+                                                        "originalValue": "",
+                                                        "setValue": {
+                                                            "": {}
+                                                        },
+                                                        "createTime": ""
+                                                    }
+                                                ],
+                                                "total": 0,
+                                                "size": 0,
+                                                "current": 0,
+                                                "orders": [
+                                                    {
+                                                        "column": "",
+                                                        "asc": false
+                                                    }
+                                                ],
+                                                "optimizeCountSql": false,
+                                                "searchCount": false,
+                                                "optimizeJoinOfCountSql": false,
+                                                "maxLimit": 0,
+                                                "countId": ""
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/deviceOperationRecord/getListDeviceOperationRecordData": {
+            "get": {
+                "summary": "图形接口，获取列表，无分页",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/DeviceOperationRecordController"
+                ],
+                "parameters": [
+                    {
+                        "name": "deviceId",
+                        "in": "query",
+                        "description": "设备id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "pointIds",
+                        "in": "query",
+                        "description": "点位id，多个使用\",\"分割",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "source",
+                        "in": "query",
+                        "description": "操作来源（0：页面操作，1:定时器，2:算法组态）",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "startTime",
+                        "in": "query",
+                        "description": "开始时间",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "endTime",
+                        "in": "query",
+                        "description": "结束时间",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseListDeviceOperationRecord",
+                                    "description": "分页列表"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": [
+                                                {
+                                                    "id": 0,
+                                                    "deviceId": 0,
+                                                    "deviceNumber": "",
+                                                    "deviceName": "",
+                                                    "logicPointCode": "",
+                                                    "source": 0,
+                                                    "result": 0,
+                                                    "resultMsg": "",
+                                                    "isSoftwareSend": 0,
+                                                    "originalValue": "",
+                                                    "setValue": {
+                                                        "": {}
+                                                    },
+                                                    "createTime": "",
+                                                    "updateTime": ""
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
         "/algorithm/page": {
             "get": {
                 "summary": "page",
@@ -8457,6 +9191,994 @@
                         }
                     }
                 },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseString",
+                                    "description": ""
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/record/detail": {
+            "get": {
+                "summary": "可视化数据集表 详情",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化数据集模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "主键",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "createUser",
+                        "in": "query",
+                        "description": "创建人",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "createDept",
+                        "in": "query",
+                        "description": "创建部门",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "createTime",
+                        "in": "query",
+                        "description": "创建时间",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "updateUser",
+                        "in": "query",
+                        "description": "更新人",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "updateTime",
+                        "in": "query",
+                        "description": "更新时间",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "业务状态",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "isDeleted",
+                        "in": "query",
+                        "description": "是否已删除",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "名称",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "description": "数据地址",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dataType",
+                        "in": "query",
+                        "description": "数据类型",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "dataModule",
+                        "in": "query",
+                        "description": "模块类型",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dataMethod",
+                        "in": "query",
+                        "description": "数据方法",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dataHeader",
+                        "in": "query",
+                        "description": "数据请求头",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "data",
+                        "in": "query",
+                        "description": "数据集",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dataQuery",
+                        "in": "query",
+                        "description": "数据查询",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dataQueryType",
+                        "in": "query",
+                        "description": "数据查询类型",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dataFormatter",
+                        "in": "query",
+                        "description": "数据格式化",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "wsUrl",
+                        "in": "query",
+                        "description": "ws地址",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mqttUrl",
+                        "in": "query",
+                        "description": "mqtt地址",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mqttConfig",
+                        "in": "query",
+                        "description": "mqtt配置",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RVisualRecord"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {
+                                                "id": 0,
+                                                "createUser": 0,
+                                                "createDept": 0,
+                                                "createTime": "",
+                                                "updateUser": 0,
+                                                "updateTime": "",
+                                                "status": 0,
+                                                "isDeleted": 0,
+                                                "name": "",
+                                                "url": "",
+                                                "dataType": 0,
+                                                "dataModule": "",
+                                                "dataMethod": "",
+                                                "dataHeader": "",
+                                                "data": "",
+                                                "dataQuery": "",
+                                                "dataQueryType": "",
+                                                "dataFormatter": "",
+                                                "wsUrl": "",
+                                                "mqttUrl": "",
+                                                "mqttConfig": ""
+                                            },
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/record/list": {
+            "get": {
+                "summary": "可视化数据集表 分页",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化数据集模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "主键",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "数据名称",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dataType",
+                        "in": "query",
+                        "description": "数据类型",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "dataModule",
+                        "in": "query",
+                        "description": "模块类型",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "current",
+                        "in": "query",
+                        "description": "当前页",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "每页的数量",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ascs",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "descs",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RIPageVisualRecordVO"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {
+                                                "records": [
+                                                    {
+                                                        "id": 0,
+                                                        "name": "",
+                                                        "dataType": 0,
+                                                        "dataModule": ""
+                                                    }
+                                                ],
+                                                "total": 0,
+                                                "size": 0,
+                                                "current": 0,
+                                                "orders": [
+                                                    {
+                                                        "column": "",
+                                                        "asc": false
+                                                    }
+                                                ],
+                                                "optimizeCountSql": false,
+                                                "searchCount": false,
+                                                "optimizeJoinOfCountSql": false,
+                                                "maxLimit": 0,
+                                                "countId": "",
+                                                "pages": 0
+                                            },
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/record/save": {
+            "post": {
+                "summary": "可视化数据集表 新增",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化数据集模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VisualRecord",
+                                "description": "承载数据"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/R",
+                                    "description": "org.springblade.core.tool.api.R"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {},
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/record/update": {
+            "post": {
+                "summary": "可视化数据集表 修改",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化数据集模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VisualRecord",
+                                "description": "承载数据"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/R",
+                                    "description": "org.springblade.core.tool.api.R"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {},
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/record/submit": {
+            "post": {
+                "summary": "可视化数据集表 新增或修改",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化数据集模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VisualRecord",
+                                "description": "承载数据"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/R",
+                                    "description": "org.springblade.core.tool.api.R"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {},
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/record/remove": {
+            "post": {
+                "summary": "可视化数据集表 删除",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化数据集模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "ids",
+                        "in": "query",
+                        "description": "主键集合",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/R",
+                                    "description": "org.springblade.core.tool.api.R"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {},
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/record/listDetail": {
+            "get": {
+                "summary": "可视化数据集表 分页(全字段)",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化数据集模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "主键",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "数据名称",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dataType",
+                        "in": "query",
+                        "description": "数据类型",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "dataModule",
+                        "in": "query",
+                        "description": "模块类型",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "current",
+                        "in": "query",
+                        "description": "当前页",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "每页的数量",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ascs",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "descs",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RIPageVisualRecord"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {
+                                                "records": [
+                                                    {
+                                                        "id": 0,
+                                                        "createUser": 0,
+                                                        "createDept": 0,
+                                                        "createTime": "",
+                                                        "updateUser": 0,
+                                                        "updateTime": "",
+                                                        "status": 0,
+                                                        "isDeleted": 0,
+                                                        "name": "",
+                                                        "url": "",
+                                                        "dataType": 0,
+                                                        "dataModule": "",
+                                                        "dataMethod": "",
+                                                        "dataHeader": "",
+                                                        "data": "",
+                                                        "dataQuery": "",
+                                                        "dataQueryType": "",
+                                                        "dataFormatter": "",
+                                                        "wsUrl": "",
+                                                        "mqttUrl": "",
+                                                        "mqttConfig": ""
+                                                    }
+                                                ],
+                                                "total": 0,
+                                                "size": 0,
+                                                "current": 0,
+                                                "orders": [
+                                                    {
+                                                        "column": "",
+                                                        "asc": false
+                                                    }
+                                                ],
+                                                "optimizeCountSql": false,
+                                                "searchCount": false,
+                                                "optimizeJoinOfCountSql": false,
+                                                "maxLimit": 0,
+                                                "countId": "",
+                                                "pages": 0
+                                            },
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/sse/subscribe/{userId}": {
+            "get": {
+                "summary": "subscribe",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "communication/SseController"
+                ],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SseEmitter",
+                                    "description": "org.springframework.web.servlet.mvc.method.annotation.SseEmitter"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "timeout": 0,
+                                            "handler": {},
+                                            "earlySendAttempts": [
+                                                {
+                                                    "data": {},
+                                                    "mediaType": {
+                                                        "type": "",
+                                                        "subtype": "",
+                                                        "parameters": {
+                                                            "": ""
+                                                        },
+                                                        "toStringValue": ""
+                                                    }
+                                                }
+                                            ],
+                                            "complete": false,
+                                            "failure": {
+                                                "detailMessage": "",
+                                                "cause": {
+                                                    "detailMessage": "",
+                                                    "cause": {},
+                                                    "stackTrace": [
+                                                        {
+                                                            "classLoaderName": "",
+                                                            "moduleName": "",
+                                                            "moduleVersion": "",
+                                                            "declaringClass": "",
+                                                            "methodName": "",
+                                                            "fileName": "",
+                                                            "lineNumber": 0,
+                                                            "format": 0
+                                                        }
+                                                    ],
+                                                    "suppressedExceptions": [
+                                                        {}
+                                                    ]
+                                                },
+                                                "stackTrace": [
+                                                    {
+                                                        "classLoaderName": "",
+                                                        "moduleName": "",
+                                                        "moduleVersion": "",
+                                                        "declaringClass": "",
+                                                        "methodName": "",
+                                                        "fileName": "",
+                                                        "lineNumber": 0,
+                                                        "format": 0
+                                                    }
+                                                ],
+                                                "suppressedExceptions": [
+                                                    {
+                                                        "detailMessage": "",
+                                                        "cause": {},
+                                                        "stackTrace": [
+                                                            {
+                                                                "classLoaderName": "",
+                                                                "moduleName": "",
+                                                                "moduleVersion": "",
+                                                                "declaringClass": "",
+                                                                "methodName": "",
+                                                                "fileName": "",
+                                                                "lineNumber": 0,
+                                                                "format": 0
+                                                            }
+                                                        ],
+                                                        "suppressedExceptions": [
+                                                            {}
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            "timeoutCallback": {
+                                                "delegate": {}
+                                            },
+                                            "errorCallback": {},
+                                            "completionCallback": {
+                                                "delegate": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/sse/updateCurrentUserMenu": {
+            "get": {
+                "summary": "updateCurrentUserMenu",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "communication/SseController"
+                ],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "menuId",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -8761,6 +10483,99 @@
                         "description": "更新时间"
                     }
                 }
+            },
+            "VisualRecord": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "主键"
+                    },
+                    "createUser": {
+                        "type": "integer",
+                        "description": "创建人"
+                    },
+                    "createDept": {
+                        "type": "integer",
+                        "description": "创建部门"
+                    },
+                    "createTime": {
+                        "type": "string",
+                        "description": "创建时间"
+                    },
+                    "updateUser": {
+                        "type": "integer",
+                        "description": "更新人"
+                    },
+                    "updateTime": {
+                        "type": "string",
+                        "description": "更新时间"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "description": "业务状态"
+                    },
+                    "isDeleted": {
+                        "type": "integer",
+                        "description": "是否已删除"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "名称"
+                    },
+                    "url": {
+                        "type": "string",
+                        "description": "数据地址"
+                    },
+                    "dataType": {
+                        "type": "integer",
+                        "description": "数据类型"
+                    },
+                    "dataModule": {
+                        "type": "string",
+                        "description": "模块类型"
+                    },
+                    "dataMethod": {
+                        "type": "string",
+                        "description": "数据方法"
+                    },
+                    "dataHeader": {
+                        "type": "string",
+                        "description": "数据请求头"
+                    },
+                    "data": {
+                        "type": "string",
+                        "description": "数据集"
+                    },
+                    "dataQuery": {
+                        "type": "string",
+                        "description": "数据查询"
+                    },
+                    "dataQueryType": {
+                        "type": "string",
+                        "description": "数据查询类型"
+                    },
+                    "dataFormatter": {
+                        "type": "string",
+                        "description": "数据格式化"
+                    },
+                    "wsUrl": {
+                        "type": "string",
+                        "description": "ws地址"
+                    },
+                    "mqttUrl": {
+                        "type": "string",
+                        "description": "mqtt地址"
+                    },
+                    "mqttConfig": {
+                        "type": "string",
+                        "description": "mqtt配置"
+                    }
+                }
+            },
+            "Handler": {
+                "type": "object",
+                "properties": {}
             },
             "ResponseListMenuTreeVO": {
                 "type": "object",
@@ -9164,7 +10979,7 @@
                 "type": "object",
                 "properties": {
                     "key": {
-                        "$ref": "#/components/schemas/key1"
+                        "$ref": "#/components/schemas/key2"
                     }
                 }
             },
@@ -9187,6 +11002,27 @@
                             "description": "com.afdi.ambition.common.vo.thing.AlarmTemplateVO"
                         },
                         "description": ""
+                    }
+                }
+            },
+            "RVisualRecord": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": "状态码"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "description": "是否成功"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/VisualRecord",
+                        "description": "承载数据"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "description": "返回消息"
                     }
                 }
             },
@@ -9845,6 +11681,96 @@
                     }
                 }
             },
+            "DeviceOperationRecordPageVO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "名称"
+                    },
+                    "isRealPoint": {
+                        "type": "integer",
+                        "description": "是否实点（1实点，2虚点）"
+                    },
+                    "dataUpperLimit": {
+                        "type": "number",
+                        "description": "取值范围上限"
+                    },
+                    "dataLowerLimit": {
+                        "type": "number",
+                        "description": "取值范围下限"
+                    },
+                    "unit": {
+                        "type": "string",
+                        "description": "单位"
+                    },
+                    "defaultData": {
+                        "type": "string",
+                        "description": "默认值"
+                    },
+                    "source": {
+                        "type": "integer",
+                        "description": "操作来源"
+                    },
+                    "result": {
+                        "type": "integer",
+                        "description": "执行结果(1:成功，0:错误)"
+                    },
+                    "resultMsg": {
+                        "type": "string",
+                        "description": "信息内容"
+                    },
+                    "isSoftwareSend": {
+                        "type": "boolean",
+                        "description": "操作类型  是否软件下发"
+                    },
+                    "originalValue": {
+                        "type": "string",
+                        "description": "原始值 记录下发当时的值"
+                    },
+                    "setValue": {
+                        "$ref": "#/components/schemas/JSONObject",
+                        "description": "点位配置信息"
+                    },
+                    "createTime": {
+                        "type": "string",
+                        "description": "创建时间"
+                    }
+                }
+            },
+            "VisualRecordVO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "主键"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "数据名称"
+                    },
+                    "dataType": {
+                        "type": "integer",
+                        "description": "数据类型"
+                    },
+                    "dataModule": {
+                        "type": "string",
+                        "description": "模块类型"
+                    }
+                }
+            },
+            "MapString": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string"
+                    }
+                }
+            },
             "MenuDTO": {
                 "type": "object",
                 "properties": {
@@ -10093,19 +12019,23 @@
                             "$ref": "#/components/schemas/LogicPointTemplateVO",
                             "description": "com.afdi.ambition.common.vo.thing.LogicPointTemplateVO"
                         },
-                        "description": "查询数据列表"
+                        "description": "查询数据列表",
+                        "default": "Collections.emptyList()"
                     },
                     "total": {
                         "type": "integer",
-                        "description": "总数"
+                        "description": "总数",
+                        "default": 0
                     },
                     "size": {
                         "type": "integer",
-                        "description": "每页显示条数，默认 10"
+                        "description": "每页显示条数，默认 10",
+                        "default": 10
                     },
                     "current": {
                         "type": "integer",
-                        "description": "当前页"
+                        "description": "当前页",
+                        "default": 1
                     },
                     "orders": {
                         "type": "array",
@@ -10113,19 +12043,23 @@
                             "$ref": "#/components/schemas/OrderItem",
                             "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
                         },
-                        "description": "排序字段信息"
+                        "description": "排序字段信息",
+                        "default": "new ArrayList<>()"
                     },
                     "optimizeCountSql": {
                         "type": "boolean",
-                        "description": "自动优化 COUNT SQL"
+                        "description": "自动优化 COUNT SQL",
+                        "default": "true"
                     },
                     "searchCount": {
                         "type": "boolean",
-                        "description": "是否进行 count 查询"
+                        "description": "是否进行 count 查询",
+                        "default": "true"
                     },
                     "optimizeJoinOfCountSql": {
                         "type": "boolean",
-                        "description": "{@link #optimizeJoinOfCountSql()}"
+                        "description": "{@link #optimizeJoinOfCountSql()}",
+                        "default": "true"
                     },
                     "maxLimit": {
                         "type": "integer",
@@ -10233,6 +12167,28 @@
                     "data": {
                         "$ref": "#/components/schemas/PageAlgorithmVO",
                         "description": ""
+                    }
+                }
+            },
+            "MediaType": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "subtype": {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "parameters": {
+                        "$ref": "#/components/schemas/MapString",
+                        "description": ""
+                    },
+                    "toStringValue": {
+                        "type": "string",
+                        "description": "",
+                        "nullable": true
                     }
                 }
             },
@@ -10602,6 +12558,136 @@
                     }
                 }
             },
+            "PageDeviceOperationRecordPageVO": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DeviceOperationRecordPageVO",
+                            "description": "com.afdi.ambition.common.vo.thing.DeviceOperationRecordPageVO"
+                        },
+                        "description": ""
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "current": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "orders": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem",
+                            "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+                        },
+                        "description": ""
+                    },
+                    "optimizeCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "searchCount": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "optimizeJoinOfCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "maxLimit": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "countId": {
+                        "type": "string",
+                        "description": ""
+                    }
+                }
+            },
+            "IPageVisualRecordVO": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/VisualRecordVO",
+                            "description": "可视化数据集表 数据传输对象实体类"
+                        },
+                        "description": ""
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "current": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "orders": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem",
+                            "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+                        },
+                        "description": ""
+                    },
+                    "optimizeCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "searchCount": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "optimizeJoinOfCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "maxLimit": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "countId": {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "pages": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "DataWithMediaType": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Object",
+                        "description": "参数详情"
+                    },
+                    "mediaType": {
+                        "description": "",
+                        "anyOf": [
+                            {
+                                "description": "",
+                                "$ref": "#/components/schemas/MediaType"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    }
+                }
+            },
             "MenuOrderDTO": {
                 "type": "object",
                 "properties": {
@@ -10630,7 +12716,8 @@
                     },
                     "asc": {
                         "type": "boolean",
-                        "description": "是否正序排列，默认 true"
+                        "description": "是否正序排列，默认 true",
+                        "default": "true"
                     }
                 }
             },
@@ -10957,7 +13044,10 @@
                         "type": "string",
                         "description": "通道"
                     }
-                }
+                },
+                "required": [
+                    "code"
+                ]
             },
             "AlgorithmDTO": {
                 "type": "object",
@@ -11012,7 +13102,7 @@
                         "type": "integer",
                         "description": "转存周期定时任务id"
                     },
-                    "quartzJobId": {
+                    "collectJobId": {
                         "type": "integer",
                         "description": "采集定时任务id"
                     },
@@ -11111,6 +13201,77 @@
                     "updateTime": {
                         "type": "string",
                         "description": "更新时间"
+                    }
+                }
+            },
+            "ResponsePageDeviceOperationRecordPageVO": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/PageDeviceOperationRecordPageVO",
+                        "description": ""
+                    }
+                }
+            },
+            "RIPageVisualRecordVO": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": "状态码"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "description": "是否成功"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/IPageVisualRecordVO",
+                        "description": "承载数据"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "description": "返回消息"
+                    }
+                }
+            },
+            "Throwable": {
+                "type": "object",
+                "properties": {
+                    "detailMessage": {
+                        "type": "string",
+                        "description": "Specific details about the Throwable.  For example, for\n{@code FileNotFoundException}, this contains the name of\nthe file that could not be found."
+                    },
+                    "cause": {
+                        "$ref": "#/components/schemas/Throwable",
+                        "description": "The throwable that caused this throwable to get thrown, or null if this\nthrowable was not caused by another throwable, or if the causative\nthrowable is unknown.  If this field is equal to this throwable itself,\nit indicates that the cause of this throwable has not yet been\ninitialized.",
+                        "default": "this"
+                    },
+                    "stackTrace": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/StackTraceElement%5B%5D"
+                        },
+                        "description": "The stack trace, as returned by{@link #getStackTrace()}.\n\nThe field is initialized to a zero-length array.  A{@code\n    * null} value of this field indicates subsequent calls to{@link\n    * #setStackTrace(StackTraceElement[])} and{@link\n    * #fillInStackTrace()} will be no-ops.",
+                        "default": "new StackTraceElement[0]"
+                    },
+                    "suppressedExceptions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Throwable",
+                            "description": "The throwable that caused this throwable to get thrown, or null if this\nthrowable was not caused by another throwable, or if the causative\nthrowable is unknown.  If this field is equal to this throwable itself,\nit indicates that the cause of this throwable has not yet been\ninitialized.",
+                            "default": "this"
+                        },
+                        "description": "The list of suppressed exceptions, as returned by{@link\n    * #getSuppressed()}.  The list is initialized to a zero-element\nunmodifiable sentinel list.  When a serialized Throwable is\nread in, if the{@code suppressedExceptions} field points to a\nzero-element list, the field is reset to the sentinel value.",
+                        "default": "Collections.emptyList()"
                     }
                 }
             },
@@ -11265,7 +13426,10 @@
                         "type": "string",
                         "description": "通道"
                     }
-                }
+                },
+                "required": [
+                    "code"
+                ]
             },
             "AlgorithmEditDTO": {
                 "type": "object",
@@ -11301,6 +13465,44 @@
                     "name",
                     "code"
                 ]
+            },
+            "StackTraceElement[]": {
+                "type": "object",
+                "properties": {
+                    "classLoaderName": {
+                        "type": "string",
+                        "description": "The name of the class loader."
+                    },
+                    "moduleName": {
+                        "type": "string",
+                        "description": "The module name."
+                    },
+                    "moduleVersion": {
+                        "type": "string",
+                        "description": "The module version."
+                    },
+                    "declaringClass": {
+                        "type": "string",
+                        "description": "The declaring class."
+                    },
+                    "methodName": {
+                        "type": "string",
+                        "description": "The method name."
+                    },
+                    "fileName": {
+                        "type": "string",
+                        "description": "The source file name."
+                    },
+                    "lineNumber": {
+                        "type": "integer",
+                        "description": "The source line number."
+                    },
+                    "format": {
+                        "type": "number",
+                        "description": "Control to show full or partial module, package, and class names.",
+                        "default": 0
+                    }
+                }
             },
             "ResponsePageUserVO": {
                 "type": "object",
@@ -11437,6 +13639,88 @@
                     }
                 }
             },
+            "DeviceOperationRecord": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "id"
+                    },
+                    "deviceId": {
+                        "type": "integer",
+                        "description": "设备id"
+                    },
+                    "deviceNumber": {
+                        "type": "string",
+                        "description": "设备编码"
+                    },
+                    "deviceName": {
+                        "type": "string",
+                        "description": "设备名称"
+                    },
+                    "logicPointCode": {
+                        "type": "string",
+                        "description": "逻辑节点编码"
+                    },
+                    "source": {
+                        "type": "integer",
+                        "description": "操作来源（0：页面操作，1:定时器，2:算法组态）"
+                    },
+                    "result": {
+                        "type": "integer",
+                        "description": "执行结果(1:成功，0:错误)"
+                    },
+                    "resultMsg": {
+                        "type": "string",
+                        "description": "信息内容"
+                    },
+                    "isSoftwareSend": {
+                        "type": "integer",
+                        "description": "操作类型  1软件下发"
+                    },
+                    "originalValue": {
+                        "type": "string",
+                        "description": "原始值 记录下发当时的值"
+                    },
+                    "setValue": {
+                        "$ref": "#/components/schemas/JSONObject",
+                        "description": "点位配置信息"
+                    },
+                    "createTime": {
+                        "type": "string",
+                        "description": "创建时间"
+                    },
+                    "updateTime": {
+                        "type": "string",
+                        "description": "更新时间"
+                    }
+                }
+            },
+            "R": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": "状态码"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "description": "是否成功"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/Object",
+                        "description": "参数详情"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "description": "返回消息"
+                    }
+                }
+            },
+            "Runnable": {
+                "type": "object",
+                "properties": {}
+            },
             "UserDTO": {
                 "type": "object",
                 "properties": {
@@ -11566,7 +13850,8 @@
                     "name",
                     "number",
                     "deviceTypeCode",
-                    "isController"
+                    "isController",
+                    "isBatch"
                 ]
             },
             "ResponsePageLogicPointVO": {
@@ -11584,6 +13869,101 @@
                     "data": {
                         "$ref": "#/components/schemas/PageLogicPointVO",
                         "description": ""
+                    }
+                }
+            },
+            "ResponseListDeviceOperationRecord": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DeviceOperationRecord",
+                            "description": "com.afdi.ambition.thing.entity.DeviceOperationRecord"
+                        },
+                        "description": ""
+                    }
+                }
+            },
+            "IPageVisualRecord": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/VisualRecord",
+                            "description": "承载数据"
+                        },
+                        "description": ""
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "current": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "orders": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem",
+                            "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+                        },
+                        "description": ""
+                    },
+                    "optimizeCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "searchCount": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "optimizeJoinOfCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "maxLimit": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "countId": {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "pages": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "DefaultCallback": {
+                "type": "object",
+                "properties": {
+                    "delegate": {
+                        "description": "",
+                        "anyOf": [
+                            {
+                                "description": "",
+                                "$ref": "#/components/schemas/Runnable"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
                     }
                 }
             },
@@ -11833,6 +14213,31 @@
                     "isController"
                 ]
             },
+            "RIPageVisualRecord": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": "状态码"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "description": "是否成功"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/IPageVisualRecord",
+                        "description": "承载数据"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "description": "返回消息"
+                    }
+                }
+            },
+            "ErrorCallback": {
+                "type": "object",
+                "properties": {}
+            },
             "key4": {
                 "type": "object",
                 "properties": {}
@@ -11840,9 +14245,9 @@
             "ChannelDTO": {
                 "type": "object",
                 "properties": {
-                    "deviceNumber": {
-                        "type": "string",
-                        "description": "设备number"
+                    "deviceId": {
+                        "type": "integer",
+                        "description": "设备id"
                     },
                     "protocol": {
                         "type": "integer",
@@ -11860,11 +14265,97 @@
                         "$ref": "#/components/schemas/JSONObject",
                         "description": "点位配置信息"
                     }
+                },
+                "required": [
+                    "deviceId",
+                    "protocol",
+                    "channelCode"
+                ]
+            },
+            "SseEmitter": {
+                "type": "object",
+                "properties": {
+                    "timeout": {
+                        "type": "integer",
+                        "description": "",
+                        "nullable": true
+                    },
+                    "handler": {
+                        "description": "",
+                        "anyOf": [
+                            {
+                                "description": "",
+                                "$ref": "#/components/schemas/Handler"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "earlySendAttempts": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DataWithMediaType",
+                            "description": "org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter.DataWithMediaType"
+                        },
+                        "description": ""
+                    },
+                    "complete": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "failure": {
+                        "description": "",
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/Throwable",
+                                "description": "The throwable that caused this throwable to get thrown, or null if this\nthrowable was not caused by another throwable, or if the causative\nthrowable is unknown.  If this field is equal to this throwable itself,\nit indicates that the cause of this throwable has not yet been\ninitialized.",
+                                "default": "this"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "timeoutCallback": {
+                        "$ref": "#/components/schemas/DefaultCallback",
+                        "description": ""
+                    },
+                    "errorCallback": {
+                        "$ref": "#/components/schemas/ErrorCallback",
+                        "description": ""
+                    },
+                    "completionCallback": {
+                        "$ref": "#/components/schemas/DefaultCallback",
+                        "description": ""
+                    }
                 }
             },
             "key5": {
                 "type": "object",
                 "properties": {}
+            },
+            "ResponseListPhysicalPointVO": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PhysicalPointVO",
+                            "description": "com.afdi.ambition.common.vo.thing.PhysicalPointVO"
+                        },
+                        "description": ""
+                    }
+                }
             },
             "ResponseListLogicPointTemplateVO": {
                 "type": "object",
@@ -11913,9 +14404,9 @@
             "ChannelVO": {
                 "type": "object",
                 "properties": {
-                    "deviceNumber": {
-                        "type": "string",
-                        "description": "设备number"
+                    "deviceId": {
+                        "type": "integer",
+                        "description": "设备id"
                     },
                     "protocol": {
                         "type": "integer",
@@ -11979,9 +14470,80 @@
                     }
                 }
             },
+            "DeviceTreeVO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "parent": {
+                        "type": "integer",
+                        "description": "父编码"
+                    },
+                    "sort": {
+                        "type": "integer",
+                        "description": "排序"
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {}
+                        },
+                        "description": ""
+                    },
+                    "type": {
+                        "type": "integer",
+                        "description": "种类(1-类型，2-设备)"
+                    },
+                    "typeCode": {
+                        "type": "string",
+                        "description": "类型编码"
+                    },
+                    "typeName": {
+                        "type": "string",
+                        "description": "类型名称"
+                    },
+                    "deviceName": {
+                        "type": "string",
+                        "description": "设备名称"
+                    },
+                    "deviceNumber": {
+                        "type": "string",
+                        "description": "设备编号"
+                    },
+                    "channelCode": {
+                        "type": "string",
+                        "description": "通道编码"
+                    }
+                }
+            },
             "key8": {
                 "type": "object",
                 "properties": {}
+            },
+            "ResponseListDeviceTreeVO": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DeviceTreeVO",
+                            "description": "com.afdi.ambition.common.vo.thing.DeviceTreeVO"
+                        },
+                        "description": ""
+                    }
+                }
             },
             "LogicPointTemplateDTO": {
                 "type": "object",
@@ -12228,9 +14790,9 @@
                         "type": "integer",
                         "description": "转存周期定时任务id"
                     },
-                    "quartzJobId": {
+                    "collectJobId": {
                         "type": "integer",
-                        "description": "采集定时任务id"
+                        "description": "采集周期定时任务id"
                     },
                     "sort": {
                         "type": "number",
@@ -12320,7 +14882,14 @@
                         "type": "integer",
                         "description": "是否可写（1是，2否）"
                     }
-                }
+                },
+                "required": [
+                    "deviceNumber",
+                    "code",
+                    "name",
+                    "storageJobId",
+                    "collectJobId"
+                ]
             },
             "LogicPointEditDTO": {
                 "type": "object",
@@ -12345,9 +14914,9 @@
                         "type": "integer",
                         "description": "转存周期定时任务id"
                     },
-                    "quartzJobId": {
+                    "collectJobId": {
                         "type": "integer",
-                        "description": "采集定时任务id"
+                        "description": "采集周期定时任务id"
                     },
                     "sort": {
                         "type": "number",
@@ -12437,7 +15006,14 @@
                         "type": "integer",
                         "description": "是否可写（1是，2否）"
                     }
-                }
+                },
+                "required": [
+                    "deviceNumber",
+                    "code",
+                    "name",
+                    "storageJobId",
+                    "collectJobId"
+                ]
             },
             "ResponseListDeviceVO": {
                 "type": "object",

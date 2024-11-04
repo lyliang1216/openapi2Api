@@ -336,6 +336,35 @@ customElementIds?: number[];
     }
 
     
+    /**GroupVo */
+ declare interface IGroupSchemeVo {
+/**id */
+id?: number;
+/**名称 */
+name?: string;
+/**sadi id */
+sadiId?: number;
+/**索引集合 */
+indices?: number[];
+/**顺序 */
+order?: number;
+/**自定义构件id */
+customElementIds?: number[];
+
+    }
+
+    
+    /**通用response */
+ declare interface IGroupSchemeVoListResponse {
+code?: IResponseCode;
+/**结果对象 */
+data?: IGroupSchemeVo[];
+/**返回消息 */
+message?: string;
+
+    }
+
+    
     /**通用response */
  declare interface IInt32ListResponse {
 code?: IResponseCode;
@@ -943,39 +972,6 @@ OST_FabricationPipework= 97,
 OST_FabricationDuctworkLining= 98,
 /**隔热层 */
 OST_FabricationPipeworkInsulation= 99,
-
-    }
-
-    
-    /**SADIGroup */
- declare interface ISADIGroup {
-/**id */
-id?: number;
-/**创建时间 */
-createTime?: string;
-/**更新时间 */
-updateTime?: string;
-/**名称 */
-name?: string;
-/**sadi id */
-sadiId?: number;
-/**索引集合 */
-indices?: number[];
-/**顺序 */
-order?: number;
-/**自定义构件id */
-customElementIds?: number[];
-
-    }
-
-    
-    /**通用response */
- declare interface ISADIGroupListResponse {
-code?: IResponseCode;
-/**结果对象 */
-data?: ISADIGroup[];
-/**返回消息 */
-message?: string;
 
     }
 

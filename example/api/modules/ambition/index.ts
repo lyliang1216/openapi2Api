@@ -17,7 +17,10 @@ import {useLogicPointApi} from './modules/logicPoint'
 import {useAlarmConfigApi} from './modules/alarmConfig'
 import {useAlarmRecordApi} from './modules/alarmRecord'
 import {useAlarmTemplateApi} from './modules/alarmTemplate'
+import {useDeviceOperationRecordApi} from './modules/deviceOperationRecord'
 import {useAlgorithmApi} from './modules/algorithm'
+import {useBladeVisualApi} from './modules/blade-visual'
+import {useSseApi} from './modules/sse'
 import {useSend2Api} from './modules/send2'
 
 export const ambitionApi = {
@@ -40,6 +43,9 @@ export const ambitionApi = {
 ...useAlarmConfigApi(),
 ...useAlarmRecordApi(),
 ...useAlarmTemplateApi(),
+...useDeviceOperationRecordApi(),
 ...useAlgorithmApi(),
+...useBladeVisualApi(),
+...useSseApi(),
 ...useSend2Api(),
 }

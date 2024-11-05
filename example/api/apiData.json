@@ -85,10 +85,16 @@
             "name": "view/可视化数据集模块 控制器"
         },
         {
+            "name": "view/可视化模块 控制器"
+        },
+        {
             "name": "communication"
         },
         {
             "name": "communication/SseController"
+        },
+        {
+            "name": "communication/(PhysicalPoint)表控制层"
         }
     ],
     "paths": {
@@ -10010,6 +10016,566 @@
                 "security": []
             }
         },
+        "/blade-visual/visual/detail": {
+            "get": {
+                "summary": "详情",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RVisualDTO"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {
+                                                "visual": {
+                                                    "id": 0,
+                                                    "createUser": 0,
+                                                    "createDept": 0,
+                                                    "createTime": "",
+                                                    "updateUser": 0,
+                                                    "updateTime": "",
+                                                    "status": 0,
+                                                    "isDeleted": 0,
+                                                    "title": "",
+                                                    "backgroundUrl": "",
+                                                    "category": 0,
+                                                    "password": "",
+                                                    "version": ""
+                                                },
+                                                "config": {
+                                                    "id": 0,
+                                                    "visualId": 0,
+                                                    "detail": "",
+                                                    "component": ""
+                                                }
+                                            },
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/visual/list": {
+            "get": {
+                "summary": "分页 可视化表",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "current",
+                        "in": "query",
+                        "description": "当前页",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "每页的数量",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ascs",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "descs",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RIPageVisual"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {
+                                                "records": [
+                                                    {
+                                                        "id": 0,
+                                                        "createUser": 0,
+                                                        "createDept": 0,
+                                                        "createTime": "",
+                                                        "updateUser": 0,
+                                                        "updateTime": "",
+                                                        "status": 0,
+                                                        "isDeleted": 0,
+                                                        "title": "",
+                                                        "backgroundUrl": "",
+                                                        "category": 0,
+                                                        "password": "",
+                                                        "version": ""
+                                                    }
+                                                ],
+                                                "total": 0,
+                                                "size": 0,
+                                                "current": 0,
+                                                "orders": [
+                                                    {
+                                                        "column": "",
+                                                        "asc": false
+                                                    }
+                                                ],
+                                                "optimizeCountSql": false,
+                                                "searchCount": false,
+                                                "optimizeJoinOfCountSql": false,
+                                                "maxLimit": 0,
+                                                "countId": "",
+                                                "pages": 0
+                                            },
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/visual/save": {
+            "post": {
+                "summary": "新增 可视化表",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VisualDTO",
+                                "description": "承载数据"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/R",
+                                    "description": "org.springblade.core.tool.api.R"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {},
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/visual/update": {
+            "post": {
+                "summary": "修改 可视化表",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VisualDTO",
+                                "description": "承载数据"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/R",
+                                    "description": "org.springblade.core.tool.api.R"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {},
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/visual/remove": {
+            "post": {
+                "summary": "删除 可视化表",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "ids",
+                        "in": "query",
+                        "description": "主键集合",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/R",
+                                    "description": "org.springblade.core.tool.api.R"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {},
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/visual/copy": {
+            "post": {
+                "summary": "复制 可视化表",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "主键集合",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RString"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": "",
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/visual/category": {
+            "get": {
+                "summary": "获取分类",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/R",
+                                    "description": "org.springblade.core.tool.api.R"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {},
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/blade-visual/visual/put-file": {
+            "post": {
+                "summary": "上传文件",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/可视化模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "description": "上传文件",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": [
+                                    "file"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RBladeFile"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {
+                                                "link": "",
+                                                "domain": "",
+                                                "name": "",
+                                                "originalName": ""
+                                            },
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
         "/sse/subscribe/{userId}": {
             "get": {
                 "summary": "subscribe",
@@ -10196,6 +10762,53 @@
                                             "message": "",
                                             "data": ""
                                         }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/physicalPoint/dataType": {
+            "get": {
+                "summary": "getJavaDataType",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "communication/(PhysicalPoint)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": [
+                                            ""
+                                        ]
                                     }
                                 }
                             }
@@ -10576,6 +11189,63 @@
             "Handler": {
                 "type": "object",
                 "properties": {}
+            },
+            "Visual": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "主键"
+                    },
+                    "createUser": {
+                        "type": "integer",
+                        "description": "创建人"
+                    },
+                    "createDept": {
+                        "type": "integer",
+                        "description": "创建部门"
+                    },
+                    "createTime": {
+                        "type": "string",
+                        "description": "创建时间"
+                    },
+                    "updateUser": {
+                        "type": "integer",
+                        "description": "更新人"
+                    },
+                    "updateTime": {
+                        "type": "string",
+                        "description": "更新时间"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "description": "业务状态"
+                    },
+                    "isDeleted": {
+                        "type": "integer",
+                        "description": "是否已删除"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "大屏标题"
+                    },
+                    "backgroundUrl": {
+                        "type": "string",
+                        "description": "大屏背景"
+                    },
+                    "category": {
+                        "type": "integer",
+                        "description": "大屏类型"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "发布密码"
+                    },
+                    "version": {
+                        "type": "string",
+                        "description": "版本号"
+                    }
+                }
             },
             "ResponseListMenuTreeVO": {
                 "type": "object",
@@ -11023,6 +11693,27 @@
                     "msg": {
                         "type": "string",
                         "description": "返回消息"
+                    }
+                }
+            },
+            "VisualConfig": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "主键"
+                    },
+                    "visualId": {
+                        "type": "integer",
+                        "description": "可视化表主键"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "配置json"
+                    },
+                    "component": {
+                        "type": "string",
+                        "description": "组件json"
                     }
                 }
             },
@@ -11771,6 +12462,19 @@
                     }
                 }
             },
+            "VisualDTO": {
+                "type": "object",
+                "properties": {
+                    "visual": {
+                        "$ref": "#/components/schemas/Visual",
+                        "description": "可视化主信息"
+                    },
+                    "config": {
+                        "$ref": "#/components/schemas/VisualConfig",
+                        "description": "可视化配置信息"
+                    }
+                }
+            },
             "MenuDTO": {
                 "type": "object",
                 "properties": {
@@ -12189,6 +12893,27 @@
                         "type": "string",
                         "description": "",
                         "nullable": true
+                    }
+                }
+            },
+            "RVisualDTO": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": "状态码"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "description": "是否成功"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/VisualDTO",
+                        "description": "承载数据"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "description": "返回消息"
                     }
                 }
             },
@@ -12717,7 +13442,7 @@
                     "asc": {
                         "type": "boolean",
                         "description": "是否正序排列，默认 true",
-                        "default": "true"
+                        "default": true
                     }
                 }
             },
@@ -13275,6 +14000,62 @@
                     }
                 }
             },
+            "IPageVisual": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Visual",
+                            "description": "可视化主信息"
+                        },
+                        "description": ""
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "current": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "orders": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem",
+                            "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+                        },
+                        "description": ""
+                    },
+                    "optimizeCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "searchCount": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "optimizeJoinOfCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "maxLimit": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "countId": {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "pages": {
+                        "type": "integer"
+                    }
+                }
+            },
             "PageUserVO": {
                 "type": "object",
                 "properties": {
@@ -13501,6 +14282,27 @@
                         "type": "number",
                         "description": "Control to show full or partial module, package, and class names.",
                         "default": 0
+                    }
+                }
+            },
+            "RIPageVisual": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": "状态码"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "description": "是否成功"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/IPageVisual",
+                        "description": "承载数据"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "description": "返回消息"
                     }
                 }
             },
@@ -14238,6 +15040,27 @@
                 "type": "object",
                 "properties": {}
             },
+            "RString": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": "状态码"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "description": "是否成功"
+                    },
+                    "data": {
+                        "type": "string",
+                        "description": "承载数据"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "description": "返回消息"
+                    }
+                }
+            },
             "key4": {
                 "type": "object",
                 "properties": {}
@@ -14331,6 +15154,27 @@
                     }
                 }
             },
+            "BladeFile": {
+                "type": "object",
+                "properties": {
+                    "link": {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "domain": {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "originalName": {
+                        "type": "string",
+                        "description": ""
+                    }
+                }
+            },
             "key5": {
                 "type": "object",
                 "properties": {}
@@ -14354,6 +15198,27 @@
                             "description": "com.afdi.ambition.common.vo.thing.PhysicalPointVO"
                         },
                         "description": ""
+                    }
+                }
+            },
+            "RBladeFile": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": "状态码"
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "description": "是否成功"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/BladeFile",
+                        "description": "承载数据"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "description": "返回消息"
                     }
                 }
             },

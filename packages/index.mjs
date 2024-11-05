@@ -150,6 +150,8 @@ const tool = ({
           } else {
             if (schema.format === "binary" && schema.type === "string") {
               api.resType = "ArrayBuffer";
+            } else if (schema?.items?.type && schema.type === "array") {
+              api.resType = `${getTypeName(schema?.items?.type)}[]`;
             } else {
               api.resType = getTypeName(schema.type);
             }
@@ -377,7 +379,6 @@ const tool = ({
   // 生成api文件
   const getApiFileContent = () => {
     group = groupBy(apis, "group");
-
     group.forEach((groupItem) => {
       let fileStr = `import request from '${requestUrl || "./request"}'
     /**${groupItem.description} */

@@ -21,6 +21,7 @@ import {useDeviceOperationRecordApi} from './modules/deviceOperationRecord'
 import {useAlgorithmApi} from './modules/algorithm'
 import {useBladeVisualApi} from './modules/blade-visual'
 import {useSseApi} from './modules/sse'
+import {useCommunicationPhysicalPointApi} from './modules/communicationPhysicalPoint'
 import {useSend2Api} from './modules/send2'
 
 export const ambitionApi = {
@@ -47,5 +48,6 @@ export const ambitionApi = {
 ...useAlgorithmApi(),
 ...useBladeVisualApi(),
 ...useSseApi(),
+...useCommunicationPhysicalPointApi(),
 ...useSend2Api(),
 }

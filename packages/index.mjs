@@ -165,6 +165,15 @@ const tool = ({
     });
   };
 
+  // 过滤描述中的异常字符
+  const filterDescription = (desc = "") => {
+    // 定义需要去除的字符或模式
+    const pattern = /\/\*|(\*\/)/g;
+    // 去除会导致注释异常的字符
+    const sanitizedDesc = desc.replace(pattern, "");
+    return sanitizedDesc;
+  };
+
   // 获取类型名称
   const getTypeName = (schemasRef) => {
     return schemasRef.replace("#/components/schemas/", "");
@@ -381,7 +390,7 @@ const tool = ({
     group = groupBy(apis, "group");
     group.forEach((groupItem) => {
       let fileStr = `import request from '${requestUrl || "./request"}'
-    /**${groupItem.description} */
+    /**${filterDescription(groupItem.description)} */
       export function use${toPascalCase(groupItem.groupName)}Api() {
       return {\n`;
       groupItem.items.forEach((item) => {
@@ -429,7 +438,7 @@ const tool = ({
     }
     let resStr = "";
     resStr += `/** 
-    * ${item.description}\n`;
+    * ${filterDescription(item.description)}\n`;
     if (descStr) {
       resStr += `${descStr}\n`;
     }
@@ -475,13 +484,13 @@ const tool = ({
       let str = "";
       if (item.type) {
         str += `
-    ${item.description ? `/**${item.description} */` : ""}
+    ${item.description ? `/**${filterDescription(item.description)} */` : ""}
  declare interface ${item.typePinYinName} {
 `;
         const defaultFn = () => {
           item.type?.forEach((it) => {
             if (it.description) {
-              str += `/**${it.description} */\n`;
+              str += `/**${filterDescription(it.description)} */\n`;
             }
             str += `${it.key}${it.required ? "" : "?"}: ${it.value};\n`;
           });
@@ -502,12 +511,12 @@ const tool = ({
     `;
       } else if (item._enum) {
         str += `
-    ${item.description ? `/**${item.description} */` : ""}
+    ${item.description ? `/**${filterDescription(item.description)} */` : ""}
  declare enum ${item.typePinYinName} {
 `;
         item._enum?.forEach((it) => {
           if (it.description) {
-            str += `/**${it.description} */\n`;
+            str += `/**${filterDescription(it.description)} */\n`;
           }
           str += `${it.key}= ${it.value},\n`;
         });

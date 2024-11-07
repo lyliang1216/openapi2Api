@@ -28,6 +28,9 @@
             "name": "user/(UserOperationRecord)表控制层"
         },
         {
+            "name": "user/系统消息(SystemMsg)表控制层"
+        },
+        {
             "name": "thing"
         },
         {
@@ -73,6 +76,9 @@
             "name": "thing/DeviceOperationRecordController"
         },
         {
+            "name": "thing/定时任务对象(QuartzJob)表控制层"
+        },
+        {
             "name": "intelligence"
         },
         {
@@ -88,6 +94,9 @@
             "name": "view/可视化模块 控制器"
         },
         {
+            "name": "view/InterfaceInfoController"
+        },
+        {
             "name": "communication"
         },
         {
@@ -95,6 +104,12 @@
         },
         {
             "name": "communication/(PhysicalPoint)表控制层"
+        },
+        {
+            "name": "page"
+        },
+        {
+            "name": "page/可视化模块 控制器"
         }
     ],
     "paths": {
@@ -1693,7 +1708,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ResponseEntity%C2%ABResource%C2%BB"
+                                    "$ref": "#/components/schemas/ResponseEntityResource"
                                 },
                                 "examples": {
                                     "1": {
@@ -1837,7 +1852,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Response%C2%ABPersonalizationVO%C2%BB",
+                                    "$ref": "#/components/schemas/ResponsePersonalizationVO",
                                     "description": ""
                                 },
                                 "examples": {
@@ -2065,7 +2080,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Response%C2%ABPage%C2%ABUserOperationRecordVO%C2%BB%C2%BB"
+                                    "$ref": "#/components/schemas/ResponsePageUserOperationRecordVO"
                                 },
                                 "examples": {
                                     "1": {
@@ -2200,6 +2215,295 @@
                                 "schema": {
                                     "type": "object",
                                     "properties": {}
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/systemMsg/page": {
+            "get": {
+                "summary": "page",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "user/系统消息(SystemMsg)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "currentPage",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "isRead",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponsePageSystemMsgVO"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": {
+                                                "records": [
+                                                    {
+                                                        "id": 0,
+                                                        "userId": 0,
+                                                        "type": 0,
+                                                        "sourceId": 0,
+                                                        "isRead": 0,
+                                                        "title": "",
+                                                        "content": "",
+                                                        "handleConfig": "",
+                                                        "createTime": "",
+                                                        "updateTime": "",
+                                                        "relatedValue": ""
+                                                    }
+                                                ],
+                                                "total": 0,
+                                                "size": 0,
+                                                "current": 0,
+                                                "orders": [
+                                                    {
+                                                        "column": "",
+                                                        "asc": false
+                                                    }
+                                                ],
+                                                "optimizeCountSql": false,
+                                                "searchCount": false,
+                                                "optimizeJoinOfCountSql": false,
+                                                "maxLimit": 0,
+                                                "countId": ""
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/systemMsg/add": {
+            "post": {
+                "summary": "add",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "user/系统消息(SystemMsg)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SystemMsgDTO",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseString",
+                                    "description": ""
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/systemMsg/readMsg": {
+            "post": {
+                "summary": "readMsg",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "user/系统消息(SystemMsg)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "integer",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseBoolean"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": false
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/systemMsg/handleMsg": {
+            "post": {
+                "summary": "handleMsg",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "user/系统消息(SystemMsg)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relatedValue",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseBoolean"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": false
+                                        }
+                                    }
                                 }
                             }
                         },
@@ -5068,6 +5372,89 @@
                 "security": []
             }
         },
+        "/device/getByTypeCode": {
+            "get": {
+                "summary": "getByTypeCode",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/(Device)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "typeCode",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseDeviceVO"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": {
+                                                "id": 0,
+                                                "name": "",
+                                                "number": "",
+                                                "spaceCode": "",
+                                                "spaceName": "",
+                                                "deviceTypeCode": "",
+                                                "deviceTypeName": "",
+                                                "systemTypeCode": "",
+                                                "systemTypeName": "",
+                                                "energyTypeCode": "",
+                                                "energyTypeName": "",
+                                                "description": "",
+                                                "relatedDeviceNumber": "",
+                                                "relatedDeviceName": "",
+                                                "isEnable": 0,
+                                                "isController": 0,
+                                                "channelEnable": 0,
+                                                "protocol": 0,
+                                                "channelCode": "",
+                                                "channelConfiguration": {
+                                                    "": {}
+                                                },
+                                                "communicationState": "",
+                                                "connectionState": "",
+                                                "faultState": "",
+                                                "controlState": "",
+                                                "runningState": ""
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
         "/device/edit": {
             "post": {
                 "summary": "edit",
@@ -7292,7 +7679,7 @@
                         }
                     },
                     {
-                        "name": "pageNo",
+                        "name": "current",
                         "in": "query",
                         "description": "页码",
                         "required": true,
@@ -7301,7 +7688,7 @@
                         }
                     },
                     {
-                        "name": "pageSize",
+                        "name": "size",
                         "in": "query",
                         "description": "每页显示参数",
                         "required": true,
@@ -7692,7 +8079,7 @@
                         }
                     },
                     {
-                        "name": "pageNo",
+                        "name": "current",
                         "in": "query",
                         "description": "",
                         "required": true,
@@ -7701,7 +8088,7 @@
                         }
                     },
                     {
-                        "name": "pageSize",
+                        "name": "size",
                         "in": "query",
                         "description": "",
                         "required": true,
@@ -7726,7 +8113,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ResponsePageJSONObject",
+                                    "$ref": "#/components/schemas/ResponsePageDeviceMonitorHistoryVO",
                                     "description": "json 设计到列动态组成"
                                 },
                                 "examples": {
@@ -8141,7 +8528,7 @@
                     {
                         "name": "alarmState",
                         "in": "query",
-                        "description": "报警状态（1报警中，2已解除）",
+                        "description": "报警状态（1报警中，2已解除，3报警项已删除，4设备已删除）",
                         "required": false,
                         "schema": {
                             "type": "integer"
@@ -8705,7 +9092,7 @@
                 ],
                 "parameters": [
                     {
-                        "name": "pageNo",
+                        "name": "current",
                         "in": "query",
                         "description": "页码",
                         "required": true,
@@ -8714,7 +9101,7 @@
                         }
                     },
                     {
-                        "name": "pageSize",
+                        "name": "size",
                         "in": "query",
                         "description": "每页显示条数",
                         "required": true,
@@ -8939,6 +9326,586 @@
                                                     "updateTime": ""
                                                 }
                                             ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/quartzJob/run": {
+            "get": {
+                "summary": "start",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/定时任务对象(QuartzJob)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseString",
+                                    "description": ""
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/quartzJob/pause": {
+            "get": {
+                "summary": "pause",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/定时任务对象(QuartzJob)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseString",
+                                    "description": ""
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/quartzJob/detail": {
+            "get": {
+                "summary": "getInfo",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/定时任务对象(QuartzJob)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseQuartzJobVo"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": {
+                                                "id": 0,
+                                                "jobName": "",
+                                                "jobGroup": "",
+                                                "invokeTarget": "",
+                                                "cronExpression": "",
+                                                "misfirePolicy": "",
+                                                "status": "",
+                                                "remark": "",
+                                                "params": "",
+                                                "createTime": "",
+                                                "updateTime": ""
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/quartzJob/getJobByInvokeTarget": {
+            "get": {
+                "summary": "getJobByInvokeTarget",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/定时任务对象(QuartzJob)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "target",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseListQuartzJobVo"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": [
+                                                {
+                                                    "id": 0,
+                                                    "jobName": "",
+                                                    "jobGroup": "",
+                                                    "invokeTarget": "",
+                                                    "cronExpression": "",
+                                                    "misfirePolicy": "",
+                                                    "status": "",
+                                                    "remark": "",
+                                                    "params": "",
+                                                    "createTime": "",
+                                                    "updateTime": ""
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/quartzJob/add": {
+            "post": {
+                "summary": "add",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/定时任务对象(QuartzJob)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/QuartzJobBo",
+                                "description": ""
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseLong"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": 0
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/quartzJob/delete": {
+            "get": {
+                "summary": "delete",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/定时任务对象(QuartzJob)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseString",
+                                    "description": ""
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/quartzJob/updateCron": {
+            "get": {
+                "summary": "updateCron",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/定时任务对象(QuartzJob)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cron",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseString",
+                                    "description": ""
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/quartzJob/energyJobs": {
+            "get": {
+                "summary": "listEnergyJob",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/定时任务对象(QuartzJob)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseListQuartzJobVo"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": [
+                                                {
+                                                    "id": 0,
+                                                    "jobName": "",
+                                                    "jobGroup": "",
+                                                    "invokeTarget": "",
+                                                    "cronExpression": "",
+                                                    "misfirePolicy": "",
+                                                    "status": "",
+                                                    "remark": "",
+                                                    "params": "",
+                                                    "createTime": "",
+                                                    "updateTime": ""
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/quartzJob/pageJobs": {
+            "get": {
+                "summary": "pageJobs",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "thing/定时任务对象(QuartzJob)表控制层"
+                ],
+                "parameters": [
+                    {
+                        "name": "currentPage",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseIPageQuartzJobVo"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": {
+                                                "records": [
+                                                    {
+                                                        "id": 0,
+                                                        "jobName": "",
+                                                        "jobGroup": "",
+                                                        "invokeTarget": "",
+                                                        "cronExpression": "",
+                                                        "misfirePolicy": "",
+                                                        "status": "",
+                                                        "remark": "",
+                                                        "params": "",
+                                                        "createTime": "",
+                                                        "updateTime": ""
+                                                    }
+                                                ],
+                                                "total": 0,
+                                                "size": 0,
+                                                "current": 0,
+                                                "orders": [
+                                                    {
+                                                        "column": "",
+                                                        "asc": false
+                                                    }
+                                                ],
+                                                "optimizeCountSql": false,
+                                                "searchCount": false,
+                                                "optimizeJoinOfCountSql": false,
+                                                "maxLimit": 0,
+                                                "countId": "",
+                                                "pages": 0
+                                            }
                                         }
                                     }
                                 }
@@ -10022,7 +10989,7 @@
                 "deprecated": false,
                 "description": "",
                 "tags": [
-                    "view/可视化模块 控制器"
+                    "page/可视化模块 控制器"
                 ],
                 "parameters": [
                     {
@@ -10100,7 +11067,7 @@
                 "deprecated": false,
                 "description": "",
                 "tags": [
-                    "view/可视化模块 控制器"
+                    "page/可视化模块 控制器"
                 ],
                 "parameters": [
                     {
@@ -10234,7 +11201,7 @@
                 "deprecated": false,
                 "description": "",
                 "tags": [
-                    "view/可视化模块 控制器"
+                    "page/可视化模块 控制器"
                 ],
                 "parameters": [
                     {
@@ -10292,7 +11259,7 @@
                 "deprecated": false,
                 "description": "",
                 "tags": [
-                    "view/可视化模块 控制器"
+                    "page/可视化模块 控制器"
                 ],
                 "parameters": [
                     {
@@ -10350,7 +11317,7 @@
                 "deprecated": false,
                 "description": "",
                 "tags": [
-                    "view/可视化模块 控制器"
+                    "page/可视化模块 控制器"
                 ],
                 "parameters": [
                     {
@@ -10407,7 +11374,7 @@
                 "deprecated": false,
                 "description": "",
                 "tags": [
-                    "view/可视化模块 控制器"
+                    "page/可视化模块 控制器"
                 ],
                 "parameters": [
                     {
@@ -10463,7 +11430,7 @@
                 "deprecated": false,
                 "description": "",
                 "tags": [
-                    "view/可视化模块 控制器"
+                    "page/可视化模块 控制器"
                 ],
                 "parameters": [
                     {
@@ -10511,7 +11478,7 @@
                 "deprecated": false,
                 "description": "",
                 "tags": [
-                    "view/可视化模块 控制器"
+                    "page/可视化模块 控制器"
                 ],
                 "parameters": [
                     {
@@ -10565,6 +11532,221 @@
                                                 "originalName": ""
                                             },
                                             "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/interfaceInfo/getAllInterfaceInfo": {
+            "get": {
+                "summary": "获取接口信息（分页）",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/InterfaceInfoController"
+                ],
+                "parameters": [
+                    {
+                        "name": "pageNo",
+                        "in": "query",
+                        "description": "页码",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "每页显示条数",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponsePageInterfaceInfo",
+                                    "description": "接口列表"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": {
+                                                "records": [
+                                                    {
+                                                        "id": 0,
+                                                        "name": "",
+                                                        "path": "",
+                                                        "method": "",
+                                                        "isRestful": false,
+                                                        "createTime": "",
+                                                        "updateTime": ""
+                                                    }
+                                                ],
+                                                "total": 0,
+                                                "size": 0,
+                                                "current": 0,
+                                                "orders": [
+                                                    {
+                                                        "column": "",
+                                                        "asc": false
+                                                    }
+                                                ],
+                                                "optimizeCountSql": false,
+                                                "searchCount": false,
+                                                "optimizeJoinOfCountSql": false,
+                                                "maxLimit": 0,
+                                                "countId": ""
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/interfaceInfo/getInterfaceInfoParamsByInterfaceInfoId": {
+            "get": {
+                "summary": "根据接口获取接口参数信息",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/InterfaceInfoController"
+                ],
+                "parameters": [
+                    {
+                        "name": "interfaceInfoId",
+                        "in": "query",
+                        "description": "接口信息id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseListInterfaceInfoParamsVO",
+                                    "description": "接口参数列表"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "message": "",
+                                            "data": [
+                                                {
+                                                    "id": 0,
+                                                    "interfaceId": 0,
+                                                    "name": "",
+                                                    "type": "",
+                                                    "isRequired": false,
+                                                    "isMultiple": false,
+                                                    "spliceChar": "",
+                                                    "sort": 0
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
+        "/interfaceInfo/updateTest": {
+            "put": {
+                "summary": "updateTest",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "view/InterfaceInfoController"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/JSONObject",
+                                "description": "点位配置信息"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Response",
+                                    "description": "com.afdi.ambition.common.Response"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": null,
+                                            "message": null,
+                                            "data": null
                                         }
                                     }
                                 }
@@ -10819,6 +12001,64 @@
                 "security": []
             }
         },
+        "/blade-visual/visual/update111": {
+            "post": {
+                "summary": "修改 可视化表",
+                "deprecated": false,
+                "description": "",
+                "tags": [
+                    "page/可视化模块 控制器"
+                ],
+                "parameters": [
+                    {
+                        "name": "ambitionToken",
+                        "in": "header",
+                        "description": "",
+                        "example": "{{ACCESS_TOKEN}}",
+                        "schema": {
+                            "type": "string",
+                            "default": "{{ACCESS_TOKEN}}"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/JSONObject",
+                                "description": "点位配置信息"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/R",
+                                    "description": "org.springblade.core.tool.api.R"
+                                },
+                                "examples": {
+                                    "1": {
+                                        "summary": "成功示例",
+                                        "value": {
+                                            "code": 0,
+                                            "success": false,
+                                            "data": {},
+                                            "msg": ""
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "security": []
+            }
+        },
         "/send2/send": {
             "post": {
                 "summary": "模拟物理点位数据采集",
@@ -10920,23 +12160,19 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "description": "系统名称",
-                        "nullable": true
+                        "description": "系统名称"
                     },
                     "logo": {
                         "type": "string",
-                        "description": "logo",
-                        "nullable": true
+                        "description": "logo"
                     },
                     "color": {
                         "type": "string",
-                        "description": "顶部栏颜色",
-                        "nullable": true
+                        "description": "顶部栏颜色"
                     },
                     "background": {
                         "type": "string",
-                        "description": "背景",
-                        "nullable": true
+                        "description": "背景"
                     }
                 }
             },
@@ -10945,73 +12181,59 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "type": {
                         "type": "integer",
-                        "description": "日志类型",
-                        "nullable": true
+                        "description": "日志类型"
                     },
                     "username": {
                         "type": "string",
-                        "description": "用户名",
-                        "nullable": true
+                        "description": "用户名"
                     },
                     "nickname": {
                         "type": "string",
-                        "description": "用户姓名",
-                        "nullable": true
+                        "description": "用户姓名"
                     },
                     "uri": {
                         "type": "string",
-                        "description": "请求地址",
-                        "nullable": true
+                        "description": "请求地址"
                     },
                     "menu": {
                         "type": "string",
-                        "description": "菜单",
-                        "nullable": true
+                        "description": "菜单"
                     },
                     "request": {
                         "type": "string",
-                        "description": "请求参数",
-                        "nullable": true
+                        "description": "请求参数"
                     },
                     "requestType": {
                         "type": "string",
-                        "description": "请求类型",
-                        "nullable": true
+                        "description": "请求类型"
                     },
                     "result": {
                         "type": "integer",
-                        "description": "请求结果",
-                        "nullable": true
+                        "description": "请求结果"
                     },
                     "ip": {
                         "type": "string",
-                        "description": "登录ip",
-                        "nullable": true
+                        "description": "登录ip"
                     },
                     "name": {
                         "type": "string",
-                        "description": "日志标题",
-                        "nullable": true
+                        "description": "日志标题"
                     },
                     "errorMsg": {
                         "type": "string",
-                        "description": "错误消息",
-                        "nullable": true
+                        "description": "错误消息"
                     },
                     "createTime": {
                         "type": "string",
-                        "description": "创建时间",
-                        "nullable": true
+                        "description": "创建时间"
                     },
                     "costTime": {
                         "type": "integer",
-                        "description": "请求时间",
-                        "nullable": true
+                        "description": "请求时间"
                     }
                 }
             },
@@ -11247,6 +12469,108 @@
                     }
                 }
             },
+            "AlarmRecordVO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "id"
+                    },
+                    "alarmId": {
+                        "type": "integer",
+                        "description": "报警id"
+                    },
+                    "alarmName": {
+                        "type": "string",
+                        "description": "报警名称"
+                    },
+                    "alarmContent": {
+                        "type": "string",
+                        "description": "报警内容"
+                    },
+                    "alarmLevel": {
+                        "type": "integer",
+                        "description": "报警级别（1错误，2系统需要确认，3系统无需确认）"
+                    },
+                    "alarmType": {
+                        "type": "integer",
+                        "description": "报警类型（1警告，2报警，3故障）"
+                    },
+                    "alarmState": {
+                        "type": "integer",
+                        "description": "报警状态（1报警中，2已解除，3报警项已删除，4设备已删除）"
+                    },
+                    "deviceType": {
+                        "type": "string",
+                        "description": "设备类型"
+                    },
+                    "deviceNumber": {
+                        "type": "string",
+                        "description": "设备编号"
+                    },
+                    "handingState": {
+                        "type": "integer",
+                        "description": "处理状态（1待确认，2已确认）"
+                    },
+                    "handingContent": {
+                        "type": "string",
+                        "description": "处理详情"
+                    },
+                    "startTime": {
+                        "type": "string",
+                        "description": "开始时间"
+                    },
+                    "endTime": {
+                        "type": "string",
+                        "description": "结束时间"
+                    },
+                    "costTimeLen": {
+                        "type": "integer",
+                        "description": "报警持续时间（秒）"
+                    },
+                    "deviceName": {
+                        "type": "string",
+                        "description": "设备名称"
+                    },
+                    "spaceName": {
+                        "type": "string",
+                        "description": "空间名称"
+                    }
+                }
+            },
+            "InterfaceInfo": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "接口名称"
+                    },
+                    "path": {
+                        "type": "string",
+                        "description": "接口路径"
+                    },
+                    "method": {
+                        "type": "string",
+                        "description": "请求方式  GET PUT DELETE POST"
+                    },
+                    "isRestful": {
+                        "type": "boolean",
+                        "description": "是否restful风格接口"
+                    },
+                    "createTime": {
+                        "type": "string",
+                        "description": "创建时间"
+                    },
+                    "updateTime": {
+                        "type": "string",
+                        "description": "更新时间"
+                    }
+                }
+            },
             "ResponseListMenuTreeVO": {
                 "type": "object",
                 "properties": {
@@ -11290,20 +12614,17 @@
                 "type": "object",
                 "properties": {}
             },
-            "Response«PersonalizationVO»": {
+            "ResponsePersonalizationVO": {
                 "type": "object",
                 "properties": {
                     "code": {
                         "type": "integer",
-                        "description": "",
-                        "default": "ResponseCode.SUCCESS.code()",
-                        "nullable": true
+                        "description": ""
                     },
                     "message": {
                         "type": "string",
                         "description": "",
-                        "default": "ResponseCode.SUCCESS.message()",
-                        "nullable": true
+                        "default": "ResponseCode.SUCCESS.message()"
                     },
                     "data": {
                         "$ref": "#/components/schemas/PersonalizationVO",
@@ -11649,7 +12970,7 @@
                 "type": "object",
                 "properties": {
                     "key": {
-                        "$ref": "#/components/schemas/key2"
+                        "$ref": "#/components/schemas/key1"
                     }
                 }
             },
@@ -11717,6 +13038,28 @@
                     }
                 }
             },
+            "ResponseListInterfaceInfo": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InterfaceInfo",
+                            "description": "接口信息"
+                        },
+                        "description": ""
+                    }
+                }
+            },
             "ResponseString": {
                 "type": "object",
                 "properties": {
@@ -11766,23 +13109,19 @@
                             "$ref": "#/components/schemas/RoleVO",
                             "description": "com.afdi.ambition.common.vo.user.RoleVO"
                         },
-                        "description": "查询数据列表",
-                        "default": "Collections.emptyList()"
+                        "description": "查询数据列表"
                     },
                     "total": {
                         "type": "integer",
-                        "description": "总数",
-                        "default": 0
+                        "description": "总数"
                     },
                     "size": {
                         "type": "integer",
-                        "description": "每页显示条数，默认 10",
-                        "default": 10
+                        "description": "每页显示条数，默认 10"
                     },
                     "current": {
                         "type": "integer",
-                        "description": "当前页",
-                        "default": 1
+                        "description": "当前页"
                     },
                     "orders": {
                         "type": "array",
@@ -11790,23 +13129,19 @@
                             "$ref": "#/components/schemas/OrderItem",
                             "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
                         },
-                        "description": "排序字段信息",
-                        "default": "new ArrayList<>()"
+                        "description": "排序字段信息"
                     },
                     "optimizeCountSql": {
                         "type": "boolean",
-                        "description": "自动优化 COUNT SQL",
-                        "default": "true"
+                        "description": "自动优化 COUNT SQL"
                     },
                     "searchCount": {
                         "type": "boolean",
-                        "description": "是否进行 count 查询",
-                        "default": "true"
+                        "description": "是否进行 count 查询"
                     },
                     "optimizeJoinOfCountSql": {
                         "type": "boolean",
-                        "description": "{@link #optimizeJoinOfCountSql()}",
-                        "default": "true"
+                        "description": "{@link #optimizeJoinOfCountSql()}"
                     },
                     "maxLimit": {
                         "type": "integer",
@@ -11823,18 +13158,15 @@
                 "properties": {
                     "path": {
                         "type": "string",
-                        "description": "This abstract pathname's normalized pathname string. A normalized\npathname string uses the default name-separator character and does not\ncontain any duplicate or redundant separators.",
-                        "nullable": true
+                        "description": "This abstract pathname's normalized pathname string. A normalized\npathname string uses the default name-separator character and does not\ncontain any duplicate or redundant separators."
                     },
                     "name": {
                         "type": "string",
-                        "description": "Returns the name of the file or directory denoted by this abstract\npathname.  This is just the last name in the pathname's name\nsequence.  If the pathname's name sequence is empty, then the empty\nstring is returned.",
-                        "nullable": true
+                        "description": "Returns the name of the file or directory denoted by this abstract\npathname.  This is just the last name in the pathname's name\nsequence.  If the pathname's name sequence is empty, then the empty\nstring is returned."
                     },
                     "parent": {
                         "type": "string",
-                        "description": "Returns the pathname string of this abstract pathname's parent, or\n{@code null} if this pathname does not name a parent directory.\n\n<p> The <em>parent</em> of an abstract pathname consists of the\npathname's prefix, if any, and each name in the pathname's name\nsequence except for the last.  If the name sequence is empty then\nthe pathname does not name a parent directory.",
-                        "nullable": true
+                        "description": "Returns the pathname string of this abstract pathname's parent, or\n{@code null} if this pathname does not name a parent directory.\n\n<p> The <em>parent</em> of an abstract pathname consists of the\npathname's prefix, if any, and each name in the pathname's name\nsequence except for the last.  If the name sequence is empty then\nthe pathname does not name a parent directory."
                     },
                     "parentFile": {
                         "$ref": "#/components/schemas/File",
@@ -11842,13 +13174,11 @@
                     },
                     "absolute": {
                         "type": "boolean",
-                        "description": "Tests whether this abstract pathname is absolute.  The definition of\nabsolute pathname is system dependent.  On UNIX systems, a pathname is\nabsolute if its prefix is{@code \"/\"}.  On Microsoft Windows systems, a\npathname is absolute if its prefix is a drive specifier followed by\n{@code \"\\\\\"}, or if its prefix is{@code \"\\\\\\\\\"}.",
-                        "nullable": true
+                        "description": "Tests whether this abstract pathname is absolute.  The definition of\nabsolute pathname is system dependent.  On UNIX systems, a pathname is\nabsolute if its prefix is{@code \"/\"}.  On Microsoft Windows systems, a\npathname is absolute if its prefix is a drive specifier followed by\n{@code \"\\\\\"}, or if its prefix is{@code \"\\\\\\\\\"}."
                     },
                     "absolutePath": {
                         "type": "string",
-                        "description": "Returns the absolute pathname string of this abstract pathname.\n\n<p> If this abstract pathname is already absolute, then the pathname\nstring is simply returned as if by the{@link #getPath}\nmethod.  If this abstract pathname is the empty abstract pathname then\nthe pathname string of the current user directory, which is named by the\nsystem property{@code user.dir}, is returned.  Otherwise this\npathname is resolved in a system-dependent way.  On UNIX systems, a\nrelative pathname is made absolute by resolving it against the current\nuser directory.  On Microsoft Windows systems, a relative pathname is made absolute\nby resolving it against the current directory of the drive named by the\npathname, if any; if not, it is resolved against the current user\ndirectory.",
-                        "nullable": true
+                        "description": "Returns the absolute pathname string of this abstract pathname.\n\n<p> If this abstract pathname is already absolute, then the pathname\nstring is simply returned as if by the{@link #getPath}\nmethod.  If this abstract pathname is the empty abstract pathname then\nthe pathname string of the current user directory, which is named by the\nsystem property{@code user.dir}, is returned.  Otherwise this\npathname is resolved in a system-dependent way.  On UNIX systems, a\nrelative pathname is made absolute by resolving it against the current\nuser directory.  On Microsoft Windows systems, a relative pathname is made absolute\nby resolving it against the current directory of the drive named by the\npathname, if any; if not, it is resolved against the current user\ndirectory."
                     },
                     "absoluteFile": {
                         "$ref": "#/components/schemas/File",
@@ -11856,8 +13186,7 @@
                     },
                     "canonicalPath": {
                         "type": "string",
-                        "description": "Returns the canonical pathname string of this abstract pathname.\n\n<p> A canonical pathname is both absolute and unique.  The precise\ndefinition of canonical form is system-dependent.  This method first\nconverts this pathname to absolute form if necessary, as if by invoking the\n{@link #getAbsolutePath} method, and then maps it to its unique form in a\nsystem-dependent way.  This typically involves removing redundant names\nsuch as{@code \".\"} and{@code \"..\"} from the pathname, resolving\nsymbolic links (on UNIX platforms), and converting drive letters to a\nstandard case (on Microsoft Windows platforms).\n\n<p> Every pathname that denotes an existing file or directory has a\nunique canonical form.  Every pathname that denotes a nonexistent file\nor directory also has a unique canonical form.  The canonical form of\nthe pathname of a nonexistent file or directory may be different from\nthe canonical form of the same pathname after the file or directory is\ncreated.  Similarly, the canonical form of the pathname of an existing\nfile or directory may be different from the canonical form of the same\npathname after the file or directory is deleted.",
-                        "nullable": true
+                        "description": "Returns the canonical pathname string of this abstract pathname.\n\n<p> A canonical pathname is both absolute and unique.  The precise\ndefinition of canonical form is system-dependent.  This method first\nconverts this pathname to absolute form if necessary, as if by invoking the\n{@link #getAbsolutePath} method, and then maps it to its unique form in a\nsystem-dependent way.  This typically involves removing redundant names\nsuch as{@code \".\"} and{@code \"..\"} from the pathname, resolving\nsymbolic links (on UNIX platforms), and converting drive letters to a\nstandard case (on Microsoft Windows platforms).\n\n<p> Every pathname that denotes an existing file or directory has a\nunique canonical form.  Every pathname that denotes a nonexistent file\nor directory also has a unique canonical form.  The canonical form of\nthe pathname of a nonexistent file or directory may be different from\nthe canonical form of the same pathname after the file or directory is\ncreated.  Similarly, the canonical form of the pathname of an existing\nfile or directory may be different from the canonical form of the same\npathname after the file or directory is deleted."
                     },
                     "canonicalFile": {
                         "$ref": "#/components/schemas/File",
@@ -11865,57 +13194,47 @@
                     },
                     "directory": {
                         "type": "boolean",
-                        "description": "Tests whether the file denoted by this abstract pathname is a\ndirectory.\n\n<p> Where it is required to distinguish an I/O exception from the case\nthat the file is not a directory, or where several attributes of the\nsame file are required at the same time, then the{@link\n    * java.nio.file.Files#readAttributes(Path,Class,LinkOption[])\n    * Files.readAttributes} method may be used.",
-                        "nullable": true
+                        "description": "Tests whether the file denoted by this abstract pathname is a\ndirectory.\n\n<p> Where it is required to distinguish an I/O exception from the case\nthat the file is not a directory, or where several attributes of the\nsame file are required at the same time, then the{@link\n    * java.nio.file.Files#readAttributes(Path,Class,LinkOption[])\n    * Files.readAttributes} method may be used."
                     },
                     "file": {
                         "type": "boolean",
-                        "description": "Tests whether the file denoted by this abstract pathname is a normal\nfile.  A file is <em>normal</em> if it is not a directory and, in\naddition, satisfies other system-dependent criteria.  Any non-directory\nfile created by a Java application is guaranteed to be a normal file.\n\n<p> Where it is required to distinguish an I/O exception from the case\nthat the file is not a normal file, or where several attributes of the\nsame file are required at the same time, then the{@link\n    * java.nio.file.Files#readAttributes(Path,Class,LinkOption[])\n    * Files.readAttributes} method may be used.",
-                        "nullable": true
+                        "description": "Tests whether the file denoted by this abstract pathname is a normal\nfile.  A file is <em>normal</em> if it is not a directory and, in\naddition, satisfies other system-dependent criteria.  Any non-directory\nfile created by a Java application is guaranteed to be a normal file.\n\n<p> Where it is required to distinguish an I/O exception from the case\nthat the file is not a normal file, or where several attributes of the\nsame file are required at the same time, then the{@link\n    * java.nio.file.Files#readAttributes(Path,Class,LinkOption[])\n    * Files.readAttributes} method may be used."
                     },
                     "hidden": {
                         "type": "boolean",
-                        "description": "Tests whether the file named by this abstract pathname is a hidden\nfile.  The exact definition of <em>hidden</em> is system-dependent.  On\nUNIX systems, a file is considered to be hidden if its name begins with\na period character ({@code '.'}).  On Microsoft Windows systems, a file is\nconsidered to be hidden if it has been marked as such in the filesystem.",
-                        "nullable": true
+                        "description": "Tests whether the file named by this abstract pathname is a hidden\nfile.  The exact definition of <em>hidden</em> is system-dependent.  On\nUNIX systems, a file is considered to be hidden if its name begins with\na period character ({@code '.'}).  On Microsoft Windows systems, a file is\nconsidered to be hidden if it has been marked as such in the filesystem."
                     },
                     "lastModified": {
                         "type": "integer",
-                        "description": "Sets the last-modified time of the file or directory named by this\nabstract pathname.\n\n<p> All platforms support file-modification times to the nearest second,\nbut some provide more precision.  The argument will be truncated to fit\nthe supported precision.  If the operation succeeds and no intervening\noperations on the file take place, then the next invocation of the\n{@link #lastModified} method will return the (possibly\ntruncated){@code time} argument that was passed to this method.",
-                        "nullable": true
+                        "description": "Sets the last-modified time of the file or directory named by this\nabstract pathname.\n\n<p> All platforms support file-modification times to the nearest second,\nbut some provide more precision.  The argument will be truncated to fit\nthe supported precision.  If the operation succeeds and no intervening\noperations on the file take place, then the next invocation of the\n{@link #lastModified} method will return the (possibly\ntruncated){@code time} argument that was passed to this method."
                     },
                     "writable": {
                         "type": "boolean",
-                        "description": "A convenience method to set the owner's write permission for this abstract\npathname. On some platforms it may be possible to start the Java virtual\nmachine with special privileges that allow it to modify files that\ndisallow write operations.\n\n<p> An invocation of this method of the form{@code file.setWritable(arg)}\nbehaves in exactly the same way as the invocation\n\n{@snippet lang=java :\n    *     file.setWritable(arg, true)\n    * }",
-                        "nullable": true
+                        "description": "A convenience method to set the owner's write permission for this abstract\npathname. On some platforms it may be possible to start the Java virtual\nmachine with special privileges that allow it to modify files that\ndisallow write operations.\n\n<p> An invocation of this method of the form{@code file.setWritable(arg)}\nbehaves in exactly the same way as the invocation\n\n{@snippet lang=java :\n    *     file.setWritable(arg, true)\n    * }"
                     },
                     "readable": {
                         "type": "boolean",
-                        "description": "A convenience method to set the owner's read permission for this abstract\npathname. On some platforms it may be possible to start the Java virtual\nmachine with special privileges that allow it to read files that are\nmarked as unreadable.\n\n<p>An invocation of this method of the form{@code file.setReadable(arg)}\nbehaves in exactly the same way as the invocation\n\n{@snippet lang=java :\n    *     file.setReadable(arg, true)\n    * }",
-                        "nullable": true
+                        "description": "A convenience method to set the owner's read permission for this abstract\npathname. On some platforms it may be possible to start the Java virtual\nmachine with special privileges that allow it to read files that are\nmarked as unreadable.\n\n<p>An invocation of this method of the form{@code file.setReadable(arg)}\nbehaves in exactly the same way as the invocation\n\n{@snippet lang=java :\n    *     file.setReadable(arg, true)\n    * }"
                     },
                     "executable": {
                         "type": "boolean",
-                        "description": "A convenience method to set the owner's execute permission for this\nabstract pathname. On some platforms it may be possible to start the Java\nvirtual machine with special privileges that allow it to execute files\nthat are not marked executable.\n\n<p>An invocation of this method of the form{@code file.setExcutable(arg)}\nbehaves in exactly the same way as the invocation\n\n{@snippet lang=java :\n    *     file.setExecutable(arg, true)\n    * }",
-                        "nullable": true
+                        "description": "A convenience method to set the owner's execute permission for this\nabstract pathname. On some platforms it may be possible to start the Java\nvirtual machine with special privileges that allow it to execute files\nthat are not marked executable.\n\n<p>An invocation of this method of the form{@code file.setExcutable(arg)}\nbehaves in exactly the same way as the invocation\n\n{@snippet lang=java :\n    *     file.setExecutable(arg, true)\n    * }"
                     },
                     "totalSpace": {
                         "type": "integer",
-                        "description": "Returns the size of the partition <a href=\"#partName\">named</a> by this\nabstract pathname. If the total number of bytes in the partition is\ngreater than{@link Long#MAX_VALUE}, then{@code Long.MAX_VALUE} will be\nreturned.",
-                        "nullable": true
+                        "description": "Returns the size of the partition <a href=\"#partName\">named</a> by this\nabstract pathname. If the total number of bytes in the partition is\ngreater than{@link Long#MAX_VALUE}, then{@code Long.MAX_VALUE} will be\nreturned."
                     },
                     "freeSpace": {
                         "type": "integer",
-                        "description": "Returns the number of unallocated bytes in the partition <a\nhref=\"#partName\">named</a> by this abstract path name.  If the\nnumber of unallocated bytes in the partition is greater than\n{@link Long#MAX_VALUE}, then{@code Long.MAX_VALUE} will be returned.\n\n<p> The returned number of unallocated bytes is a hint, but not\na guarantee, that it is possible to use most or any of these\nbytes.  The number of unallocated bytes is most likely to be\naccurate immediately after this call.  It is likely to be made\ninaccurate by any external I/O operations including those made\non the system outside of this virtual machine.  This method\nmakes no guarantee that write operations to this file system\nwill succeed.",
-                        "nullable": true
+                        "description": "Returns the number of unallocated bytes in the partition <a\nhref=\"#partName\">named</a> by this abstract path name.  If the\nnumber of unallocated bytes in the partition is greater than\n{@link Long#MAX_VALUE}, then{@code Long.MAX_VALUE} will be returned.\n\n<p> The returned number of unallocated bytes is a hint, but not\na guarantee, that it is possible to use most or any of these\nbytes.  The number of unallocated bytes is most likely to be\naccurate immediately after this call.  It is likely to be made\ninaccurate by any external I/O operations including those made\non the system outside of this virtual machine.  This method\nmakes no guarantee that write operations to this file system\nwill succeed."
                     },
                     "usableSpace": {
                         "type": "integer",
-                        "description": "Returns the number of bytes available to this virtual machine on the\npartition <a href=\"#partName\">named</a> by this abstract pathname.  If\nthe number of available bytes in the partition is greater than\n{@link Long#MAX_VALUE}, then{@code Long.MAX_VALUE} will be returned.\nWhen possible, this method checks for write permissions and other\noperating system restrictions and will therefore usually provide a more\naccurate estimate of how much new data can actually be written than\n{@link #getFreeSpace}.\n\n<p> The returned number of available bytes is a hint, but not a\nguarantee, that it is possible to use most or any of these bytes.  The\nnumber of available bytes is most likely to be accurate immediately\nafter this call.  It is likely to be made inaccurate by any external\nI/O operations including those made on the system outside of this\nvirtual machine.  This method makes no guarantee that write operations\nto this file system will succeed.",
-                        "nullable": true
+                        "description": "Returns the number of bytes available to this virtual machine on the\npartition <a href=\"#partName\">named</a> by this abstract pathname.  If\nthe number of available bytes in the partition is greater than\n{@link Long#MAX_VALUE}, then{@code Long.MAX_VALUE} will be returned.\nWhen possible, this method checks for write permissions and other\noperating system restrictions and will therefore usually provide a more\naccurate estimate of how much new data can actually be written than\n{@link #getFreeSpace}.\n\n<p> The returned number of available bytes is a hint, but not a\nguarantee, that it is possible to use most or any of these bytes.  The\nnumber of available bytes is most likely to be accurate immediately\nafter this call.  It is likely to be made inaccurate by any external\nI/O operations including those made on the system outside of this\nvirtual machine.  This method makes no guarantee that write operations\nto this file system will succeed."
                     }
                 }
             },
-            "Page«UserOperationRecordVO»": {
+            "PageUserOperationRecordVO": {
                 "type": "object",
                 "properties": {
                     "records": {
@@ -11924,23 +13243,19 @@
                             "$ref": "#/components/schemas/UserOperationRecordVO",
                             "description": "(UserOperationRecord)实体类"
                         },
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "total": {
                         "type": "integer",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "size": {
                         "type": "integer",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "current": {
                         "type": "integer",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "orders": {
                         "type": "array",
@@ -11948,33 +13263,27 @@
                             "$ref": "#/components/schemas/OrderItem",
                             "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
                         },
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "optimizeCountSql": {
                         "type": "boolean",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "searchCount": {
                         "type": "boolean",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "optimizeJoinOfCountSql": {
                         "type": "boolean",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "maxLimit": {
                         "type": "integer",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "countId": {
                         "type": "string",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     }
                 }
             },
@@ -12267,23 +13576,19 @@
                             "$ref": "#/components/schemas/PhysicalPointVO",
                             "description": "com.afdi.ambition.common.vo.thing.PhysicalPointVO"
                         },
-                        "description": "查询数据列表",
-                        "default": "Collections.emptyList()"
+                        "description": "查询数据列表"
                     },
                     "total": {
                         "type": "integer",
-                        "description": "总数",
-                        "default": 0
+                        "description": "总数"
                     },
                     "size": {
                         "type": "integer",
-                        "description": "每页显示条数，默认 10",
-                        "default": 10
+                        "description": "每页显示条数，默认 10"
                     },
                     "current": {
                         "type": "integer",
-                        "description": "当前页",
-                        "default": 1
+                        "description": "当前页"
                     },
                     "orders": {
                         "type": "array",
@@ -12291,23 +13596,19 @@
                             "$ref": "#/components/schemas/OrderItem",
                             "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
                         },
-                        "description": "排序字段信息",
-                        "default": "new ArrayList<>()"
+                        "description": "排序字段信息"
                     },
                     "optimizeCountSql": {
                         "type": "boolean",
-                        "description": "自动优化 COUNT SQL",
-                        "default": "true"
+                        "description": "自动优化 COUNT SQL"
                     },
                     "searchCount": {
                         "type": "boolean",
-                        "description": "是否进行 count 查询",
-                        "default": "true"
+                        "description": "是否进行 count 查询"
                     },
                     "optimizeJoinOfCountSql": {
                         "type": "boolean",
-                        "description": "{@link #optimizeJoinOfCountSql()}",
-                        "default": "true"
+                        "description": "{@link #optimizeJoinOfCountSql()}"
                     },
                     "maxLimit": {
                         "type": "integer",
@@ -12475,6 +13776,59 @@
                     }
                 }
             },
+            "PageAlarmRecordVO": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AlarmRecordVO",
+                            "description": "报警配置(AlarmRecord)VO"
+                        },
+                        "description": ""
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "current": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "orders": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem",
+                            "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+                        },
+                        "description": ""
+                    },
+                    "optimizeCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "searchCount": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "optimizeJoinOfCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "maxLimit": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "countId": {
+                        "type": "string",
+                        "description": ""
+                    }
+                }
+            },
             "MenuDTO": {
                 "type": "object",
                 "properties": {
@@ -12555,68 +13909,56 @@
                 "properties": {
                     "string": {
                         "type": "string",
-                        "description": "The string form of this URI.",
-                        "nullable": true
+                        "description": "The string form of this URI."
                     },
                     "absolute": {
                         "type": "boolean",
-                        "description": "Tells whether or not this URI is absolute.\n\n<p> A URI is absolute if, and only if, it has a scheme component. </p>",
-                        "nullable": true
+                        "description": "Tells whether or not this URI is absolute.\n\n<p> A URI is absolute if, and only if, it has a scheme component. </p>"
                     },
                     "opaque": {
                         "type": "boolean",
-                        "description": "Tells whether or not this URI is opaque.\n\n<p> A URI is opaque if, and only if, it is absolute and its\nscheme-specific part does not begin with a slash character ('/').\nAn opaque URI has a scheme, a scheme-specific part, and possibly\na fragment; all other components are undefined. </p>",
-                        "nullable": true
+                        "description": "Tells whether or not this URI is opaque.\n\n<p> A URI is opaque if, and only if, it is absolute and its\nscheme-specific part does not begin with a slash character ('/').\nAn opaque URI has a scheme, a scheme-specific part, and possibly\na fragment; all other components are undefined. </p>"
                     },
                     "rawSchemeSpecificPart": {
                         "type": "string",
-                        "description": "Returns the raw scheme-specific part of this URI.  The scheme-specific\npart is never undefined, though it may be empty.\n\n<p> The scheme-specific part of a URI only contains legal URI\ncharacters. </p>",
-                        "nullable": true
+                        "description": "Returns the raw scheme-specific part of this URI.  The scheme-specific\npart is never undefined, though it may be empty.\n\n<p> The scheme-specific part of a URI only contains legal URI\ncharacters. </p>"
                     },
                     "rawAuthority": {
                         "type": "string",
-                        "description": "Returns the raw authority component of this URI.\n\n<p> The authority component of a URI, if defined, only contains the\ncommercial-at character ({@code '@'}) and characters in the\n<i>unreserved</i>, <i>punct</i>, <i>escaped</i>, and <i>other</i>\ncategories.  If the authority is server-based then it is further\nconstrained to have valid user-information, host, and port\ncomponents. </p>",
-                        "nullable": true
+                        "description": "Returns the raw authority component of this URI.\n\n<p> The authority component of a URI, if defined, only contains the\ncommercial-at character ({@code '@'}) and characters in the\n<i>unreserved</i>, <i>punct</i>, <i>escaped</i>, and <i>other</i>\ncategories.  If the authority is server-based then it is further\nconstrained to have valid user-information, host, and port\ncomponents. </p>"
                     },
                     "rawUserInfo": {
                         "type": "string",
-                        "description": "Returns the raw user-information component of this URI.\n\n<p> The user-information component of a URI, if defined, only contains\ncharacters in the <i>unreserved</i>, <i>punct</i>, <i>escaped</i>, and\n<i>other</i> categories. </p>",
-                        "nullable": true
+                        "description": "Returns the raw user-information component of this URI.\n\n<p> The user-information component of a URI, if defined, only contains\ncharacters in the <i>unreserved</i>, <i>punct</i>, <i>escaped</i>, and\n<i>other</i> categories. </p>"
                     },
                     "rawPath": {
                         "type": "string",
-                        "description": "Returns the raw path component of this URI.\n\n<p> The path component of a URI, if defined, only contains the slash\ncharacter ({@code '/'}), the commercial-at character ({@code '@'}),\nand characters in the <i>unreserved</i>, <i>punct</i>, <i>escaped</i>,\nand <i>other</i> categories. </p>",
-                        "nullable": true
+                        "description": "Returns the raw path component of this URI.\n\n<p> The path component of a URI, if defined, only contains the slash\ncharacter ({@code '/'}), the commercial-at character ({@code '@'}),\nand characters in the <i>unreserved</i>, <i>punct</i>, <i>escaped</i>,\nand <i>other</i> categories. </p>"
                     },
                     "rawQuery": {
                         "type": "string",
-                        "description": "Returns the raw query component of this URI.\n\n<p> The query component of a URI, if defined, only contains legal URI\ncharacters. </p>",
-                        "nullable": true
+                        "description": "Returns the raw query component of this URI.\n\n<p> The query component of a URI, if defined, only contains legal URI\ncharacters. </p>"
                     },
                     "rawFragment": {
                         "type": "string",
-                        "description": "Returns the raw fragment component of this URI.\n\n<p> The fragment component of a URI, if defined, only contains legal URI\ncharacters. </p>",
-                        "nullable": true
+                        "description": "Returns the raw fragment component of this URI.\n\n<p> The fragment component of a URI, if defined, only contains legal URI\ncharacters. </p>"
                     }
                 }
             },
-            "Response«Page«UserOperationRecordVO»»": {
+            "ResponsePageUserOperationRecordVO": {
                 "type": "object",
                 "properties": {
                     "code": {
                         "type": "integer",
-                        "description": "",
-                        "default": "ResponseCode.SUCCESS.code()",
-                        "nullable": true
+                        "description": ""
                     },
                     "message": {
                         "type": "string",
                         "description": "",
-                        "default": "ResponseCode.SUCCESS.message()",
-                        "nullable": true
+                        "default": "ResponseCode.SUCCESS.message()"
                     },
                     "data": {
-                        "$ref": "#/components/schemas/Page%C2%ABUserOperationRecordVO%C2%BB",
+                        "$ref": "#/components/schemas/PageUserOperationRecordVO",
                         "description": ""
                     }
                 }
@@ -12639,23 +13981,19 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "logo": {
                         "type": "string",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "color": {
                         "type": "string",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     },
                     "background": {
                         "type": "string",
-                        "description": "",
-                        "nullable": true
+                        "description": ""
                     }
                 }
             },
@@ -12723,23 +14061,19 @@
                             "$ref": "#/components/schemas/LogicPointTemplateVO",
                             "description": "com.afdi.ambition.common.vo.thing.LogicPointTemplateVO"
                         },
-                        "description": "查询数据列表",
-                        "default": "Collections.emptyList()"
+                        "description": "查询数据列表"
                     },
                     "total": {
                         "type": "integer",
-                        "description": "总数",
-                        "default": 0
+                        "description": "总数"
                     },
                     "size": {
                         "type": "integer",
-                        "description": "每页显示条数，默认 10",
-                        "default": 10
+                        "description": "每页显示条数，默认 10"
                     },
                     "current": {
                         "type": "integer",
-                        "description": "当前页",
-                        "default": 1
+                        "description": "当前页"
                     },
                     "orders": {
                         "type": "array",
@@ -12747,23 +14081,19 @@
                             "$ref": "#/components/schemas/OrderItem",
                             "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
                         },
-                        "description": "排序字段信息",
-                        "default": "new ArrayList<>()"
+                        "description": "排序字段信息"
                     },
                     "optimizeCountSql": {
                         "type": "boolean",
-                        "description": "自动优化 COUNT SQL",
-                        "default": "true"
+                        "description": "自动优化 COUNT SQL"
                     },
                     "searchCount": {
                         "type": "boolean",
-                        "description": "是否进行 count 查询",
-                        "default": "true"
+                        "description": "是否进行 count 查询"
                     },
                     "optimizeJoinOfCountSql": {
                         "type": "boolean",
-                        "description": "{@link #optimizeJoinOfCountSql()}",
-                        "default": "true"
+                        "description": "{@link #optimizeJoinOfCountSql()}"
                     },
                     "maxLimit": {
                         "type": "integer",
@@ -12917,6 +14247,77 @@
                     }
                 }
             },
+            "ResponsePageAlarmRecordVO": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/PageAlarmRecordVO",
+                        "description": ""
+                    }
+                }
+            },
+            "PageInterfaceInfo": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InterfaceInfo",
+                            "description": "接口信息"
+                        },
+                        "description": ""
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "current": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "orders": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem",
+                            "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+                        },
+                        "description": ""
+                    },
+                    "optimizeCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "searchCount": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "optimizeJoinOfCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "maxLimit": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "countId": {
+                        "type": "string",
+                        "description": ""
+                    }
+                }
+            },
             "MenuEditDTO": {
                 "type": "object",
                 "properties": {
@@ -12975,7 +14376,7 @@
                     }
                 }
             },
-            "ResponseEntity«Resource»": {
+            "ResponseEntityResource": {
                 "type": "object",
                 "properties": {
                     "inputStream": {
@@ -12984,13 +14385,11 @@
                     },
                     "readable": {
                         "type": "boolean",
-                        "description": "Indicate whether non-empty contents of this resource can be read via\n{@link #getInputStream()}.\n<p>Will be{@code true} for typical resource descriptors that exist\nsince it strictly implies{@link #exists()} semantics as of 5.1.\nNote that actual content reading may still fail when attempted.\nHowever, a value of{@code false} is a definitive indication\nthat the resource content cannot be read.",
-                        "nullable": true
+                        "description": "Indicate whether non-empty contents of this resource can be read via\n{@link #getInputStream()}.\n<p>Will be{@code true} for typical resource descriptors that exist\nsince it strictly implies{@link #exists()} semantics as of 5.1.\nNote that actual content reading may still fail when attempted.\nHowever, a value of{@code false} is a definitive indication\nthat the resource content cannot be read."
                     },
                     "open": {
                         "type": "boolean",
-                        "description": "Indicate whether this resource represents a handle with an open stream.\nIf{@code true}, the InputStream cannot be read multiple times,\nand must be read and closed to avoid resource leaks.\n<p>Will be{@code false} for typical resource descriptors.",
-                        "nullable": true
+                        "description": "Indicate whether this resource represents a handle with an open stream.\nIf{@code true}, the InputStream cannot be read multiple times,\nand must be read and closed to avoid resource leaks.\n<p>Will be{@code false} for typical resource descriptors."
                     },
                     "file": {
                         "$ref": "#/components/schemas/File",
@@ -12998,8 +14397,7 @@
                     },
                     "uRL": {
                         "type": "string",
-                        "description": "Return a URL handle for this resource.",
-                        "nullable": true
+                        "description": "Return a URL handle for this resource."
                     },
                     "uRI": {
                         "$ref": "#/components/schemas/URI",
@@ -13010,8 +14408,7 @@
                         "items": {
                             "type": "number"
                         },
-                        "description": "Return the contents of this resource as a byte array.",
-                        "nullable": true
+                        "description": "Return the contents of this resource as a byte array."
                     },
                     "filename": {
                         "type": "string",
@@ -13020,8 +14417,7 @@
                     },
                     "description": {
                         "type": "string",
-                        "description": "Return a description for this resource,\nto be used for error output when working with the resource.\n<p>Implementations are also encouraged to return this value\nfrom their{@code toString} method.",
-                        "nullable": true
+                        "description": "Return a description for this resource,\nto be used for error output when working with the resource.\n<p>Implementations are also encouraged to return this value\nfrom their{@code toString} method."
                     }
                 }
             },
@@ -13410,6 +14806,24 @@
                                 "type": "null"
                             }
                         ]
+                    }
+                }
+            },
+            "ResponsePageInterfaceInfo": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/PageInterfaceInfo",
+                        "description": ""
                     }
                 }
             },
@@ -14056,6 +15470,43 @@
                     }
                 }
             },
+            "InterfaceInfoParamsVO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "id"
+                    },
+                    "interfaceId": {
+                        "type": "integer",
+                        "description": "所属接口id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "参数名称"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "参数类型"
+                    },
+                    "isRequired": {
+                        "type": "boolean",
+                        "description": "是否必填"
+                    },
+                    "isMultiple": {
+                        "type": "boolean",
+                        "description": "是否多选"
+                    },
+                    "spliceChar": {
+                        "type": "string",
+                        "description": "多选时,拼接使用的字符串"
+                    },
+                    "sort": {
+                        "type": "integer",
+                        "description": "排序"
+                    }
+                }
+            },
             "PageUserVO": {
                 "type": "object",
                 "properties": {
@@ -14065,23 +15516,19 @@
                             "$ref": "#/components/schemas/UserVO",
                             "description": ""
                         },
-                        "description": "查询数据列表",
-                        "default": "Collections.emptyList()"
+                        "description": "查询数据列表"
                     },
                     "total": {
                         "type": "integer",
-                        "description": "总数",
-                        "default": 0
+                        "description": "总数"
                     },
                     "size": {
                         "type": "integer",
-                        "description": "每页显示条数，默认 10",
-                        "default": 10
+                        "description": "每页显示条数，默认 10"
                     },
                     "current": {
                         "type": "integer",
-                        "description": "当前页",
-                        "default": 1
+                        "description": "当前页"
                     },
                     "orders": {
                         "type": "array",
@@ -14089,23 +15536,19 @@
                             "$ref": "#/components/schemas/OrderItem",
                             "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
                         },
-                        "description": "排序字段信息",
-                        "default": "new ArrayList<>()"
+                        "description": "排序字段信息"
                     },
                     "optimizeCountSql": {
                         "type": "boolean",
-                        "description": "自动优化 COUNT SQL",
-                        "default": "true"
+                        "description": "自动优化 COUNT SQL"
                     },
                     "searchCount": {
                         "type": "boolean",
-                        "description": "是否进行 count 查询",
-                        "default": "true"
+                        "description": "是否进行 count 查询"
                     },
                     "optimizeJoinOfCountSql": {
                         "type": "boolean",
-                        "description": "{@link #optimizeJoinOfCountSql()}",
-                        "default": "true"
+                        "description": "{@link #optimizeJoinOfCountSql()}"
                     },
                     "maxLimit": {
                         "type": "integer",
@@ -14306,6 +15749,28 @@
                     }
                 }
             },
+            "ResponseListInterfaceInfoParamsVO": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/InterfaceInfoParamsVO",
+                            "description": "接口参数"
+                        },
+                        "description": ""
+                    }
+                }
+            },
             "ResponsePageUserVO": {
                 "type": "object",
                 "properties": {
@@ -14389,23 +15854,19 @@
                             "$ref": "#/components/schemas/LogicPointVO",
                             "description": "com.afdi.ambition.common.vo.thing.LogicPointVO"
                         },
-                        "description": "查询数据列表",
-                        "default": "Collections.emptyList()"
+                        "description": "查询数据列表"
                     },
                     "total": {
                         "type": "integer",
-                        "description": "总数",
-                        "default": 0
+                        "description": "总数"
                     },
                     "size": {
                         "type": "integer",
-                        "description": "每页显示条数，默认 10",
-                        "default": 10
+                        "description": "每页显示条数，默认 10"
                     },
                     "current": {
                         "type": "integer",
-                        "description": "当前页",
-                        "default": 1
+                        "description": "当前页"
                     },
                     "orders": {
                         "type": "array",
@@ -14413,23 +15874,19 @@
                             "$ref": "#/components/schemas/OrderItem",
                             "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
                         },
-                        "description": "排序字段信息",
-                        "default": "new ArrayList<>()"
+                        "description": "排序字段信息"
                     },
                     "optimizeCountSql": {
                         "type": "boolean",
-                        "description": "自动优化 COUNT SQL",
-                        "default": "true"
+                        "description": "自动优化 COUNT SQL"
                     },
                     "searchCount": {
                         "type": "boolean",
-                        "description": "是否进行 count 查询",
-                        "default": "true"
+                        "description": "是否进行 count 查询"
                     },
                     "optimizeJoinOfCountSql": {
                         "type": "boolean",
-                        "description": "{@link #optimizeJoinOfCountSql()}",
-                        "default": "true"
+                        "description": "{@link #optimizeJoinOfCountSql()}"
                     },
                     "maxLimit": {
                         "type": "integer",
@@ -15172,6 +16629,14 @@
                     "originalName": {
                         "type": "string",
                         "description": ""
+                    }
+                }
+            },
+            "MapObject": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "$ref": "#/components/schemas/key"
                     }
                 }
             },
@@ -15920,6 +17385,447 @@
                     }
                 }
             },
+            "SystemMsgVO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "id"
+                    },
+                    "userId": {
+                        "type": "integer",
+                        "description": "用户ID"
+                    },
+                    "type": {
+                        "type": "integer",
+                        "description": "消息类型（1报警）"
+                    },
+                    "sourceId": {
+                        "type": "integer",
+                        "description": "来源ID"
+                    },
+                    "isRead": {
+                        "type": "integer",
+                        "description": "处理状态（1未读，2已读）"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "消息标题"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "消息内容"
+                    },
+                    "handleConfig": {
+                        "type": "string",
+                        "description": "处理配置"
+                    },
+                    "createTime": {
+                        "type": "string",
+                        "description": "创建时间"
+                    },
+                    "updateTime": {
+                        "type": "string",
+                        "description": "更新时间"
+                    },
+                    "relatedValue": {
+                        "type": "string",
+                        "description": "关联值"
+                    }
+                }
+            },
+            "PageSystemMsgVO": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SystemMsgVO",
+                            "description": "系统消息(SystemMsg)VO"
+                        },
+                        "description": ""
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "current": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "orders": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem",
+                            "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+                        },
+                        "description": ""
+                    },
+                    "optimizeCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "searchCount": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "optimizeJoinOfCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "maxLimit": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "countId": {
+                        "type": "string",
+                        "description": ""
+                    }
+                }
+            },
+            "ResponsePageSystemMsgVO": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/PageSystemMsgVO",
+                        "description": ""
+                    }
+                }
+            },
+            "SystemMsgDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "id"
+                    },
+                    "userId": {
+                        "type": "integer",
+                        "description": "用户ID"
+                    },
+                    "type": {
+                        "type": "integer",
+                        "description": "消息类型（1报警）"
+                    },
+                    "sourceId": {
+                        "type": "integer",
+                        "description": "来源ID"
+                    },
+                    "isRead": {
+                        "type": "integer",
+                        "description": "处理状态（1未读，2已读）"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "消息标题"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "消息内容"
+                    },
+                    "handleConfig": {
+                        "type": "string",
+                        "description": "处理配置"
+                    },
+                    "createTime": {
+                        "type": "string",
+                        "description": "创建时间"
+                    },
+                    "updateTime": {
+                        "type": "string",
+                        "description": "更新时间"
+                    },
+                    "msgTriggerInterval": {
+                        "type": "integer",
+                        "description": "消息触发间隔（单位秒）"
+                    }
+                }
+            },
+            "ResponseBoolean": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "type": "boolean",
+                        "description": ""
+                    }
+                }
+            },
+            "QuartzJobVo": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "主键id"
+                    },
+                    "jobName": {
+                        "type": "string",
+                        "description": "任务名称"
+                    },
+                    "jobGroup": {
+                        "type": "string",
+                        "description": "任务组名"
+                    },
+                    "invokeTarget": {
+                        "type": "string",
+                        "description": "调用的类名方法名，格式：beanName.methodName(params)"
+                    },
+                    "cronExpression": {
+                        "type": "string",
+                        "description": "cron执行表达式"
+                    },
+                    "misfirePolicy": {
+                        "type": "string",
+                        "description": "计划执行错误策略（1立即执行 2执行一次 3放弃执行）"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "执行状态（0正常 1暂停 2 删除）"
+                    },
+                    "remark": {
+                        "type": "string",
+                        "description": "备注信息"
+                    },
+                    "params": {
+                        "type": "string",
+                        "description": "额外的参数"
+                    },
+                    "createTime": {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "updateTime": {
+                        "type": "string",
+                        "description": ""
+                    }
+                }
+            },
+            "ResponseQuartzJobVo": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/QuartzJobVo",
+                        "description": ""
+                    }
+                }
+            },
+            "ResponseListQuartzJobVo": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/QuartzJobVo",
+                            "description": ""
+                        },
+                        "description": ""
+                    }
+                }
+            },
+            "QuartzJobBo": {
+                "type": "object",
+                "properties": {
+                    "jobName": {
+                        "type": "string",
+                        "description": "任务名称"
+                    },
+                    "jobGroup": {
+                        "type": "string",
+                        "description": "任务组名"
+                    },
+                    "invokeTarget": {
+                        "type": "string",
+                        "description": "调用的类名方法名，格式：beanName.methodName(params)"
+                    },
+                    "cronExpression": {
+                        "type": "string",
+                        "description": "cron执行表达式"
+                    },
+                    "misfirePolicy": {
+                        "type": "string",
+                        "description": "计划执行错误策略（1立即执行 2执行一次 3放弃执行）"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "任务状态（0正常 1暂停 2 删除）"
+                    },
+                    "remark": {
+                        "type": "string",
+                        "description": "备注信息"
+                    },
+                    "params": {
+                        "type": "string",
+                        "description": "额外的参数"
+                    }
+                },
+                "required": [
+                    "jobName",
+                    "jobGroup",
+                    "invokeTarget",
+                    "cronExpression",
+                    "misfirePolicy",
+                    "status"
+                ]
+            },
+            "IPageQuartzJobVo": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/QuartzJobVo",
+                            "description": ""
+                        },
+                        "description": ""
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "current": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "orders": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem",
+                            "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+                        },
+                        "description": ""
+                    },
+                    "optimizeCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "searchCount": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "optimizeJoinOfCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "maxLimit": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "countId": {
+                        "type": "string",
+                        "description": ""
+                    },
+                    "pages": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "ResponseIPageQuartzJobVo": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/IPageQuartzJobVo",
+                        "description": ""
+                    }
+                }
+            },
+            "DeviceLogicPointMonitorHistoryVO": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "type": "integer",
+                        "description": "分组id"
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "值"
+                    },
+                    "unit": {
+                        "type": "string",
+                        "description": "//创建时间"
+                    },
+                    "pointId": {
+                        "type": "integer",
+                        "description": "点位id"
+                    },
+                    "pointName": {
+                        "type": "string",
+                        "description": "点位名称"
+                    }
+                }
+            },
+            "DeviceMonitorHistoryVO": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "type": "integer",
+                        "description": "分组id"
+                    },
+                    "createTime": {
+                        "type": "string",
+                        "description": "创建时间"
+                    },
+                    "pointList": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DeviceLogicPointMonitorHistoryVO",
+                            "description": "设备逻辑点位监测历史记录"
+                        },
+                        "description": "点位信息"
+                    }
+                }
+            },
             "DeviceParamsVO": {
                 "type": "object",
                 "properties": {
@@ -15945,6 +17851,59 @@
                     }
                 }
             },
+            "PageDeviceMonitorHistoryVO": {
+                "type": "object",
+                "properties": {
+                    "records": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DeviceMonitorHistoryVO",
+                            "description": "设备监测历史记录"
+                        },
+                        "description": ""
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "size": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "current": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "orders": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderItem",
+                            "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+                        },
+                        "description": ""
+                    },
+                    "optimizeCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "searchCount": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "optimizeJoinOfCountSql": {
+                        "type": "boolean",
+                        "description": ""
+                    },
+                    "maxLimit": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "countId": {
+                        "type": "string",
+                        "description": ""
+                    }
+                }
+            },
             "ResponseListDeviceParamsVO": {
                 "type": "object",
                 "properties": {
@@ -15963,6 +17922,24 @@
                             "$ref": "#/components/schemas/DeviceParamsVO",
                             "description": "设备参数(逻辑节点,报警配置)"
                         },
+                        "description": ""
+                    }
+                }
+            },
+            "ResponsePageDeviceMonitorHistoryVO": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "description": ""
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "",
+                        "default": "ResponseCode.SUCCESS.message()"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/PageDeviceMonitorHistoryVO",
                         "description": ""
                     }
                 }
@@ -16243,23 +18220,19 @@
                             "$ref": "#/components/schemas/DeviceAlarmHistoryDataVo",
                             "description": "设备报警历史数据"
                         },
-                        "description": "",
-                        "default": "Collections.emptyList()"
+                        "description": ""
                     },
                     "total": {
                         "type": "integer",
-                        "description": "",
-                        "default": 0
+                        "description": ""
                     },
                     "size": {
                         "type": "integer",
-                        "description": "",
-                        "default": 10
+                        "description": ""
                     },
                     "current": {
                         "type": "integer",
-                        "description": "",
-                        "default": 1
+                        "description": ""
                     },
                     "orders": {
                         "type": "array",
@@ -16267,23 +18240,19 @@
                             "$ref": "#/components/schemas/OrderItem",
                             "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
                         },
-                        "description": "",
-                        "default": "new ArrayList<>()"
+                        "description": ""
                     },
                     "optimizeCountSql": {
                         "type": "boolean",
-                        "description": "",
-                        "default": "true"
+                        "description": ""
                     },
                     "searchCount": {
                         "type": "boolean",
-                        "description": "",
-                        "default": "true"
+                        "description": ""
                     },
                     "optimizeJoinOfCountSql": {
                         "type": "boolean",
-                        "description": "",
-                        "default": "true"
+                        "description": ""
                     },
                     "maxLimit": {
                         "type": "integer",
@@ -16391,23 +18360,19 @@
                             "$ref": "#/components/schemas/JSONObject",
                             "description": "点位配置信息"
                         },
-                        "description": "",
-                        "default": "Collections.emptyList()"
+                        "description": ""
                     },
                     "total": {
                         "type": "integer",
-                        "description": "",
-                        "default": 0
+                        "description": ""
                     },
                     "size": {
                         "type": "integer",
-                        "description": "",
-                        "default": 10
+                        "description": ""
                     },
                     "current": {
                         "type": "integer",
-                        "description": "",
-                        "default": 1
+                        "description": ""
                     },
                     "orders": {
                         "type": "array",
@@ -16415,23 +18380,19 @@
                             "$ref": "#/components/schemas/OrderItem",
                             "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
                         },
-                        "description": "",
-                        "default": "new ArrayList<>()"
+                        "description": ""
                     },
                     "optimizeCountSql": {
                         "type": "boolean",
-                        "description": "",
-                        "default": "true"
+                        "description": ""
                     },
                     "searchCount": {
                         "type": "boolean",
-                        "description": "",
-                        "default": "true"
+                        "description": ""
                     },
                     "optimizeJoinOfCountSql": {
                         "type": "boolean",
-                        "description": "",
-                        "default": "true"
+                        "description": ""
                     },
                     "maxLimit": {
                         "type": "integer",
@@ -16732,146 +18693,6 @@
                     "msgTriggerInterval"
                 ]
             },
-            "AlarmRecordVO": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "id"
-                    },
-                    "alarmId": {
-                        "type": "integer",
-                        "description": "报警id"
-                    },
-                    "alarmName": {
-                        "type": "string",
-                        "description": "报警名称"
-                    },
-                    "alarmContent": {
-                        "type": "string",
-                        "description": "报警内容"
-                    },
-                    "alarmLevel": {
-                        "type": "integer",
-                        "description": "报警级别（1错误，2系统需要确认，3系统无需确认）"
-                    },
-                    "alarmType": {
-                        "type": "integer",
-                        "description": "报警类型（1警告，2报警，3故障）"
-                    },
-                    "alarmState": {
-                        "type": "integer",
-                        "description": "报警状态（1报警中，2已解除）"
-                    },
-                    "deviceType": {
-                        "type": "string",
-                        "description": "设备类型"
-                    },
-                    "deviceNumber": {
-                        "type": "string",
-                        "description": "设备编号"
-                    },
-                    "handingState": {
-                        "type": "integer",
-                        "description": "处理状态（1待确认，2已确认）"
-                    },
-                    "handingContent": {
-                        "type": "string",
-                        "description": "处理详情"
-                    },
-                    "startTime": {
-                        "type": "string",
-                        "description": "开始时间"
-                    },
-                    "endTime": {
-                        "type": "string",
-                        "description": "结束时间"
-                    },
-                    "costTimeLen": {
-                        "type": "integer",
-                        "description": "报警持续时间（秒）"
-                    },
-                    "deviceName": {
-                        "type": "string",
-                        "description": "设备名称"
-                    },
-                    "spaceName": {
-                        "type": "string",
-                        "description": "空间名称"
-                    }
-                }
-            },
-            "PageAlarmRecordVO": {
-                "type": "object",
-                "properties": {
-                    "records": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/AlarmRecordVO",
-                            "description": "报警配置(AlarmRecord)VO"
-                        },
-                        "description": ""
-                    },
-                    "total": {
-                        "type": "integer",
-                        "description": ""
-                    },
-                    "size": {
-                        "type": "integer",
-                        "description": ""
-                    },
-                    "current": {
-                        "type": "integer",
-                        "description": ""
-                    },
-                    "orders": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/OrderItem",
-                            "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
-                        },
-                        "description": ""
-                    },
-                    "optimizeCountSql": {
-                        "type": "boolean",
-                        "description": ""
-                    },
-                    "searchCount": {
-                        "type": "boolean",
-                        "description": ""
-                    },
-                    "optimizeJoinOfCountSql": {
-                        "type": "boolean",
-                        "description": ""
-                    },
-                    "maxLimit": {
-                        "type": "integer",
-                        "description": ""
-                    },
-                    "countId": {
-                        "type": "string",
-                        "description": ""
-                    }
-                }
-            },
-            "ResponsePageAlarmRecordVO": {
-                "type": "object",
-                "properties": {
-                    "code": {
-                        "type": "integer",
-                        "description": ""
-                    },
-                    "message": {
-                        "type": "string",
-                        "description": "",
-                        "default": "ResponseCode.SUCCESS.message()"
-                    },
-                    "data": {
-                        "$ref": "#/components/schemas/PageAlarmRecordVO",
-                        "description": ""
-                    }
-                }
-            },
             "AlarmTemplateVO": {
                 "type": "object",
                 "properties": {
@@ -17092,6 +18913,30 @@
                 "properties": {}
             },
             "key12": {
+                "type": "object",
+                "properties": {}
+            },
+            "key13": {
+                "type": "object",
+                "properties": {}
+            },
+            "key14": {
+                "type": "object",
+                "properties": {}
+            },
+            "key15": {
+                "type": "object",
+                "properties": {}
+            },
+            "key16": {
+                "type": "object",
+                "properties": {}
+            },
+            "key17": {
+                "type": "object",
+                "properties": {}
+            },
+            "key18": {
                 "type": "object",
                 "properties": {}
             }

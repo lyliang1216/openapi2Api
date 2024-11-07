@@ -74,15 +74,15 @@ genApi({
   },
 });
 
-// genApi({
-//   swaggerJsonUrl: "http://172.18.14.28:5010/swagger/Bearer/swagger.json",
-//   outDir: "/example/api/modules/editor",
-//   baseUrl: "/graphics/bearer",
-//   apiOutDir: "modules",
-//   exportApiName: "editorApi",
-//   interfaceOutDir: "interfaces",
-//   requestUrl: "@/utils/service",
-//   customUrlPlugin: (url, tags) => {
-//     return url.replace("/graphics/bearer", "");
-//   },
-// });
+genApi({
+  swaggerJsonUrl: "http://172.18.14.28:5010/swagger/Bearer/swagger.json",
+  outDir: "/example/api/modules/editor",
+  baseUrl: "/graphics/bearer",
+  apiOutDir: "modules",
+  exportApiName: "editorApi",
+  interfaceOutDir: "interfaces",
+  requestUrl: "@/utils/service",
+  customUrlPlugin: (url, tags) => {
+    return url.replace("/graphics/bearer", "");
+  },
+});

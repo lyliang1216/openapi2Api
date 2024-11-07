@@ -1127,6 +1127,8 @@ message?: string;
  declare interface ISearchBo {
 /**关键字 */
 keyword?: string;
+/**全匹配 */
+wholeWord?: boolean;
 
     }
 

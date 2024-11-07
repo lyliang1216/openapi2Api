@@ -213,6 +213,64 @@ version?: string;
     }
 
     
+    /**AlarmRecordVO */
+ declare interface IAlarmRecordVO {
+/**id */
+id?: number;
+/**报警id */
+alarmId?: number;
+/**报警名称 */
+alarmName?: string;
+/**报警内容 */
+alarmContent?: string;
+/**报警级别（1错误，2系统需要确认，3系统无需确认） */
+alarmLevel?: number;
+/**报警类型（1警告，2报警，3故障） */
+alarmType?: number;
+/**报警状态（1报警中，2已解除，3报警项已删除，4设备已删除） */
+alarmState?: number;
+/**设备类型 */
+deviceType?: string;
+/**设备编号 */
+deviceNumber?: string;
+/**处理状态（1待确认，2已确认） */
+handingState?: number;
+/**处理详情 */
+handingContent?: string;
+/**开始时间 */
+startTime?: string;
+/**结束时间 */
+endTime?: string;
+/**报警持续时间（秒） */
+costTimeLen?: number;
+/**设备名称 */
+deviceName?: string;
+/**空间名称 */
+spaceName?: string;
+
+    }
+
+    
+    /**InterfaceInfo */
+ declare interface IInterfaceInfo {
+/**id */
+id?: number;
+/**接口名称 */
+name?: string;
+/**接口路径 */
+path?: string;
+/**请求方式  GET PUT DELETE POST */
+method?: string;
+/**是否restful风格接口 */
+isRestful?: boolean;
+/**创建时间 */
+createTime?: string;
+/**更新时间 */
+updateTime?: string;
+
+    }
+
+    
     /**ResponseListMenuTreeVO */
  declare interface IResponseListMenuTreeVO {
 code?: number;
@@ -236,7 +294,7 @@ password?: string;
     }
 
     
-    /**Response«PersonalizationVO» */
+    /**ResponsePersonalizationVO */
  declare interface IResponsePersonalizationVO {
 code?: number;
 message?: string;
@@ -412,7 +470,7 @@ updateTime?: string;
     
     /**JSONObject */
  declare interface IJSONObject {
-key?: IKey2;
+key?: IKey1;
 
     }
 
@@ -450,6 +508,15 @@ visualId?: number;
 detail?: string;
 /**组件json */
 component?: string;
+
+    }
+
+    
+    /**ResponseListInterfaceInfo */
+ declare interface IResponseListInterfaceInfo {
+code?: number;
+message?: string;
+data?: IInterfaceInfo[];
 
     }
 
@@ -696,7 +763,7 @@ usableSpace?: number;
     }
 
     
-    /**Page«UserOperationRecordVO» */
+    /**PageUserOperationRecordVO */
  declare interface IPageUserOperationRecordVO {
 records?: IUserOperationRecordVO[];
 total?: number;
@@ -958,6 +1025,22 @@ config?: IVisualConfig;
     }
 
     
+    /**PageAlarmRecordVO */
+ declare interface IPageAlarmRecordVO {
+records?: IAlarmRecordVO[];
+total?: number;
+size?: number;
+current?: number;
+orders?: IOrderItem[];
+optimizeCountSql?: boolean;
+searchCount?: boolean;
+optimizeJoinOfCountSql?: boolean;
+maxLimit?: number;
+countId?: string;
+
+    }
+
+    
     /**MenuDTO */
  declare interface IMenuDTO {
 /**父节点 */
@@ -1054,7 +1137,7 @@ rawFragment?: string;
     }
 
     
-    /**Response«Page«UserOperationRecordVO»» */
+    /**ResponsePageUserOperationRecordVO */
  declare interface IResponsePageUserOperationRecordVO {
 code?: number;
 message?: string;
@@ -1220,6 +1303,31 @@ msg?: string;
     }
 
     
+    /**ResponsePageAlarmRecordVO */
+ declare interface IResponsePageAlarmRecordVO {
+code?: number;
+message?: string;
+data?: IPageAlarmRecordVO;
+
+    }
+
+    
+    /**PageInterfaceInfo */
+ declare interface IPageInterfaceInfo {
+records?: IInterfaceInfo[];
+total?: number;
+size?: number;
+current?: number;
+orders?: IOrderItem[];
+optimizeCountSql?: boolean;
+searchCount?: boolean;
+optimizeJoinOfCountSql?: boolean;
+maxLimit?: number;
+countId?: string;
+
+    }
+
+    
     /**MenuEditDTO */
  declare interface IMenuEditDTO {
 id?: number;
@@ -1247,7 +1355,7 @@ createTime?: string;
     }
 
     
-    /**ResponseEntity«Resource» */
+    /**ResponseEntityResource */
  declare interface IResponseEntityResource {
 /**Return an{@link InputStream} for the content of an underlying resource.
 <p>It is usually expected that every such call creates a <i>fresh</i> stream.
@@ -1464,6 +1572,15 @@ pages?: number;
 /**参数详情 */
 data?: IObject;
 mediaType?: undefined;
+
+    }
+
+    
+    /**ResponsePageInterfaceInfo */
+ declare interface IResponsePageInterfaceInfo {
+code?: number;
+message?: string;
+data?: IPageInterfaceInfo;
 
     }
 
@@ -1794,6 +1911,28 @@ pages?: number;
     }
 
     
+    /**InterfaceInfoParamsVO */
+ declare interface IInterfaceInfoParamsVO {
+/**id */
+id?: number;
+/**所属接口id */
+interfaceId?: number;
+/**参数名称 */
+name?: string;
+/**参数类型 */
+type?: string;
+/**是否必填 */
+isRequired?: boolean;
+/**是否多选 */
+isMultiple?: boolean;
+/**多选时,拼接使用的字符串 */
+spliceChar?: string;
+/**排序 */
+sort?: number;
+
+    }
+
+    
     /**PageUserVO */
  declare interface IPageUserVO {
 /**查询数据列表 */
@@ -1918,6 +2057,15 @@ success?: boolean;
 data?: IIPageVisual;
 /**返回消息 */
 msg?: string;
+
+    }
+
+    
+    /**ResponseListInterfaceInfoParamsVO */
+ declare interface IResponseListInterfaceInfoParamsVO {
+code?: number;
+message?: string;
+data?: IInterfaceInfoParamsVO[];
 
     }
 
@@ -2350,6 +2498,13 @@ originalName?: string;
     }
 
     
+    /**MapObject */
+ declare interface IMapObject {
+key?: IKey;
+
+    }
+
+    
     /**key5 */
  declare interface IKey5 {
 
@@ -2729,6 +2884,216 @@ data?: IDeviceVO;
     }
 
     
+    /**SystemMsgVO */
+ declare interface ISystemMsgVO {
+/**id */
+id?: number;
+/**用户ID */
+userId?: number;
+/**消息类型（1报警） */
+type?: number;
+/**来源ID */
+sourceId?: number;
+/**处理状态（1未读，2已读） */
+isRead?: number;
+/**消息标题 */
+title?: string;
+/**消息内容 */
+content?: string;
+/**处理配置 */
+handleConfig?: string;
+/**创建时间 */
+createTime?: string;
+/**更新时间 */
+updateTime?: string;
+/**关联值 */
+relatedValue?: string;
+
+    }
+
+    
+    /**PageSystemMsgVO */
+ declare interface IPageSystemMsgVO {
+records?: ISystemMsgVO[];
+total?: number;
+size?: number;
+current?: number;
+orders?: IOrderItem[];
+optimizeCountSql?: boolean;
+searchCount?: boolean;
+optimizeJoinOfCountSql?: boolean;
+maxLimit?: number;
+countId?: string;
+
+    }
+
+    
+    /**ResponsePageSystemMsgVO */
+ declare interface IResponsePageSystemMsgVO {
+code?: number;
+message?: string;
+data?: IPageSystemMsgVO;
+
+    }
+
+    
+    /**SystemMsgDTO */
+ declare interface ISystemMsgDTO {
+/**id */
+id?: number;
+/**用户ID */
+userId?: number;
+/**消息类型（1报警） */
+type?: number;
+/**来源ID */
+sourceId?: number;
+/**处理状态（1未读，2已读） */
+isRead?: number;
+/**消息标题 */
+title?: string;
+/**消息内容 */
+content?: string;
+/**处理配置 */
+handleConfig?: string;
+/**创建时间 */
+createTime?: string;
+/**更新时间 */
+updateTime?: string;
+/**消息触发间隔（单位秒） */
+msgTriggerInterval?: number;
+
+    }
+
+    
+    /**ResponseBoolean */
+ declare interface IResponseBoolean {
+code?: number;
+message?: string;
+data?: boolean;
+
+    }
+
+    
+    /**QuartzJobVo */
+ declare interface IQuartzJobVo {
+/**主键id */
+id?: number;
+/**任务名称 */
+jobName?: string;
+/**任务组名 */
+jobGroup?: string;
+/**调用的类名方法名，格式：beanName.methodName(params) */
+invokeTarget?: string;
+/**cron执行表达式 */
+cronExpression?: string;
+/**计划执行错误策略（1立即执行 2执行一次 3放弃执行） */
+misfirePolicy?: string;
+/**执行状态（0正常 1暂停 2 删除） */
+status?: string;
+/**备注信息 */
+remark?: string;
+/**额外的参数 */
+params?: string;
+createTime?: string;
+updateTime?: string;
+
+    }
+
+    
+    /**ResponseQuartzJobVo */
+ declare interface IResponseQuartzJobVo {
+code?: number;
+message?: string;
+data?: IQuartzJobVo;
+
+    }
+
+    
+    /**ResponseListQuartzJobVo */
+ declare interface IResponseListQuartzJobVo {
+code?: number;
+message?: string;
+data?: IQuartzJobVo[];
+
+    }
+
+    
+    /**QuartzJobBo */
+ declare interface IQuartzJobBo {
+/**任务名称 */
+jobName?: string;
+/**任务组名 */
+jobGroup?: string;
+/**调用的类名方法名，格式：beanName.methodName(params) */
+invokeTarget?: string;
+/**cron执行表达式 */
+cronExpression?: string;
+/**计划执行错误策略（1立即执行 2执行一次 3放弃执行） */
+misfirePolicy?: string;
+/**任务状态（0正常 1暂停 2 删除） */
+status?: string;
+/**备注信息 */
+remark?: string;
+/**额外的参数 */
+params?: string;
+
+    }
+
+    
+    /**IPageQuartzJobVo */
+ declare interface IIPageQuartzJobVo {
+records?: IQuartzJobVo[];
+total?: number;
+size?: number;
+current?: number;
+orders?: IOrderItem[];
+optimizeCountSql?: boolean;
+searchCount?: boolean;
+optimizeJoinOfCountSql?: boolean;
+maxLimit?: number;
+countId?: string;
+pages?: number;
+
+    }
+
+    
+    /**ResponseIPageQuartzJobVo */
+ declare interface IResponseIPageQuartzJobVo {
+code?: number;
+message?: string;
+data?: IIPageQuartzJobVo;
+
+    }
+
+    
+    /**DeviceLogicPointMonitorHistoryVO */
+ declare interface IDeviceLogicPointMonitorHistoryVO {
+/**分组id */
+groupId?: number;
+/**值 */
+value?: string;
+/**//创建时间 */
+unit?: string;
+/**点位id */
+pointId?: number;
+/**点位名称 */
+pointName?: string;
+
+    }
+
+    
+    /**DeviceMonitorHistoryVO */
+ declare interface IDeviceMonitorHistoryVO {
+/**分组id */
+groupId?: number;
+/**创建时间 */
+createTime?: string;
+/**点位信息 */
+pointList?: IDeviceLogicPointMonitorHistoryVO[];
+
+    }
+
+    
     /**DeviceParamsVO */
  declare interface IDeviceParamsVO {
 /**id */
@@ -2745,11 +3110,36 @@ storeJobId?: number;
     }
 
     
+    /**PageDeviceMonitorHistoryVO */
+ declare interface IPageDeviceMonitorHistoryVO {
+records?: IDeviceMonitorHistoryVO[];
+total?: number;
+size?: number;
+current?: number;
+orders?: IOrderItem[];
+optimizeCountSql?: boolean;
+searchCount?: boolean;
+optimizeJoinOfCountSql?: boolean;
+maxLimit?: number;
+countId?: string;
+
+    }
+
+    
     /**ResponseListDeviceParamsVO */
  declare interface IResponseListDeviceParamsVO {
 code?: number;
 message?: string;
 data?: IDeviceParamsVO[];
+
+    }
+
+    
+    /**ResponsePageDeviceMonitorHistoryVO */
+ declare interface IResponsePageDeviceMonitorHistoryVO {
+code?: number;
+message?: string;
+data?: IPageDeviceMonitorHistoryVO;
 
     }
 
@@ -3114,69 +3504,6 @@ msgNotifyRole?: string;
     }
 
     
-    /**AlarmRecordVO */
- declare interface IAlarmRecordVO {
-/**id */
-id?: number;
-/**报警id */
-alarmId?: number;
-/**报警名称 */
-alarmName?: string;
-/**报警内容 */
-alarmContent?: string;
-/**报警级别（1错误，2系统需要确认，3系统无需确认） */
-alarmLevel?: number;
-/**报警类型（1警告，2报警，3故障） */
-alarmType?: number;
-/**报警状态（1报警中，2已解除） */
-alarmState?: number;
-/**设备类型 */
-deviceType?: string;
-/**设备编号 */
-deviceNumber?: string;
-/**处理状态（1待确认，2已确认） */
-handingState?: number;
-/**处理详情 */
-handingContent?: string;
-/**开始时间 */
-startTime?: string;
-/**结束时间 */
-endTime?: string;
-/**报警持续时间（秒） */
-costTimeLen?: number;
-/**设备名称 */
-deviceName?: string;
-/**空间名称 */
-spaceName?: string;
-
-    }
-
-    
-    /**PageAlarmRecordVO */
- declare interface IPageAlarmRecordVO {
-records?: IAlarmRecordVO[];
-total?: number;
-size?: number;
-current?: number;
-orders?: IOrderItem[];
-optimizeCountSql?: boolean;
-searchCount?: boolean;
-optimizeJoinOfCountSql?: boolean;
-maxLimit?: number;
-countId?: string;
-
-    }
-
-    
-    /**ResponsePageAlarmRecordVO */
- declare interface IResponsePageAlarmRecordVO {
-code?: number;
-message?: string;
-data?: IPageAlarmRecordVO;
-
-    }
-
-    
     /**AlarmTemplateVO */
  declare interface IAlarmTemplateVO {
 /**id */
@@ -3294,6 +3621,42 @@ msgNotifyRole?: string;
     
     /**key12 */
  declare interface IKey12 {
+
+    }
+
+    
+    /**key13 */
+ declare interface IKey13 {
+
+    }
+
+    
+    /**key14 */
+ declare interface IKey14 {
+
+    }
+
+    
+    /**key15 */
+ declare interface IKey15 {
+
+    }
+
+    
+    /**key16 */
+ declare interface IKey16 {
+
+    }
+
+    
+    /**key17 */
+ declare interface IKey17 {
+
+    }
+
+    
+    /**key18 */
+ declare interface IKey18 {
 
     }
 

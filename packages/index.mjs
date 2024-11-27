@@ -633,13 +633,9 @@ export const genApi = ({
   customInterFacePlugin,
 }) => {
   const todo = (openAPI) => {
-    // TODO 处理转译字符，目前已知的%C2%AB %C2%BB %5B %5D，后续要修改为自动处理
+    // 处理转译字符
     openAPI = JSON.parse(
-      JSON.stringify(openAPI)
-        .replaceAll("%C2%AB", "«")
-        .replaceAll("%C2%BB", "»")
-        .replaceAll("%5B", "[")
-        .replaceAll("%5D", "]")
+        decodeURIComponent(JSON.stringify(openAPI))
     );
     tool({
       openAPI,

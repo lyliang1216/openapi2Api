@@ -54,7 +54,7 @@ const tool = ({
 
   // 获取api集合，和请求参数
   const getApiUrlAndParams = () => {
-    const { paths } = openAPI;
+    const {paths} = openAPI;
     // 遍历所有url
     Object.keys(paths).forEach((url) => {
       // 遍历每个url下的所有请求方式
@@ -93,7 +93,7 @@ const tool = ({
           if (reqContent["multipart/form-data"]) {
             const contentTypeItem = Object.keys(reqContent)[0];
             if (reqContent[contentTypeItem].schema) {
-              const { properties, required } =
+              const {properties, required} =
                 reqContent[contentTypeItem].schema;
               // TODO 需要细化FormData类型
               api.params = getPropertiesParams(properties, required);
@@ -116,7 +116,7 @@ const tool = ({
                     api.paramsType =
                       JavaType2JavaScriptType[
                         reqContent[contentTypeItem].schema.items.type
-                      ] + "[]";
+                        ] + "[]";
                   } else {
                     api.paramsType =
                       reqContent[contentTypeItem].schema.items.type;
@@ -136,7 +136,7 @@ const tool = ({
                 api.paramsType =
                   JavaType2JavaScriptType[
                     reqContent[contentTypeItem].schema.type
-                  ] || "any";
+                    ] || "any";
               }
             }
           }
@@ -187,8 +187,8 @@ const tool = ({
         type: properties[formDataKey].$ref
           ? getTypeName(properties[formDataKey].$ref)
           : properties[formDataKey].format === "binary"
-          ? "File"
-          : properties[formDataKey].type,
+            ? "File"
+            : properties[formDataKey].type,
         description: properties[formDataKey].description,
         required: !!requiredList?.includes(formDataKey),
       };
@@ -203,7 +203,7 @@ const tool = ({
         const key = match[1]; // 括号前的内容
         const description = match[2]; // 括号内的内容
         const value = match[3]; // 等号后面的内容
-        return { key, description, value };
+        return {key, description, value};
       }
       return null;
     });
@@ -246,11 +246,11 @@ const tool = ({
               ? properties[item].items?.$ref
                 ? `I${getTypeName(properties[item].items?.$ref)}[]`
                 : properties[item].items.type
-                ? `${JavaType2JavaScriptType[properties[item].items.type]}[]`
-                : "[]"
+                  ? `${JavaType2JavaScriptType[properties[item].items.type]}[]`
+                  : "[]"
               : properties[item].$ref
-              ? getTypeName(properties[item].$ref)
-              : JavaType2JavaScriptType[type] || type,
+                ? getTypeName(properties[item].$ref)
+                : JavaType2JavaScriptType[type] || type,
           description: properties[item].description,
         };
       });
@@ -443,20 +443,31 @@ const tool = ({
       resStr += `${descStr}\n`;
     }
     resStr += `*/\n`;
-    resStr += `${processUrl(item.url)}${method}(${
-      isFormData
-        ? "data:FormData,"
-        : item.query && item.query.length
-        ? `data:${queryTypeStr},`
-        : reqBodyTypeStr
-        ? `data:${reqBodyTypeStr},`
-        : ""
-    } config={}): Promise<${item.resType || "void"}> {\n`;
+    const paramsStr = () => {
+      if (isFormData) {
+        return "data:FormData,"
+      }
+      if (item.query && item.query.length && reqBodyTypeStr) {
+        return `data:${queryTypeStr}, reqBody:${reqBodyTypeStr},`
+      }
+      if (item.query && item.query.length) {
+        return `data:${queryTypeStr},`
+      }
+      if (reqBodyTypeStr) {
+        return `data:${reqBodyTypeStr},`
+      }
+      return ''
+    }
+
+    resStr += `${processUrl(item.url)}${method}(${paramsStr()} config={}): Promise<${item.resType || "void"}> {\n`;
     resStr += `return request({
         url: \`${baseUrl || ""}${url}\`,
         method: '${item.method.toUpperCase()}',\n`;
     if ((!queryTypeStr && reqBodyTypeStr) || isFormData) {
       resStr += "data,\n";
+    }
+    if ((queryTypeStr && reqBodyTypeStr)) {
+      resStr += "data: reqBody,\n";
     }
     resStr += `...config
       })
@@ -618,24 +629,24 @@ export function useExtApi() {
  * @param {*} param.customInterFacePlugin 自定义interface内容插件
  */
 export const genApi = ({
-  swaggerJsonUrl,
-  apiJsonData,
-  baseUrl,
-  outDir,
-  apiOutDir,
-  exportApiName,
-  interfaceOutDir,
-  requestUrl,
-  needExtendTemplate,
-  customUrlPlugin,
-  customGroupPlugin,
-  customReqNamePlugin,
-  customInterFacePlugin,
+ swaggerJsonUrl,
+ apiJsonData,
+ baseUrl,
+ outDir,
+ apiOutDir,
+ exportApiName,
+ interfaceOutDir,
+ requestUrl,
+ needExtendTemplate,
+ customUrlPlugin,
+ customGroupPlugin,
+ customReqNamePlugin,
+ customInterFacePlugin,
 }) => {
   const todo = (openAPI) => {
     // 处理转译字符
     openAPI = JSON.parse(
-        decodeURIComponent(JSON.stringify(openAPI))
+      decodeURIComponent(JSON.stringify(openAPI))
     );
     tool({
       openAPI,

@@ -447,7 +447,7 @@ const tool = ({
       if (isFormData) {
         return "data:FormData,"
       }
-      if (item.query && item.query.length && reqBodyTypeStr) {
+      if (item.query && item.query.length && reqBodyTypeStr && (item.method.toUpperCase() === 'POST' || item.method.toUpperCase() === 'PUT')) {
         return `data:${queryTypeStr}, reqBody:${reqBodyTypeStr},`
       }
       if (item.query && item.query.length) {
@@ -466,7 +466,7 @@ const tool = ({
     if ((!queryTypeStr && reqBodyTypeStr) || isFormData) {
       resStr += "data,\n";
     }
-    if ((queryTypeStr && reqBodyTypeStr)) {
+    if ((queryTypeStr && reqBodyTypeStr && (item.method.toUpperCase() === 'POST' || item.method.toUpperCase() === 'PUT'))) {
       resStr += "data: reqBody,\n";
     }
     resStr += `...config

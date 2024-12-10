@@ -78,7 +78,7 @@ const tool = ({
                 name: queryItem.name,
                 type:
                   JavaType2JavaScriptType[queryItem.schema.type] ||
-                  queryItem.schema.type,
+                  queryItem.schema.type || 'any',
                 description: queryItem.description,
                 in: api.url.includes(`{${queryItem.name}}`) ? "path" : "query",
                 required: queryItem.required,

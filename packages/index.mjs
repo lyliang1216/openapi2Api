@@ -227,6 +227,7 @@ const tool = ({
     const {
       properties,
       description,
+      required: requireList,
       enum: _enum,
     } = openAPI.components.schemas[typeStr];
     const name = "I" + getPinYin(typeStr);
@@ -252,6 +253,7 @@ const tool = ({
                 ? getTypeName(properties[item].$ref)
                 : JavaType2JavaScriptType[type] || type,
           description: properties[item].description,
+          required: requireList && requireList.includes(item)
         };
       });
     }

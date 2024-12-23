@@ -74,11 +74,11 @@ const tool = ({
           api.query = apiConfig.parameters
             .filter((queryItem) => queryItem.in !== "header")
             .map((queryItem) => {
+              const type = queryItem.schema.type
+              const itemType = queryItem.schema?.items?.type
               return {
                 name: queryItem.name,
-                type:
-                  JavaType2JavaScriptType[queryItem.schema.type] ||
-                  queryItem.schema.type || 'any',
+                type: (type === 'array' && itemType) ? `${(JavaType2JavaScriptType[itemType] || 'any')}[]` : (JavaType2JavaScriptType[type] || 'any'),
                 description: queryItem.description,
                 in: api.url.includes(`{${queryItem.name}}`) ? "path" : "query",
                 required: queryItem.required,

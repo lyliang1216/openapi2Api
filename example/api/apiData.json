@@ -94,6 +94,9 @@
       "name": "intelligence/sql执行-控制层"
     },
     {
+      "name": "intelligence/AI算法(AiAlgorithm)表控制层"
+    },
+    {
       "name": "view"
     },
     {
@@ -104,6 +107,15 @@
     },
     {
       "name": "view/InterfaceInfoController"
+    },
+    {
+      "name": "view/bim模型(BimModel)表控制层"
+    },
+    {
+      "name": "view/统计-数据统计"
+    },
+    {
+      "name": "view/表格-数据列表"
     },
     {
       "name": "communication"
@@ -119,6 +131,9 @@
     },
     {
       "name": "communication/(LogicPoint)表控制层"
+    },
+    {
+      "name": "communication/PointImportController"
     },
     {
       "name": "page"
@@ -185,6 +200,9 @@
     },
     {
       "name": "view/(LogicPointTag)表控制层"
+    },
+    {
+      "name": "view/BimConfigController"
     }
   ],
   "paths": {
@@ -2491,6 +2509,71 @@
         "security": []
       }
     },
+    "/systemMsg/count": {
+      "get": {
+        "summary": "count",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "user/系统消息(SystemMsg)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "isRead",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 1,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseLong"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": 0
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
     "/systemMsg/add": {
       "post": {
         "summary": "add",
@@ -2917,10 +3000,10 @@
         ],
         "parameters": [
           {
-            "name": "type",
+            "name": "isTemplate",
             "in": "query",
             "description": "",
-            "required": false,
+            "required": true,
             "schema": {
               "type": "integer"
             }
@@ -5581,6 +5664,107 @@
         "security": []
       }
     },
+    "/device/list": {
+      "get": {
+        "summary": "list",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "thing/(Device)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "numberList",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseListDeviceVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": [
+                        {
+                          "id": 0,
+                          "name": "",
+                          "number": "",
+                          "spaceCode": "",
+                          "spaceName": "",
+                          "deviceTypeCode": "",
+                          "deviceTypeName": "",
+                          "pictureUrl": "",
+                          "systemTypeCode": "",
+                          "systemTypeName": "",
+                          "energyTypeCode": "",
+                          "energyTypeName": "",
+                          "description": "",
+                          "relatedDeviceNumber": "",
+                          "relatedDeviceName": "",
+                          "isEnable": 0,
+                          "isController": 0,
+                          "channelEnable": 0,
+                          "protocol": 0,
+                          "channelCode": "",
+                          "channelConfiguration": {
+                            "": {}
+                          },
+                          "connectionState": "",
+                          "communicationState": "",
+                          "communicationStateEnumDetail": [
+                            {}
+                          ],
+                          "faultState": "",
+                          "faultStateEnumDetail": [
+                            {}
+                          ],
+                          "controlState": "",
+                          "controlStateEnumDetail": [
+                            {}
+                          ],
+                          "runningState": "",
+                          "runningStateEnumDetail": [
+                            {}
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
     "/device/getControlDevice": {
       "get": {
         "summary": "getControlDevice",
@@ -5962,6 +6146,210 @@
                         "controlState": "",
                         "runningState": ""
                       }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/device/listByDeviceIds": {
+      "post": {
+        "summary": "listByDeviceIds",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "thing/(Device)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseListDeviceVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": [
+                        {
+                          "id": 0,
+                          "name": "",
+                          "number": "",
+                          "spaceCode": "",
+                          "spaceName": "",
+                          "deviceTypeCode": "",
+                          "deviceTypeName": "",
+                          "pictureUrl": "",
+                          "systemTypeCode": "",
+                          "systemTypeName": "",
+                          "energyTypeCode": "",
+                          "energyTypeName": "",
+                          "description": "",
+                          "relatedDeviceNumber": "",
+                          "relatedDeviceName": "",
+                          "isEnable": 0,
+                          "isController": 0,
+                          "channelEnable": 0,
+                          "protocol": 0,
+                          "channelCode": "",
+                          "channelConfiguration": {
+                            "": {}
+                          },
+                          "connectionState": "",
+                          "communicationState": "",
+                          "communicationStateEnumDetail": [
+                            {}
+                          ],
+                          "faultState": "",
+                          "faultStateEnumDetail": [
+                            {}
+                          ],
+                          "controlState": "",
+                          "controlStateEnumDetail": [
+                            {}
+                          ],
+                          "runningState": "",
+                          "runningStateEnumDetail": [
+                            {}
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/device/getByNumberList": {
+      "post": {
+        "summary": "getByNumberList",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "thing/(Device)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseListDeviceVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": [
+                        {
+                          "id": 0,
+                          "name": "",
+                          "number": "",
+                          "spaceCode": "",
+                          "spaceName": "",
+                          "deviceTypeCode": "",
+                          "deviceTypeName": "",
+                          "pictureUrl": "",
+                          "systemTypeCode": "",
+                          "systemTypeName": "",
+                          "energyTypeCode": "",
+                          "energyTypeName": "",
+                          "description": "",
+                          "relatedDeviceNumber": "",
+                          "relatedDeviceName": "",
+                          "isEnable": 0,
+                          "isController": 0,
+                          "channelEnable": 0,
+                          "protocol": 0,
+                          "channelCode": "",
+                          "channelConfiguration": {
+                            "": {}
+                          },
+                          "connectionState": "",
+                          "communicationState": "",
+                          "communicationStateEnumDetail": [
+                            {}
+                          ],
+                          "faultState": "",
+                          "faultStateEnumDetail": [
+                            {}
+                          ],
+                          "controlState": "",
+                          "controlStateEnumDetail": [
+                            {}
+                          ],
+                          "runningState": "",
+                          "runningStateEnumDetail": [
+                            {}
+                          ]
+                        }
+                      ]
                     }
                   }
                 }
@@ -6615,8 +7003,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {}
+                  "$ref": "#/components/schemas/ResponseString",
+                  "description": ""
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": ""
+                    }
+                  }
                 }
               }
             },
@@ -7610,7 +8008,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseListLogicPointVO"
+                  "$ref": "#/components/schemas/ResponseListLogicPointWithUrlVO"
                 },
                 "examples": {
                   "1": {
@@ -7657,6 +8055,69 @@
                           "isWrite": 0,
                           "createTime": "",
                           "updateTime": ""
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/logicPoint/getDataByPointIds": {
+      "post": {
+        "summary": "getDataByPointIds",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "thing/设备逻辑点位"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseListMapObject"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": [
+                        {
+                          "": {}
                         }
                       ]
                     }
@@ -8036,6 +8497,71 @@
         "security": []
       }
     },
+    "/logicPoint/connectOnlyReadRealTimeData": {
+      "get": {
+        "summary": "sse 推送链接 只读点位",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "thing/设备逻辑点位"
+        ],
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "query",
+            "description": "设备id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "paramsIds",
+            "in": "query",
+            "description": "参数id,多个使用\",\"分割",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseString",
+                  "description": ""
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
     "/logicPoint/getDeviceRealtimeData": {
       "get": {
         "summary": "获取只读点位的实时信息",
@@ -8113,9 +8639,9 @@
         "security": []
       }
     },
-    "/logicPoint/connectOnlyReadRealTimeData": {
+    "/logicPoint/connectWriteRealData": {
       "get": {
-        "summary": "sse 推送链接 只读点位",
+        "summary": "sse 推送链接 可写点位",
         "deprecated": false,
         "description": "",
         "tags": [
@@ -8259,9 +8785,9 @@
         "security": []
       }
     },
-    "/logicPoint/connectWriteRealData": {
+    "/logicPoint/connectAlarmRealData": {
       "get": {
-        "summary": "sse 推送链接 可写点位",
+        "summary": "sse 推送链接 报警设置",
         "deprecated": false,
         "description": "",
         "tags": [
@@ -8324,33 +8850,15 @@
         "security": []
       }
     },
-    "/logicPoint/connectAlarmRealData": {
-      "get": {
-        "summary": "sse 推送链接 报警设置",
+    "/logicPoint/closeConnect": {
+      "delete": {
+        "summary": "关闭链接",
         "deprecated": false,
         "description": "",
         "tags": [
           "thing/设备逻辑点位"
         ],
         "parameters": [
-          {
-            "name": "deviceId",
-            "in": "query",
-            "description": "设备id",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "paramsIds",
-            "in": "query",
-            "description": "参数id,多个使用\",\"分割",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "ambitionToken",
             "in": "header",
@@ -8362,22 +8870,32 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "description": "链接成功时，返回的uuid"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseString",
-                  "description": ""
+                  "$ref": "#/components/schemas/Response",
+                  "description": "com.afdi.ambition.common.Response"
                 },
                 "examples": {
                   "1": {
                     "summary": "成功示例",
                     "value": {
-                      "code": 0,
-                      "message": "",
-                      "data": ""
+                      "code": null,
+                      "message": null,
+                      "data": null
                     }
                   }
                 }
@@ -8454,63 +8972,6 @@
                           }
                         ]
                       }
-                    }
-                  }
-                }
-              }
-            },
-            "headers": {}
-          }
-        },
-        "security": []
-      }
-    },
-    "/logicPoint/closeConnect": {
-      "delete": {
-        "summary": "关闭链接",
-        "deprecated": false,
-        "description": "",
-        "tags": [
-          "thing/设备逻辑点位"
-        ],
-        "parameters": [
-          {
-            "name": "ambitionToken",
-            "in": "header",
-            "description": "",
-            "example": "{{ACCESS_TOKEN}}",
-            "schema": {
-              "type": "string",
-              "default": "{{ACCESS_TOKEN}}"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "string",
-                "description": "链接成功时，返回的uuid"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Response",
-                  "description": "com.afdi.ambition.common.Response"
-                },
-                "examples": {
-                  "1": {
-                    "summary": "成功示例",
-                    "value": {
-                      "code": null,
-                      "message": null,
-                      "data": null
                     }
                   }
                 }
@@ -9745,6 +10206,152 @@
         "security": []
       }
     },
+    "/alarmRecord/list": {
+      "get": {
+        "summary": "list",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "thing/报警记录(AlarmRecord)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "deviceName",
+            "in": "query",
+            "description": "设备名称",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deviceNumber",
+            "in": "query",
+            "description": "设备编号",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "spaceCode",
+            "in": "query",
+            "description": "设备编号",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "alarmName",
+            "in": "query",
+            "description": "报警名称",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "alarmLevel",
+            "in": "query",
+            "description": "报警级别（1错误，2系统需要确认，3系统无需确认）",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "alarmState",
+            "in": "query",
+            "description": "报警状态（1报警中，2已解除）",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "startTimeBegin",
+            "in": "query",
+            "description": "报警开始时间的查询起始值",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startTimeEnd",
+            "in": "query",
+            "description": "报警开始时间的查询结束值",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deviceNumberList",
+            "in": "query",
+            "description": "设备编号List",
+            "required": false,
+            "schema": {
+              "type": "array"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseListAlarmRecordVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": [
+                        {
+                          "id": 0,
+                          "alarmId": 0,
+                          "alarmName": "",
+                          "alarmContent": "",
+                          "alarmLevel": 0,
+                          "alarmType": 0,
+                          "alarmState": 0,
+                          "deviceType": "",
+                          "deviceNumber": "",
+                          "handingState": 0,
+                          "handingContent": "",
+                          "startTime": "",
+                          "endTime": "",
+                          "costTimeLen": 0,
+                          "deviceName": "",
+                          "spaceName": ""
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
     "/alarmRecord/page": {
       "get": {
         "summary": "page",
@@ -9842,6 +10449,15 @@
             "required": false,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "deviceNumberList",
+            "in": "query",
+            "description": "设备编号List",
+            "required": false,
+            "schema": {
+              "type": "array"
             }
           },
           {
@@ -10836,7 +11452,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseListDeviceOperationRecord",
+                  "$ref": "#/components/schemas/ResponseListDeviceOperationRecordListVO",
                   "description": "分页列表"
                 },
                 "examples": {
@@ -11530,7 +12146,7 @@
         "deprecated": false,
         "description": "",
         "tags": [
-          "thing/表格-数据列表"
+          "view/表格-数据列表"
         ],
         "parameters": [
           {
@@ -11590,7 +12206,7 @@
         "deprecated": false,
         "description": "",
         "tags": [
-          "thing/表格-数据列表"
+          "view/表格-数据列表"
         ],
         "parameters": [
           {
@@ -11648,7 +12264,7 @@
         "deprecated": false,
         "description": "",
         "tags": [
-          "thing/统计-数据统计"
+          "view/统计-数据统计"
         ],
         "parameters": [
           {
@@ -11708,7 +12324,7 @@
         "deprecated": false,
         "description": "",
         "tags": [
-          "thing/统计-数据统计"
+          "view/统计-数据统计"
         ],
         "parameters": [
           {
@@ -11811,6 +12427,7 @@
                           "flowId": "",
                           "returnType": "",
                           "returnValue": "",
+                          "requestUrl": "",
                           "createTime": "",
                           "updateTime": ""
                         }
@@ -12148,6 +12765,422 @@
                           "": {}
                         }
                       ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/aiAlgorithm/list": {
+      "get": {
+        "summary": "list",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "intelligence/AI算法(AiAlgorithm)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseListAiAlgorithmVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": [
+                        {
+                          "id": 0,
+                          "name": "",
+                          "pythonFileName": "",
+                          "pythonFilePath": "",
+                          "params": [
+                            {}
+                          ],
+                          "returnType": "",
+                          "createTime": "",
+                          "updateTime": ""
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/aiAlgorithm/page": {
+      "get": {
+        "summary": "page",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "intelligence/AI算法(AiAlgorithm)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "currentPage",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePageAiAlgorithmVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": {
+                        "records": [
+                          {
+                            "id": 0,
+                            "name": "",
+                            "algorithmPath": "",
+                            "params": [
+                              {}
+                            ],
+                            "returnType": "",
+                            "createTime": "",
+                            "updateTime": ""
+                          }
+                        ],
+                        "total": 0,
+                        "size": 0,
+                        "current": 0,
+                        "orders": [
+                          {
+                            "column": "",
+                            "asc": false
+                          }
+                        ],
+                        "optimizeCountSql": false,
+                        "searchCount": false,
+                        "optimizeJoinOfCountSql": false,
+                        "maxLimit": 0,
+                        "countId": ""
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/aiAlgorithm/add": {
+      "post": {
+        "summary": "add",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "intelligence/AI算法(AiAlgorithm)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiAlgorithmDTO",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseAiAlgorithmVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": {
+                        "id": 0,
+                        "name": "",
+                        "algorithmPath": "",
+                        "params": [
+                          {}
+                        ],
+                        "returnType": "",
+                        "createTime": "",
+                        "updateTime": ""
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/aiAlgorithm/edit": {
+      "post": {
+        "summary": "edit",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "intelligence/AI算法(AiAlgorithm)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiAlgorithmDTO",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseString",
+                  "description": ""
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/aiAlgorithm/delete": {
+      "post": {
+        "summary": "delete",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "intelligence/AI算法(AiAlgorithm)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseString",
+                  "description": ""
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/aiAlgorithm/execute": {
+      "get": {
+        "summary": "execute",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "intelligence/AI算法(AiAlgorithm)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": ""
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseObject"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": null,
+                      "message": null,
+                      "data": null
                     }
                   }
                 }
@@ -13735,6 +14768,362 @@
         "security": []
       }
     },
+    "/bimModel/list": {
+      "get": {
+        "summary": "list",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "view/bim模型(BimModel)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "bimName",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "createTimeBegin",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "createTimeEnd",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseListBimModelVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": [
+                        {
+                          "id": 0,
+                          "bimName": "",
+                          "bimDesc": "",
+                          "state": 0,
+                          "name": "",
+                          "uniqueId": "",
+                          "documentSize": 0,
+                          "fileType": 0,
+                          "status": 0,
+                          "owner": ""
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/bimModel/page": {
+      "get": {
+        "summary": "page",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "view/bim模型(BimModel)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "currentPage",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "bimName",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "createTimeBegin",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "createTimeEnd",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePageBimModelVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": {
+                        "records": [
+                          {
+                            "id": 0,
+                            "bimName": "",
+                            "bimDesc": "",
+                            "state": 0,
+                            "name": "",
+                            "uniqueId": "",
+                            "documentSize": 0,
+                            "fileType": 0,
+                            "status": 0,
+                            "owner": ""
+                          }
+                        ],
+                        "total": 0,
+                        "size": 0,
+                        "current": 0,
+                        "orders": [
+                          {
+                            "column": "",
+                            "asc": false
+                          }
+                        ],
+                        "optimizeCountSql": false,
+                        "searchCount": false,
+                        "optimizeJoinOfCountSql": false,
+                        "maxLimit": 0,
+                        "countId": ""
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/bimModel/edit": {
+      "post": {
+        "summary": "edit",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "view/bim模型(BimModel)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BimModelDTO",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseString",
+                  "description": ""
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/bimModel/delete": {
+      "post": {
+        "summary": "delete",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "view/bim模型(BimModel)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "integer",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseString",
+                  "description": ""
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
     "/sse/subscribe/{userId}": {
       "get": {
         "summary": "subscribe",
@@ -14159,7 +15548,8 @@
             "name": "source",
             "in": "query",
             "description": "",
-            "required": true,
+            "required": false,
+            "example": 0,
             "schema": {
               "type": "integer"
             }
@@ -14220,6 +15610,328 @@
         "security": []
       }
     },
+    "/collect/collectPoint": {
+      "post": {
+        "summary": "collectPoint",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "communication/(采集和控制)控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseString",
+                  "description": ""
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/collect/logicPointVerify": {
+      "get": {
+        "summary": "逻辑点位校验",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "communication/(采集和控制)控制层"
+        ],
+        "parameters": [
+          {
+            "name": "pointId",
+            "in": "query",
+            "description": "点位id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "params",
+            "in": "query",
+            "description": "参数",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "校验类型 1 检测  2 控制",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseLong"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": 0
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/collect/physicalPointVerify": {
+      "get": {
+        "summary": "物理点位校验",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "communication/(采集和控制)控制层"
+        ],
+        "parameters": [
+          {
+            "name": "pointId",
+            "in": "query",
+            "description": "物理点位id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "params",
+            "in": "query",
+            "description": "参数",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "校验类型 1 检测  2 控制",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseLong"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": 0
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/collect/getLogicPointVerifyResult": {
+      "get": {
+        "summary": "逻辑点位校验结果回查",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "communication/(采集和控制)控制层"
+        ],
+        "parameters": [
+          {
+            "name": "debugId",
+            "in": "query",
+            "description": "回查id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePointVerifyResultVO",
+                  "description": "校验结果"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": {
+                        "": {}
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/collect/getPhysicalPointVerifyResult": {
+      "get": {
+        "summary": "物理点位校验结果回查",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "communication/(采集和控制)控制层"
+        ],
+        "parameters": [
+          {
+            "name": "debugId",
+            "in": "query",
+            "description": "回查id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePointVerifyResultVO",
+                  "description": "校验结果"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": {
+                        "": {}
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
     "/logicPoint/scheduleStorage": {
       "get": {
         "summary": "updateCurrentUserMenu",
@@ -14265,6 +15977,132 @@
                       "code": 0,
                       "message": "",
                       "data": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/pointImport/import": {
+      "post": {
+        "summary": "importRule",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "communication/PointImportController"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseString",
+                  "description": ""
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/blade-visual/visual/listAll": {
+      "get": {
+        "summary": "查询所有已发布列表",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "page/可视化模块 控制器"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RListVisual"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "success": false,
+                      "data": [
+                        {
+                          "id": 0,
+                          "createUser": 0,
+                          "createDept": 0,
+                          "createTime": "",
+                          "updateUser": 0,
+                          "updateTime": "",
+                          "status": 0,
+                          "isDeleted": 0,
+                          "title": "",
+                          "backgroundUrl": "",
+                          "category": 0,
+                          "password": "",
+                          "version": "",
+                          "type": 0
+                        }
+                      ],
+                      "msg": ""
                     }
                   }
                 }
@@ -21503,10 +23341,10 @@
             }
           },
           {
-            "name": "elementIdIndex",
+            "name": "elementId",
             "in": "query",
             "description": "",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -21515,7 +23353,7 @@
             "name": "type",
             "in": "query",
             "description": "",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -21558,6 +23396,71 @@
                               "deviceName": ""
                             }
                           ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/deviceStructure/getDeviceBindingState": {
+      "post": {
+        "summary": "getDeviceBindingState",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "view/(DeviceStructure)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseListDeviceBindingStateVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": [
+                        {
+                          "deviceId": 0,
+                          "isBindingStructure": false,
+                          "isBindingTag": false
                         }
                       ]
                     }
@@ -21659,7 +23562,7 @@
             "name": "tagId",
             "in": "query",
             "description": "",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -21802,7 +23705,7 @@
             "name": "tagId",
             "in": "query",
             "description": "",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -21859,6 +23762,481 @@
         "security": []
       }
     },
+    "/bimConfig/downloadBimConfig": {
+      "get": {
+        "summary": "export",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "view/BimConfigController"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sadiId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/bimConfig/importBimConfig": {
+      "post": {
+        "summary": "importBimConfig",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "view/BimConfigController"
+        ],
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sadiId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseString",
+                  "description": ""
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/bimConfig/pageDeviceStructure": {
+      "get": {
+        "summary": "pageDeviceStructure",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "view/BimConfigController"
+        ],
+        "parameters": [
+          {
+            "name": "currentPage",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sadiId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deviceTypeCode",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deviceName",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponsePageDeviceInfoVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": {
+                        "records": [
+                          {
+                            "deviceTypeCode": "",
+                            "deviceId": 0,
+                            "deviceNumber": "",
+                            "deviceName": ""
+                          }
+                        ],
+                        "total": 0,
+                        "size": 0,
+                        "current": 0,
+                        "orders": [
+                          {
+                            "column": "",
+                            "asc": false
+                          }
+                        ],
+                        "optimizeCountSql": false,
+                        "searchCount": false,
+                        "optimizeJoinOfCountSql": false,
+                        "maxLimit": 0,
+                        "countId": ""
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/bimModel/add": {
+      "post": {
+        "summary": "add",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "view/bim模型(BimModel)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "bimName",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bimDesc",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "caseFileId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseBoolean"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": false
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/bimModel/addByTemplate": {
+      "get": {
+        "summary": "addByTemplate",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "view/bim模型(BimModel)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "bimName",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bimDesc",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "caseFileId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseBoolean"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": false
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/bimModel/merge": {
+      "post": {
+        "summary": "merge",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "view/bim模型(BimModel)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MapObject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseString",
+                  "description": ""
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 0,
+                      "message": "",
+                      "data": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
     "/send2": {
       "post": {
         "summary": "模拟物理点位数据采集",
@@ -21880,6 +24258,60 @@
         "requestBody": {
           "content": {
             "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/hello": {
+      "get": {
+        "summary": "未命名接口",
+        "deprecated": false,
+        "description": "",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "a",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "type": "object",
                 "properties": {}
@@ -22120,6 +24552,10 @@
           "returnValue": {
             "type": "string",
             "description": "返回值"
+          },
+          "requestUrl": {
+            "type": "string",
+            "description": "请求url"
           },
           "createTime": {
             "type": "string",
@@ -22865,6 +25301,54 @@
           }
         }
       },
+      "BimModelVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "id"
+          },
+          "bimName": {
+            "type": "string",
+            "description": "组态名称"
+          },
+          "bimDesc": {
+            "type": "string",
+            "description": "描述"
+          },
+          "state": {
+            "type": "integer",
+            "description": "发布状态（1未发布，2已发布）"
+          },
+          "name": {
+            "type": "string",
+            "description": "文件名称"
+          },
+          "uniqueId": {
+            "type": "string",
+            "description": "唯一id"
+          },
+          "documentSize": {
+            "type": "integer",
+            "description": "原始模型大小"
+          },
+          "fileType": {
+            "type": "integer",
+            "description": "文件类型"
+          },
+          "status": {
+            "type": "integer",
+            "description": "上传状态"
+          },
+          "owner": {
+            "type": "string",
+            "description": "上传人员"
+          }
+        },
+        "required": [
+          "bimName"
+        ]
+      },
       "ResponseListMenuTreeVO": {
         "type": "object",
         "properties": {
@@ -23264,7 +25748,7 @@
         "type": "object",
         "properties": {
           "key": {
-            "$ref": "#/components/schemas/key1"
+            "$ref": "#/components/schemas/key3"
           }
         }
       },
@@ -23678,7 +26162,7 @@
             "type": "string",
             "description": ""
           },
-          "elementIdIndex": {
+          "elementId": {
             "type": "string",
             "description": ""
           },
@@ -23701,7 +26185,7 @@
         "required": [
           "projectId",
           "sadiId",
-          "elementIdIndex",
+          "elementId",
           "type",
           "deviceIds"
         ]
@@ -23749,6 +26233,112 @@
           },
           "pointId": {
             "type": "integer",
+            "description": ""
+          }
+        }
+      },
+      "AiAlgorithmVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "id"
+          },
+          "name": {
+            "type": "string",
+            "description": "名称"
+          },
+          "pythonFileName": {
+            "type": "string",
+            "description": "算法文件名称"
+          },
+          "pythonFilePath": {
+            "type": "string",
+            "description": "算法文件路径"
+          },
+          "params": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JSONArray",
+              "description": "com.alibaba.fastjson2.JSONArray"
+            },
+            "description": "参数"
+          },
+          "returnType": {
+            "type": "string",
+            "description": "返回值类型"
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间"
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "更新时间"
+          }
+        }
+      },
+      "ResponseListBimModelVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ResponseCode.SUCCESS.message()"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BimModelVO",
+              "description": "com.afdi.ambition.common.vo.view.BimModelVO"
+            },
+            "description": ""
+          }
+        }
+      },
+      "DeviceInfoVO": {
+        "type": "object",
+        "properties": {
+          "deviceTypeCode": {
+            "type": "string",
+            "description": ""
+          },
+          "deviceId": {
+            "type": "integer",
+            "description": ""
+          },
+          "deviceNumber": {
+            "type": "string",
+            "description": ""
+          },
+          "deviceName": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "ResponseListAlarmRecordVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ResponseCode.SUCCESS.message()"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlarmRecordVO",
+              "description": "报警配置(AlarmRecord)VO"
+            },
             "description": ""
           }
         }
@@ -24186,6 +26776,10 @@
             "type": "string",
             "description": "设备类型名称"
           },
+          "pictureUrl": {
+            "type": "string",
+            "description": "图片"
+          },
           "systemTypeCode": {
             "type": "string",
             "description": "系统类型"
@@ -24464,6 +27058,10 @@
           "createTime": {
             "type": "string",
             "description": "创建时间"
+          },
+          "pointId": {
+            "type": "integer",
+            "description": "点位id"
           }
         }
       },
@@ -24680,6 +27278,45 @@
           "tagId",
           "pointIds"
         ]
+      },
+      "ResponseListAiAlgorithmVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ResponseCode.SUCCESS.message()"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiAlgorithmVO",
+              "description": "com.afdi.ambition.common.vo.intelligence.AiAlgorithmVO"
+            },
+            "description": ""
+          }
+        }
+      },
+      "PointVerifyResultVO": {
+        "type": "object",
+        "properties": {
+          "originalValue": {
+            "type": "string",
+            "description": "原始值"
+          },
+          "value": {
+            "type": "string",
+            "description": "解析值"
+          },
+          "verifyTime": {
+            "type": "string",
+            "description": "校验时间"
+          }
+        }
       },
       "MenuDTO": {
         "type": "object",
@@ -25931,7 +28568,7 @@
       "DeviceStructureVO": {
         "type": "object",
         "properties": {
-          "elementIdIndex": {
+          "elementId": {
             "type": "string",
             "description": "构件id或index"
           },
@@ -26000,6 +28637,150 @@
           "pointName": {
             "type": "string",
             "description": ""
+          },
+          "controlId": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "PageBimModelVO": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BimModelVO",
+              "description": "com.afdi.ambition.common.vo.view.BimModelVO"
+            },
+            "description": "",
+            "default": "Collections.emptyList()"
+          },
+          "total": {
+            "type": "integer",
+            "description": "",
+            "default": 0
+          },
+          "size": {
+            "type": "integer",
+            "description": "",
+            "default": 10
+          },
+          "current": {
+            "type": "integer",
+            "description": "",
+            "default": 1
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItem",
+              "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+            },
+            "description": "",
+            "default": "new ArrayList<>()"
+          },
+          "optimizeCountSql": {
+            "type": "boolean",
+            "description": "",
+            "default": "true"
+          },
+          "searchCount": {
+            "type": "boolean",
+            "description": "",
+            "default": "true"
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "description": "",
+            "default": "true"
+          },
+          "maxLimit": {
+            "type": "integer",
+            "description": ""
+          },
+          "countId": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "ResponsePointVerifyResultVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ResponseCode.SUCCESS.message()"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PointVerifyResultVO",
+            "description": ""
+          }
+        }
+      },
+      "PageDeviceInfoVO": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceInfoVO",
+              "description": "com.afdi.ambition.common.vo.view.DeviceInfoVO"
+            },
+            "description": "查询数据列表",
+            "default": "Collections.emptyList()"
+          },
+          "total": {
+            "type": "integer",
+            "description": "总数",
+            "default": 0
+          },
+          "size": {
+            "type": "integer",
+            "description": "每页显示条数，默认 10",
+            "default": 10
+          },
+          "current": {
+            "type": "integer",
+            "description": "当前页",
+            "default": 1
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItem",
+              "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+            },
+            "description": "排序字段信息",
+            "default": "new ArrayList<>()"
+          },
+          "optimizeCountSql": {
+            "type": "boolean",
+            "description": "自动优化 COUNT SQL",
+            "default": "true"
+          },
+          "searchCount": {
+            "type": "boolean",
+            "description": "是否进行 count 查询",
+            "default": "true"
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "description": "{@link #optimizeJoinOfCountSql()}",
+            "default": "true"
+          },
+          "maxLimit": {
+            "type": "integer",
+            "description": "单页分页条数限制"
+          },
+          "countId": {
+            "type": "string",
+            "description": "countId"
           }
         }
       },
@@ -26294,19 +29075,23 @@
               "$ref": "#/components/schemas/DeviceVO",
               "description": ""
             },
-            "description": "查询数据列表"
+            "description": "查询数据列表",
+            "default": "Collections.emptyList()"
           },
           "total": {
             "type": "integer",
-            "description": "总数"
+            "description": "总数",
+            "default": 0
           },
           "size": {
             "type": "integer",
-            "description": "每页显示条数，默认 10"
+            "description": "每页显示条数，默认 10",
+            "default": 10
           },
           "current": {
             "type": "integer",
-            "description": "当前页"
+            "description": "当前页",
+            "default": 1
           },
           "orders": {
             "type": "array",
@@ -26314,19 +29099,23 @@
               "$ref": "#/components/schemas/OrderItem",
               "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
             },
-            "description": "排序字段信息"
+            "description": "排序字段信息",
+            "default": "new ArrayList<>()"
           },
           "optimizeCountSql": {
             "type": "boolean",
-            "description": "自动优化 COUNT SQL"
+            "description": "自动优化 COUNT SQL",
+            "default": "true"
           },
           "searchCount": {
             "type": "boolean",
-            "description": "是否进行 count 查询"
+            "description": "是否进行 count 查询",
+            "default": "true"
           },
           "optimizeJoinOfCountSql": {
             "type": "boolean",
-            "description": "{@link #optimizeJoinOfCountSql()}"
+            "description": "{@link #optimizeJoinOfCountSql()}",
+            "default": "true"
           },
           "maxLimit": {
             "type": "integer",
@@ -26969,6 +29758,95 @@
           }
         }
       },
+      "PageAiAlgorithmVO": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AiAlgorithmVO",
+              "description": "com.afdi.ambition.common.vo.intelligence.AiAlgorithmVO"
+            },
+            "description": ""
+          },
+          "total": {
+            "type": "integer",
+            "description": ""
+          },
+          "size": {
+            "type": "integer",
+            "description": ""
+          },
+          "current": {
+            "type": "integer",
+            "description": ""
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItem",
+              "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
+            },
+            "description": ""
+          },
+          "optimizeCountSql": {
+            "type": "boolean",
+            "description": ""
+          },
+          "searchCount": {
+            "type": "boolean",
+            "description": ""
+          },
+          "optimizeJoinOfCountSql": {
+            "type": "boolean",
+            "description": ""
+          },
+          "maxLimit": {
+            "type": "integer",
+            "description": ""
+          },
+          "countId": {
+            "type": "string",
+            "description": ""
+          }
+        }
+      },
+      "ResponsePageBimModelVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ResponseCode.SUCCESS.message()"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageBimModelVO",
+            "description": ""
+          }
+        }
+      },
+      "ResponsePageDeviceInfoVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ResponseCode.SUCCESS.message()"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageDeviceInfoVO",
+            "description": ""
+          }
+        }
+      },
       "MenuOrderDTO": {
         "type": "object",
         "properties": {
@@ -26998,7 +29876,7 @@
           "asc": {
             "type": "boolean",
             "description": "是否正序排列，默认 true",
-            "default": true
+            "default": "true"
           }
         }
       },
@@ -27366,6 +30244,10 @@
           "returnValue": {
             "type": "string",
             "description": "返回值"
+          },
+          "requestUrl": {
+            "type": "string",
+            "description": "请求url"
           }
         },
         "required": [
@@ -27495,6 +30377,10 @@
           "verificationTime": {
             "type": "string",
             "description": "校验时间"
+          },
+          "enableEdit": {
+            "type": "integer",
+            "description": "是否可编辑（1是，2否）"
           },
           "deviceVO": {
             "$ref": "#/components/schemas/DeviceVO",
@@ -27861,6 +30747,41 @@
           }
         }
       },
+      "ResponsePageAiAlgorithmVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ResponseCode.SUCCESS.message()"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageAiAlgorithmVO",
+            "description": ""
+          }
+        }
+      },
+      "DeviceBindingStateVO": {
+        "type": "object",
+        "properties": {
+          "deviceId": {
+            "type": "integer",
+            "description": ""
+          },
+          "isBindingStructure": {
+            "type": "boolean",
+            "description": ""
+          },
+          "isBindingTag": {
+            "type": "boolean",
+            "description": ""
+          }
+        }
+      },
       "PageUserVO": {
         "type": "object",
         "properties": {
@@ -28036,6 +30957,10 @@
           "returnValue": {
             "type": "string",
             "description": "返回值"
+          },
+          "requestUrl": {
+            "type": "string",
+            "description": "请求url"
           }
         },
         "required": [
@@ -28202,6 +31127,46 @@
           }
         }
       },
+      "ResponseAiAlgorithmVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ResponseCode.SUCCESS.message()"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AiAlgorithmVO",
+            "description": "com.afdi.ambition.common.vo.intelligence.AiAlgorithmVO"
+          }
+        }
+      },
+      "ResponseListDeviceBindingStateVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ResponseCode.SUCCESS.message()"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceBindingStateVO",
+              "description": "com.afdi.ambition.common.vo.view.DeviceBindingStateVO"
+            },
+            "description": ""
+          }
+        }
+      },
       "ResponsePageUserVO": {
         "type": "object",
         "properties": {
@@ -28285,23 +31250,19 @@
               "$ref": "#/components/schemas/LogicPointVO",
               "description": "com.afdi.ambition.common.vo.thing.LogicPointVO"
             },
-            "description": "查询数据列表",
-            "default": "Collections.emptyList()"
+            "description": "查询数据列表"
           },
           "total": {
             "type": "integer",
-            "description": "总数",
-            "default": 0
+            "description": "总数"
           },
           "size": {
             "type": "integer",
-            "description": "每页显示条数，默认 10",
-            "default": 10
+            "description": "每页显示条数，默认 10"
           },
           "current": {
             "type": "integer",
-            "description": "当前页",
-            "default": 1
+            "description": "当前页"
           },
           "orders": {
             "type": "array",
@@ -28309,23 +31270,19 @@
               "$ref": "#/components/schemas/OrderItem",
               "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
             },
-            "description": "排序字段信息",
-            "default": "new ArrayList<>()"
+            "description": "排序字段信息"
           },
           "optimizeCountSql": {
             "type": "boolean",
-            "description": "自动优化 COUNT SQL",
-            "default": "true"
+            "description": "自动优化 COUNT SQL"
           },
           "searchCount": {
             "type": "boolean",
-            "description": "是否进行 count 查询",
-            "default": "true"
+            "description": "是否进行 count 查询"
           },
           "optimizeJoinOfCountSql": {
             "type": "boolean",
-            "description": "{@link #optimizeJoinOfCountSql()}",
-            "default": "true"
+            "description": "{@link #optimizeJoinOfCountSql()}"
           },
           "maxLimit": {
             "type": "integer",
@@ -28595,6 +31552,167 @@
           "pushTypeName": {
             "type": "string",
             "description": "推送类型名称"
+          }
+        }
+      },
+      "AiAlgorithmDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "id"
+          },
+          "name": {
+            "type": "string",
+            "description": "名称"
+          },
+          "pythonFileName": {
+            "type": "string",
+            "description": "算法文件名称"
+          },
+          "pythonFilePath": {
+            "type": "string",
+            "description": "算法文件路径"
+          },
+          "params": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JSONArray",
+              "description": "com.alibaba.fastjson2.JSONArray"
+            },
+            "description": "参数"
+          },
+          "returnType": {
+            "type": "string",
+            "description": "返回值类型"
+          }
+        },
+        "required": [
+          "name",
+          "pythonFileName",
+          "pythonFilePath",
+          "params",
+          "returnType"
+        ]
+      },
+      "BimModelDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "id"
+          },
+          "bimName": {
+            "type": "string",
+            "description": "组态名称"
+          },
+          "bimDesc": {
+            "type": "string",
+            "description": "描述"
+          },
+          "state": {
+            "type": "integer",
+            "description": "发布状态（1未发布，2已发布）"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "模型文件"
+          }
+        },
+        "required": [
+          "bimName"
+        ]
+      },
+      "RListVisual": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "状态码"
+          },
+          "success": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Visual",
+              "description": "可视化主信息"
+            },
+            "description": "承载数据"
+          },
+          "msg": {
+            "type": "string",
+            "description": "返回消息"
+          }
+        }
+      },
+      "DeviceOperationRecordListVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "id"
+          },
+          "deviceId": {
+            "type": "integer",
+            "description": "设备id"
+          },
+          "deviceNumber": {
+            "type": "string",
+            "description": "设备编码"
+          },
+          "deviceName": {
+            "type": "string",
+            "description": "设备名称"
+          },
+          "logicPointCode": {
+            "type": "string",
+            "description": "逻辑节点编码"
+          },
+          "source": {
+            "type": "integer",
+            "description": "操作来源（0：页面操作，1:定时器，2:算法组态）"
+          },
+          "result": {
+            "type": "integer",
+            "description": "执行结果(1:成功，0:错误)"
+          },
+          "resultMsg": {
+            "type": "string",
+            "description": "信息内容"
+          },
+          "isSoftwareSend": {
+            "type": "integer",
+            "description": "操作类型  1软件下发"
+          },
+          "originalValue": {
+            "type": "string",
+            "description": "原始值 记录下发当时的值"
+          },
+          "setValue": {
+            "$ref": "#/components/schemas/JSONObject",
+            "description": "点位配置信息"
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间"
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "更新时间"
+          },
+          "pointId": {
+            "type": "integer",
+            "description": "点位id"
+          },
+          "name": {
+            "type": "string",
+            "description": "点位名称"
           }
         }
       },
@@ -28908,6 +32026,28 @@
           "msg": {
             "type": "string",
             "description": "返回消息"
+          }
+        }
+      },
+      "ResponseListDeviceOperationRecordListVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ResponseCode.SUCCESS.message()"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceOperationRecordListVO",
+              "description": "com.afdi.ambition.common.vo.thing.DeviceOperationRecordListVO"
+            },
+            "description": ""
           }
         }
       },
@@ -29346,7 +32486,7 @@
         "type": "object",
         "properties": {
           "key": {
-            "$ref": "#/components/schemas/key"
+            "$ref": "#/components/schemas/key12"
           }
         }
       },
@@ -29989,13 +33129,16 @@
           "isWrite": {
             "type": "integer",
             "description": "是否可写（1是，2否）"
+          },
+          "enableEdit": {
+            "type": "integer",
+            "description": "是否可编辑（1是，2否）"
           }
         },
         "required": [
           "deviceNumber",
           "code",
-          "name",
-          "storageJobId"
+          "name"
         ]
       },
       "LogicPointEditDTO": {
@@ -30112,13 +33255,16 @@
           "isWrite": {
             "type": "integer",
             "description": "是否可写（1是，2否）"
+          },
+          "enableEdit": {
+            "type": "integer",
+            "description": "是否可编辑（1是，2否）"
           }
         },
         "required": [
           "deviceNumber",
           "code",
-          "name",
-          "storageJobId"
+          "name"
         ]
       },
       "ResponseListDeviceVO": {
@@ -30143,6 +33289,155 @@
           }
         }
       },
+      "LogicPointWithUrlVO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": ""
+          },
+          "deviceNumber": {
+            "type": "string",
+            "description": "关联设备"
+          },
+          "code": {
+            "type": "string",
+            "description": "点位编码"
+          },
+          "name": {
+            "type": "string",
+            "description": "名称"
+          },
+          "storageJobId": {
+            "type": "integer",
+            "description": "转存周期定时任务id"
+          },
+          "collectJobId": {
+            "type": "integer",
+            "description": "采集定时任务id"
+          },
+          "sort": {
+            "type": "number",
+            "description": "显示顺序"
+          },
+          "showType": {
+            "type": "string",
+            "description": "显示控件"
+          },
+          "defaultData": {
+            "type": "string",
+            "description": "空值默认值"
+          },
+          "isFormula": {
+            "type": "integer",
+            "description": "是否表达式（1虚点表达式，2虚点算法，3实点表达式）"
+          },
+          "isRealPoint": {
+            "type": "integer",
+            "description": "是否实点（1实点，2虚点）"
+          },
+          "monitorExpr": {
+            "$ref": "#/components/schemas/JSONObject",
+            "description": "点位配置信息"
+          },
+          "controlExpr": {
+            "$ref": "#/components/schemas/JSONObject",
+            "description": "点位配置信息"
+          },
+          "monitorAlgorithmId": {
+            "type": "integer",
+            "description": "监测算法"
+          },
+          "monitorAlgorithmUrl": {
+            "type": "string",
+            "description": "监测算法Url"
+          },
+          "controlAlgorithmId": {
+            "type": "integer",
+            "description": "控制算法"
+          },
+          "controlAlgorithmUrl": {
+            "type": "string",
+            "description": "控制算法Url"
+          },
+          "parseExpr": {
+            "$ref": "#/components/schemas/JSONObject",
+            "description": "点位配置信息"
+          },
+          "dataType": {
+            "type": "string",
+            "description": "数据类型"
+          },
+          "dataUpperLimit": {
+            "type": "number",
+            "description": "取值范围上限"
+          },
+          "dataLowerLimit": {
+            "type": "number",
+            "description": "取值范围下限"
+          },
+          "unit": {
+            "type": "string",
+            "description": "单位"
+          },
+          "isInherit": {
+            "type": "integer",
+            "description": "是否继承（1是，2否）"
+          },
+          "isDisplay": {
+            "type": "integer",
+            "description": "是否显示（1是，2否）"
+          },
+          "isEnum": {
+            "type": "integer",
+            "description": "是否枚举（1是，2否）"
+          },
+          "isDefault": {
+            "type": "integer",
+            "description": "是否默认（1是，2否）"
+          },
+          "enumDetail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JSONArray",
+              "description": "com.alibaba.fastjson2.JSONArray"
+            },
+            "description": "具体枚举"
+          },
+          "setValue": {
+            "type": "string",
+            "description": "设定值"
+          },
+          "isWrite": {
+            "type": "integer",
+            "description": "是否可写（1是，2否）"
+          },
+          "verificationRes": {
+            "type": "string",
+            "description": "校验结果"
+          },
+          "verificationTime": {
+            "type": "string",
+            "description": "校验时间"
+          },
+          "enableEdit": {
+            "type": "integer",
+            "description": "是否可编辑（1是，2否）"
+          },
+          "deviceVO": {
+            "$ref": "#/components/schemas/DeviceVO",
+            "description": ""
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间"
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "更新时间"
+          }
+        }
+      },
       "ResponseJSONObject": {
         "type": "object",
         "properties": {
@@ -30158,6 +33453,28 @@
           "data": {
             "$ref": "#/components/schemas/JSONObject",
             "description": "点位配置信息"
+          }
+        }
+      },
+      "ResponseListLogicPointWithUrlVO": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": ""
+          },
+          "message": {
+            "type": "string",
+            "description": "",
+            "default": "ResponseCode.SUCCESS.message()"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogicPointWithUrlVO",
+              "description": "com.afdi.ambition.common.vo.thing.LogicPointWithUrlVO"
+            },
+            "description": ""
           }
         }
       },
@@ -30658,6 +33975,10 @@
           "showType": {
             "type": "string",
             "description": "显示控件"
+          },
+          "picture": {
+            "type": "string",
+            "description": "图标"
           }
         }
       },
@@ -30670,23 +33991,19 @@
               "$ref": "#/components/schemas/DeviceMonitorHistoryVO",
               "description": "设备监测历史记录"
             },
-            "description": "",
-            "default": "Collections.emptyList()"
+            "description": ""
           },
           "total": {
             "type": "integer",
-            "description": "",
-            "default": 0
+            "description": ""
           },
           "size": {
             "type": "integer",
-            "description": "",
-            "default": 10
+            "description": ""
           },
           "current": {
             "type": "integer",
-            "description": "",
-            "default": 1
+            "description": ""
           },
           "orders": {
             "type": "array",
@@ -30694,23 +34011,19 @@
               "$ref": "#/components/schemas/OrderItem",
               "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
             },
-            "description": "",
-            "default": "new ArrayList<>()"
+            "description": ""
           },
           "optimizeCountSql": {
             "type": "boolean",
-            "description": "",
-            "default": "true"
+            "description": ""
           },
           "searchCount": {
             "type": "boolean",
-            "description": "",
-            "default": "true"
+            "description": ""
           },
           "optimizeJoinOfCountSql": {
             "type": "boolean",
-            "description": "",
-            "default": "true"
+            "description": ""
           },
           "maxLimit": {
             "type": "integer",
@@ -30784,6 +34097,10 @@
           "time": {
             "type": "string",
             "description": "时间"
+          },
+          "pointId": {
+            "type": "integer",
+            "description": "点位id"
           }
         }
       },
@@ -30868,6 +34185,10 @@
           "controlType": {
             "type": "integer",
             "description": "操作类型"
+          },
+          "pointId": {
+            "type": "integer",
+            "description": "点位id"
           }
         }
       },
@@ -31030,6 +34351,10 @@
           "duration": {
             "type": "integer",
             "description": "持续时间"
+          },
+          "alarmId": {
+            "type": "integer",
+            "description": "报警配置id"
           }
         }
       },
@@ -31042,23 +34367,19 @@
               "$ref": "#/components/schemas/DeviceAlarmHistoryDataVo",
               "description": "设备报警历史数据"
             },
-            "description": "",
-            "default": "Collections.emptyList()"
+            "description": ""
           },
           "total": {
             "type": "integer",
-            "description": "",
-            "default": 0
+            "description": ""
           },
           "size": {
             "type": "integer",
-            "description": "",
-            "default": 10
+            "description": ""
           },
           "current": {
             "type": "integer",
-            "description": "",
-            "default": 1
+            "description": ""
           },
           "orders": {
             "type": "array",
@@ -31066,23 +34387,19 @@
               "$ref": "#/components/schemas/OrderItem",
               "description": "com.baomidou.mybatisplus.core.metadata.OrderItem"
             },
-            "description": "",
-            "default": "new ArrayList<>()"
+            "description": ""
           },
           "optimizeCountSql": {
             "type": "boolean",
-            "description": "",
-            "default": "true"
+            "description": ""
           },
           "searchCount": {
             "type": "boolean",
-            "description": "",
-            "default": "true"
+            "description": ""
           },
           "optimizeJoinOfCountSql": {
             "type": "boolean",
-            "description": "",
-            "default": "true"
+            "description": ""
           },
           "maxLimit": {
             "type": "integer",

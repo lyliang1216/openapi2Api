@@ -18,19 +18,19 @@ import pinyin from "pinyin";
  * @param {*} param.customInterFacePlugin 自定义interface内容插件
  */
 const tool = ({
-  openAPI,
-  baseUrl,
-  outDir,
-  apiOutDir,
-  exportApiName,
-  interfaceOutDir,
-  requestUrl,
-  needExtendTemplate,
-  customUrlPlugin,
-  customGroupPlugin,
-  customReqNamePlugin,
-  customInterFacePlugin,
-}) => {
+                openAPI,
+                baseUrl,
+                outDir,
+                apiOutDir,
+                exportApiName,
+                interfaceOutDir,
+                requestUrl,
+                needExtendTemplate,
+                customUrlPlugin,
+                customGroupPlugin,
+                customReqNamePlugin,
+                customInterFacePlugin,
+              }) => {
   const __dirname = process.cwd() + (outDir[0] === "/" ? "" : "/") + outDir;
   // 类型转换
   const JavaType2JavaScriptType = {
@@ -76,9 +76,10 @@ const tool = ({
             .map((queryItem) => {
               const type = queryItem.schema.type
               const itemType = queryItem.schema?.items?.type
+              const normalType = (JavaType2JavaScriptType[type] || 'any')
               return {
                 name: queryItem.name,
-                type: (type === 'array' && itemType) ? `${(JavaType2JavaScriptType[itemType] || 'any')}[]` : (JavaType2JavaScriptType[type] || 'any'),
+                type: (type === 'array' && itemType) ? `${(JavaType2JavaScriptType[itemType] || 'any')}[]` : (normalType === 'array' ? '(string|number)[]' : normalType),
                 description: queryItem.description,
                 in: api.url.includes(`{${queryItem.name}}`) ? "path" : "query",
                 required: queryItem.required,
@@ -631,20 +632,20 @@ export function useExtApi() {
  * @param {*} param.customInterFacePlugin 自定义interface内容插件
  */
 export const genApi = ({
- swaggerJsonUrl,
- apiJsonData,
- baseUrl,
- outDir,
- apiOutDir,
- exportApiName,
- interfaceOutDir,
- requestUrl,
- needExtendTemplate,
- customUrlPlugin,
- customGroupPlugin,
- customReqNamePlugin,
- customInterFacePlugin,
-}) => {
+                         swaggerJsonUrl,
+                         apiJsonData,
+                         baseUrl,
+                         outDir,
+                         apiOutDir,
+                         exportApiName,
+                         interfaceOutDir,
+                         requestUrl,
+                         needExtendTemplate,
+                         customUrlPlugin,
+                         customGroupPlugin,
+                         customReqNamePlugin,
+                         customInterFacePlugin,
+                       }) => {
   const todo = (openAPI) => {
     // 处理转译字符
     openAPI = JSON.parse(

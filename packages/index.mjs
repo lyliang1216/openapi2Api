@@ -16,6 +16,7 @@ import pinyin from 'pinyin'
  * @param {*} param.customGroupPlugin 自定义group插件
  * @param {*} param.customReqNamePlugin 自定义请求方法名称插件
  * @param {*} param.customInterFacePlugin 自定义interface内容插件
+ * @param {*} param.customResponsesTypePlugin 自定义responses类型插件
  */
 const tool = ({
                 openAPI,
@@ -29,7 +30,8 @@ const tool = ({
                 customUrlPlugin,
                 customGroupPlugin,
                 customReqNamePlugin,
-                customInterFacePlugin
+                customInterFacePlugin,
+                customResponsesTypePlugin
               }) => {
   const __dirname = process.cwd() + (outDir[0] === '/' ? '' : '/') + outDir
   // 类型转换
@@ -170,7 +172,13 @@ const tool = ({
 
   // 获取类型名称
   const getTypeName = (schemasRef) => {
-    return schemasRef.replace('#/components/schemas/', '')
+    const typeName = schemasRef.replace('#/components/schemas/', '')
+    if (customResponsesTypePlugin) {
+      return customResponsesTypePlugin(typeName)
+    }else {
+      return typeName
+    }
+
   }
 
   // 获取请求参数
@@ -651,6 +659,7 @@ export function useExtApi() {
  * @param {*} param.customGroupPlugin 自定义group插件
  * @param {*} param.customReqNamePlugin 自定义请求方法名称插件
  * @param {*} param.customInterFacePlugin 自定义interface内容插件
+ * @param {*} param.customResponsesTypePlugin 自定义responses类型插件
  */
 export const genApi = ({
                          swaggerJsonUrl,
@@ -665,7 +674,8 @@ export const genApi = ({
                          customUrlPlugin,
                          customGroupPlugin,
                          customReqNamePlugin,
-                         customInterFacePlugin
+                         customInterFacePlugin,
+                         customResponsesTypePlugin
                        }) => {
   const todo = (openAPI) => {
     // 处理转译字符
@@ -682,7 +692,8 @@ export const genApi = ({
       customUrlPlugin,
       customGroupPlugin,
       customReqNamePlugin,
-      customInterFacePlugin
+      customInterFacePlugin,
+      customResponsesTypePlugin
     })
   }
   if (!swaggerJsonUrl && !apiJsonData) {

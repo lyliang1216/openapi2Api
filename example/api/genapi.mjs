@@ -90,6 +90,9 @@ genApi({
     } else {
       return {}
     }
+  },
+  customResponsesTypePlugin: (data) => {
+    return data === 'JSONObject' ? 'any': data
   }
 });
 

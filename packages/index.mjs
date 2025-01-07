@@ -1,6 +1,6 @@
-import fs from "fs";
-import path from "path";
-import pinyin from "pinyin";
+import fs from 'fs'
+import path from 'path'
+import pinyin from 'pinyin'
 
 /**
  * api生成工具
@@ -29,157 +29,149 @@ const tool = ({
                 customUrlPlugin,
                 customGroupPlugin,
                 customReqNamePlugin,
-                customInterFacePlugin,
+                customInterFacePlugin
               }) => {
-  const __dirname = process.cwd() + (outDir[0] === "/" ? "" : "/") + outDir;
+  const __dirname = process.cwd() + (outDir[0] === '/' ? '' : '/') + outDir
   // 类型转换
   const JavaType2JavaScriptType = {
-    integer: "number",
-    number: "number",
-    long: "number",
-    string: "string",
-    boolean: "boolean",
-    array: "array",
-    object: "object",
-    timestamp: "string",
-    any: "any",
-  };
+    integer: 'number',
+    number: 'number',
+    long: 'number',
+    string: 'string',
+    boolean: 'boolean',
+    array: 'array',
+    object: 'object',
+    timestamp: 'string',
+    any: 'any'
+  }
 
   // api过滤集合
-  const apis = [];
+  const apis = []
   // 类型转拼音后数组
-  const typePinYinArr = [];
+  const typePinYinArr = []
   // 按模块分组api
-  let group = [];
+  let group = []
 
   // 获取api集合，和请求参数
   const getApiUrlAndParams = () => {
-    const {paths} = openAPI;
+    const { paths } = openAPI
     // 遍历所有url
     Object.keys(paths).forEach((url) => {
       // 遍历每个url下的所有请求方式
       Object.keys(paths[url]).forEach((method) => {
         // url每个请求方式的配置
-        const apiConfig = paths[url][method];
+        const apiConfig = paths[url][method]
 
         const api = {
           url: customUrlPlugin ? customUrlPlugin(url, apiConfig.tags) : url,
           method: method,
-          description: apiConfig.tags[0] + "-" + apiConfig.summary,
-          group: apiConfig.tags[0],
-        };
+          description: apiConfig.tags[0] + '-' + apiConfig.summary,
+          group: apiConfig.tags[0]
+        }
 
         // 获取query和path参数
         if (apiConfig.parameters) {
           api.query = apiConfig.parameters
-            .filter((queryItem) => queryItem.in !== "header")
+            .filter((queryItem) => queryItem.in !== 'header')
             .map((queryItem) => {
               const type = queryItem.schema.type
               const itemType = queryItem.schema?.items?.type
-              const normalType = (JavaType2JavaScriptType[type] || 'any')
+              const normalType = JavaType2JavaScriptType[type] || 'any'
               return {
                 name: queryItem.name,
-                type: (type === 'array' && itemType) ? `${(JavaType2JavaScriptType[itemType] || 'any')}[]` : (normalType === 'array' ? '(string|number)[]' : normalType),
+                type:
+                  type === 'array' && itemType
+                    ? `${JavaType2JavaScriptType[itemType] || 'any'}[]`
+                    : normalType === 'array'
+                      ? '(string|number)[]'
+                      : normalType,
                 description: queryItem.description,
-                in: api.url.includes(`{${queryItem.name}}`) ? "path" : "query",
-                required: queryItem.required,
-              };
-            });
+                in: api.url.includes(`{${queryItem.name}}`) ? 'path' : 'query',
+                required: queryItem.required
+              }
+            })
         }
         // 获取requestBody参数
         if (apiConfig.requestBody) {
-          const reqContent = apiConfig.requestBody.content;
+          const reqContent = apiConfig.requestBody.content
 
           // 是FormData
-          if (reqContent["multipart/form-data"]) {
-            const contentTypeItem = Object.keys(reqContent)[0];
+          if (reqContent['multipart/form-data']) {
+            const contentTypeItem = Object.keys(reqContent)[0]
             if (reqContent[contentTypeItem].schema) {
-              const {properties, required} =
-                reqContent[contentTypeItem].schema;
-              api.params = getPropertiesParams(properties, required);
-              api.paramsType = "FormData";
+              const { properties, required } = reqContent[contentTypeItem].schema
+              api.params = getPropertiesParams(properties, required)
+              api.paramsType = 'FormData'
             }
           } else {
-            const contentTypeItem = Object.keys(reqContent)[0];
+            const contentTypeItem = Object.keys(reqContent)[0]
             if (reqContent[contentTypeItem].schema) {
               // 一般请求对象
               if (reqContent[contentTypeItem].schema.$ref) {
-                const reqBodyTypeStr = getTypeName(
-                  reqContent[contentTypeItem].schema.$ref
-                );
-                api.paramsType = reqBodyTypeStr;
+                const reqBodyTypeStr = getTypeName(reqContent[contentTypeItem].schema.$ref)
+                api.paramsType = reqBodyTypeStr
               } else if (reqContent[contentTypeItem].schema.items) {
                 // 存在数组的
                 if (reqContent[contentTypeItem].schema.items.type) {
-                  if (reqContent[contentTypeItem].schema.type === "array") {
+                  if (reqContent[contentTypeItem].schema.type === 'array') {
                     // 没有interface，直接是内容
-                    api.paramsType =
-                      JavaType2JavaScriptType[
-                        reqContent[contentTypeItem].schema.items.type
-                        ] + "[]";
+                    api.paramsType = JavaType2JavaScriptType[reqContent[contentTypeItem].schema.items.type] + '[]'
                   } else {
-                    api.paramsType =
-                      reqContent[contentTypeItem].schema.items.type;
+                    api.paramsType = reqContent[contentTypeItem].schema.items.type
                   }
                 }
                 if (reqContent[contentTypeItem].schema.items.$ref) {
-                  const reqBodyTypeStr = getTypeName(
-                    reqContent[contentTypeItem].schema.items.$ref
-                  );
-                  if (reqContent[contentTypeItem].schema.type === "array") {
-                    api.paramsType = "I" + reqBodyTypeStr + "[]";
+                  const reqBodyTypeStr = getTypeName(reqContent[contentTypeItem].schema.items.$ref)
+                  if (reqContent[contentTypeItem].schema.type === 'array') {
+                    api.paramsType = 'I' + reqBodyTypeStr + '[]'
                   } else {
-                    api.paramsType = "I" + reqBodyTypeStr;
+                    api.paramsType = 'I' + reqBodyTypeStr
                   }
                 }
               } else if (reqContent[contentTypeItem].schema.type) {
-                api.paramsType =
-                  JavaType2JavaScriptType[
-                    reqContent[contentTypeItem].schema.type
-                    ] || "any";
+                api.paramsType = JavaType2JavaScriptType[reqContent[contentTypeItem].schema.type] || 'any'
               }
             }
           }
         }
         // 获取响应类型
         if (apiConfig.responses[200].content) {
-          const schema = Object.values(apiConfig.responses[200].content)[0]
-            .schema;
+          const schema = Object.values(apiConfig.responses[200].content)[0].schema
           if (schema.$ref) {
-            api.resType = getTypeName(schema.$ref);
+            api.resType = getTypeName(schema.$ref)
           } else {
-            if (schema.format === "binary" && schema.type === "string") {
-              api.resType = "ArrayBuffer";
-            } else if (schema?.items?.type && schema.type === "array") {
-              api.resType = `${getTypeName(schema?.items?.type)}[]`;
-            } else if (schema?.items?.$ref && schema.type === "array") {
-              api.resType = `${getTypeName(schema?.items?.$ref) || 'any'}[]`;
+            if (schema.format === 'binary' && schema.type === 'string') {
+              api.resType = 'ArrayBuffer'
+            } else if (schema?.items?.type && schema.type === 'array') {
+              api.resType = `${getTypeName(schema?.items?.type)}[]`
+            } else if (schema?.items?.$ref && schema.type === 'array') {
+              api.resType = `${getTypeName(schema?.items?.$ref) || 'any'}[]`
             } else {
-              api.resType = getTypeName(schema.type);
+              api.resType = getTypeName(schema.type)
             }
           }
         } else {
-          api.resType = "void";
+          api.resType = 'void'
         }
 
-        apis.push(api);
-      });
-    });
-  };
+        apis.push(api)
+      })
+    })
+  }
 
   // 过滤描述中的异常字符
-  const filterDescription = (desc = "") => {
+  const filterDescription = (desc = '') => {
     // 定义需要去除的字符或模式
-    const pattern = /\/\*|(\*\/)/g;
+    const pattern = /\/\*|(\*\/)/g
     // 去除会导致注释异常的字符
-    const sanitizedDesc = desc.replace(pattern, "");
-    return sanitizedDesc;
-  };
+    const sanitizedDesc = desc.replace(pattern, '')
+    return sanitizedDesc
+  }
 
   // 获取类型名称
   const getTypeName = (schemasRef) => {
-    return schemasRef.replace("#/components/schemas/", "");
-  };
+    return schemasRef.replace('#/components/schemas/', '')
+  }
 
   // 获取请求参数
   const getPropertiesParams = (properties, requiredList) => {
@@ -188,286 +180,268 @@ const tool = ({
         name: formDataKey,
         type: properties[formDataKey].$ref
           ? getTypeName(properties[formDataKey].$ref)
-          : properties[formDataKey].format === "binary"
-            ? "File"
+          : properties[formDataKey].format === 'binary'
+            ? 'File'
             : JavaType2JavaScriptType[properties[formDataKey].type],
         description: properties[formDataKey].description,
-        required: !!requiredList?.includes(formDataKey),
-      };
-    });
-  };
+        required: !!requiredList?.includes(formDataKey)
+      }
+    })
+  }
 
   // 处理enum参数
   const parseEnumData = (array) => {
     return array.map((item) => {
-      const match = item.match(/(\w+)\((.*?)\)=(.*)/);
+      const match = item.match(/(\w+)\((.*?)\)=(.*)/)
       if (match) {
-        const key = match[1]; // 括号前的内容
-        const description = match[2]; // 括号内的内容
-        const value = match[3]; // 等号后面的内容
-        return {key, description, value};
+        const key = match[1] // 括号前的内容
+        const description = match[2] // 括号内的内容
+        const value = match[3] // 等号后面的内容
+        return { key, description, value }
       }
-      return null;
-    });
-  };
+      return null
+    })
+  }
 
   // 获取拼音，作为函数名
   const getPinYin = (string) => {
     return pinyin
       .default(string, {
-        style: "normal",
+        style: 'normal'
       })
       .map((item) => item[0].charAt(0).toUpperCase() + item[0].slice(1))
-      .join("");
-  };
+      .join('')
+  }
 
   // 获取interface内容
   const getInterface = (typeStr) => {
     if (typePinYinArr.find((item) => item.description === typeStr)) {
-      return false;
+      return false
     }
-    const {
-      properties,
-      description,
-      required: requireList,
-      enum: _enum,
-    } = openAPI.components.schemas[typeStr];
-    const name = "I" + getPinYin(typeStr);
+    const { properties, description, required: requireList, enum: _enum } = openAPI.components.schemas[typeStr]
+    const name = 'I' + getPinYin(typeStr)
     const interfaceConfig = {
-      typePinYinName: name.replace(/[^a-zA-Z0-9]/g, ""),
+      typePinYinName: name.replace(/[^a-zA-Z0-9]/g, ''),
       typeName: typeStr,
-      description: description || typeStr,
-    };
+      description: description || typeStr
+    }
     // 存在参数
     if (properties) {
       interfaceConfig.type = Object.keys(properties).map((item) => {
-        const type = properties[item].type;
+        const type = properties[item].type
         return {
           key: item,
           value:
-            type === "array"
+            type === 'array'
               ? properties[item].items?.$ref
                 ? `I${getTypeName(properties[item].items?.$ref)}[]`
                 : properties[item].items.type
                   ? `${JavaType2JavaScriptType[properties[item].items.type]}[]`
-                  : "[]"
+                  : '[]'
               : properties[item].$ref
                 ? getTypeName(properties[item].$ref)
                 : JavaType2JavaScriptType[type] || type,
           description: properties[item].description,
           required: requireList && requireList.includes(item)
-        };
-      });
+        }
+      })
     }
     // 存在枚举
     if (_enum) {
-      interfaceConfig._enum = parseEnumData(_enum);
+      interfaceConfig._enum = parseEnumData(_enum)
     }
-    return interfaceConfig;
-  };
+    return interfaceConfig
+  }
 
   // 获取所有interface内容，遍历获取
   const getInterfaceTypes = () => {
     Object.keys(openAPI.components.schemas).forEach((typeItem) => {
-      typePinYinArr.push(getInterface(typeItem));
-    });
+      typePinYinArr.push(getInterface(typeItem))
+    })
     // 编辑类型中是另一个interface，通过typeName判断
     typePinYinArr.forEach((item) => {
       item.type?.forEach((it) => {
-        const findItem = typePinYinArr.find((t) => t.typeName === it.value);
+        const findItem = typePinYinArr.find((t) => t.typeName === it.value)
         if (findItem) {
-          it.value = findItem.typePinYinName;
+          it.value = findItem.typePinYinName
         }
-      });
-    });
-  };
+      })
+    })
+  }
 
   // 获取api集合中类型名称，与typePinYinArr中命名对应
   const getApiQueryParamsType = () => {
     apis.forEach((item) => {
-      const findItem = typePinYinArr.find(
-        (t) => t.typeName === item.paramsType
-      );
+      const findItem = typePinYinArr.find((t) => t.typeName === item.paramsType)
       if (findItem) {
-        item.paramsType = findItem.typePinYinName;
+        item.paramsType = findItem.typePinYinName
       }
-      const findItem2 = typePinYinArr.find((t) => t.typeName === item.resType);
+      const findItem2 = typePinYinArr.find((t) => t.typeName === item.resType)
       if (findItem2) {
-        item.resType = findItem2.typePinYinName;
+        item.resType = findItem2.typePinYinName
       }
-    });
-  };
+    })
+  }
 
   // 获取组名
   const getGroupName = (url) => {
-    const startIndex = url.startsWith("/") ? 1 : 0;
-    const parts = url.slice(startIndex).split("/");
-    return parts[0];
-  };
+    const startIndex = url.startsWith('/') ? 1 : 0
+    const parts = url.slice(startIndex).split('/')
+    return parts[0]
+  }
 
   // 按组分类
   const groupBy = (array, property) => {
-    const groups = [];
+    const groups = []
     // 当前groupName是第几个
-    const nameToIndex = {};
+    const nameToIndex = {}
 
     array.forEach((item) => {
-      const customGroupName = customGroupPlugin
-        ? customGroupPlugin(item.url)
-        : "";
+      const customGroupName = customGroupPlugin ? customGroupPlugin(item.url) : ''
       if (customGroupName) {
-        item.group = customGroupName;
+        item.group = customGroupName
       }
 
-      const name = item[property];
+      const name = item[property]
       if (!nameToIndex[name]) {
-        nameToIndex[name] = groups.length + 1;
+        nameToIndex[name] = groups.length + 1
         groups.push({
           groupName: customGroupName || getGroupName(item.url),
           description: name,
-          items: [],
-        });
+          items: []
+        })
       }
-      groups[nameToIndex[name] - 1].items.push(item);
-    });
+      groups[nameToIndex[name] - 1].items.push(item)
+    })
 
-    return groups;
-  };
+    return groups
+  }
 
   // 处理模块名称
   const toPascalCase = (str) => {
     return str
-      .split("-")
+      .split('-')
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-      .join("");
-  };
+      .join('')
+  }
 
   // 处理url内容，/=>_,{}=>""
   const processUrl = (url) => {
-    const startIndex = url.startsWith("/") ? 1 : 0;
-    const parts = url.slice(startIndex).split("/");
+    const startIndex = url.startsWith('/') ? 1 : 0
+    const parts = url.slice(startIndex).split('/')
     const processedParts = parts.map((part) => {
-      return part.replace(/-(.)/g, (_match, p1) => p1.toUpperCase());
-    });
-    const capitalizedParts = processedParts.map(
-      (part) => part.charAt(0).toUpperCase() + part.slice(1)
-    );
-    let result = capitalizedParts.join("_");
+      return part.replace(/-(.)/g, (_match, p1) => p1.toUpperCase())
+    })
+    const capitalizedParts = processedParts.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    let result = capitalizedParts.join('_')
 
-    result = result.replace(/\{|\}/g, "");
+    result = result.replace(/\{|\}/g, '')
 
     if (customReqNamePlugin) {
-      return customReqNamePlugin(url, result) || result;
+      return customReqNamePlugin(url, result) || result
     } else {
-      return result;
+      return result
     }
-  };
+  }
 
   // 生成文件
   const genFile = (content, fileName, outdir) => {
     // 定义文件所在的文件夹路径
-    const folderPath = path.join(__dirname, outdir);
+    const folderPath = path.join(__dirname, outdir)
 
     // 检查文件夹是否存在，如果不存在则创建
     if (!fs.existsSync(folderPath)) {
-      fs.mkdirSync(folderPath);
+      fs.mkdirSync(folderPath)
     }
     // 定义文件的路径
-    const filePath = path.join(folderPath, fileName);
+    const filePath = path.join(folderPath, fileName)
     // 创建写入流
-    const writeStream = fs.createWriteStream(filePath);
+    const writeStream = fs.createWriteStream(filePath)
     // 将内容写入文件
-    writeStream.write(content);
-    writeStream.end();
+    writeStream.write(content)
+    writeStream.end()
     // 监听写入完成事件
-    writeStream.on("finish", () => {
-      console.log(fileName + "完成写入");
-    });
+    writeStream.on('finish', () => {
+      console.log(fileName + '完成写入')
+    })
     // 错误处理
-    writeStream.on("error", (err) => {
-      console.error(fileName + "写入失败:", err);
-    });
-  };
+    writeStream.on('error', (err) => {
+      console.error(fileName + '写入失败:', err)
+    })
+  }
 
   // 生成api文件
   const getApiFileContent = () => {
-    group = groupBy(apis, "group");
+    group = groupBy(apis, 'group')
     group.forEach((groupItem) => {
-      let fileStr = `import request from '${requestUrl || "./request"}'
+      let fileStr = `import request from '${requestUrl || './request'}'
     /**${filterDescription(groupItem.description)} */
       export function use${toPascalCase(groupItem.groupName)}Api() {
-      return {\n`;
+      return {\n`
       groupItem.items.forEach((item) => {
-        fileStr += genReqStrContent(item);
-        fileStr += "\n";
-      });
-      fileStr += `}}`;
-      genFile(fileStr, groupItem.groupName + ".ts", apiOutDir);
-    });
-  };
+        fileStr += genReqStrContent(item)
+        fileStr += '\n'
+      })
+      fileStr += `}}`
+      genFile(fileStr, groupItem.groupName + '.ts', apiOutDir)
+    })
+  }
 
-  const getReqConfig = (config)=>{
+  const getReqConfig = (config) => {
     let queryTypeStr = ''
     let descStr = ''
-    queryTypeStr += `{`;
-    queryTypeStr += config
-      .map(
-        (q) => `${q.name}${q.required ? "" : "?"}:${urlNumber2String(q.type)}`
-      )
-      .join(",");
-    queryTypeStr += `}`;
+    queryTypeStr += `{`
+    queryTypeStr += config.map((q) => `${q.name}${q.required ? '' : '?'}:${urlNumber2String(q.type)}`).join(',')
+    queryTypeStr += `}`
     descStr = config
-      .map(
-        (q, i) =>
-          `* @param data.${q.name} ${q.description}${
-            i === config.length - 1 ? "" : "\n"
-          }`
-      )
-      .join("");
-    return {queryTypeStr, descStr};
+      .map((q, i) => `* @param data.${q.name} ${q.description}${i === config.length - 1 ? '' : '\n'}`)
+      .join('')
+    return { queryTypeStr, descStr }
   }
 
   // 生成请求字符串内容
   const genReqStrContent = (item) => {
-    let url = replacePlaceholders(item.url);
-    const method = item.method.toUpperCase();
-    let queryStr = "";
-    let queryTypeStr = "";
-    let descStr = "";
-    let reqBodyTypeStr = item.paramsType;
-    const isFormData = item.paramsType === "FormData";
+    let url = replacePlaceholders(item.url)
+    const method = item.method.toUpperCase()
+    let queryStr = ''
+    let queryTypeStr = ''
+    let descStr = ''
+    const reqBodyTypeStr = item.paramsType
+    const isFormData = item.paramsType === 'FormData'
     if (item.query && item.query.length) {
-      const querys = item.query.filter((it) => it.in === "query");
+      const querys = item.query.filter((it) => it.in === 'query')
       if (querys.length) {
-        queryStr = querys
-          .map((it) => `${it.name}=\$\{data.${it.name}\}`)
-          .join("&");
-        url += `?${queryStr}`;
+        queryStr = querys.map((it) => `${it.name}=\$\{data.${it.name}\}`).join('&')
+        url += `?${queryStr}`
       }
       queryTypeStr = getReqConfig(item.query).queryTypeStr
       descStr = getReqConfig(item.query).descStr
     }
-    if ((isFormData && item.params?.length)) {
+    if (isFormData && item.params?.length) {
       queryTypeStr = getReqConfig(item.params).queryTypeStr
       descStr = getReqConfig(item.params).descStr
     }
-    let resStr = "";
-    resStr += `/** 
-    * ${filterDescription(item.description)}\n`;
+    let resStr = ''
+    resStr += `/**
+    * ${filterDescription(item.description)}\n`
     if (descStr) {
-      resStr += `${descStr}\n`;
+      resStr += `${descStr}\n`
     }
-    resStr += `*/\n`;
+    resStr += `*/\n`
     const paramsStr = () => {
       if (isFormData) {
         if (!item.params?.length) {
-          return "data:FormData,"
-        }else {
+          return 'data:FormData,'
+        } else {
           return `data:${queryTypeStr},`
         }
-
       }
-      if (item.query && item.query.length && reqBodyTypeStr && (item.method.toUpperCase() === 'POST' || item.method.toUpperCase() === 'PUT')) {
+      if (
+        item.query &&
+        item.query.length &&
+        reqBodyTypeStr &&
+        (item.method.toUpperCase() === 'POST' || item.method.toUpperCase() === 'PUT')
+      ) {
         return `data:${queryTypeStr}, reqBody:${reqBodyTypeStr},`
       }
       if (item.query && item.query.length) {
@@ -479,140 +453,153 @@ const tool = ({
       return ''
     }
 
-    resStr += `${processUrl(item.url)}${method}(${paramsStr()} config={}): Promise<${item.resType || "void"}> {\n`;
+    resStr += `${processUrl(item.url)}${method}(${paramsStr()} config={}): Promise<${item.resType || 'void'}> {\n`
     if (isFormData && item.params?.length) {
       resStr += `const _data = new FormData();\n`
       item.params.forEach((it) => {
-        const current = item.params.find(c => c.name === it.name)
+        const current = item.params.find((c) => c.name === it.name)
         if (current.type === 'File') {
           resStr += `_data.append('${it.name}', data.${it.name} ?? '');\n`
-        }else {
+        } else {
           resStr += `_data.append('${it.name}', JSON.stringify(data.${it.name} ?? ''));\n`
         }
       })
-      const _config = ``
     }
     resStr += `return request({
-        url: \`${baseUrl || ""}${url}\`,
-        method: '${item.method.toUpperCase()}',\n`;
-
+        url: \`${baseUrl || ''}${url}\`,
+        method: '${item.method.toUpperCase()}',\n`
+    // 表单，并且有具体参数
     if (isFormData && item.params?.length) {
-      resStr += "data: _data,\n";
+      resStr += 'data: _data,\n'
       resStr += `...config,
       headers: {
           'Content-Type': 'multipart/form-data',
           ...((config as any).headers || {})
         }
       })
-    },`;
-    }else if ((!queryTypeStr && reqBodyTypeStr) || (isFormData)) {
-      resStr += "data,\n";
+    },`
+    } else if ((!queryTypeStr && reqBodyTypeStr) || isFormData) {
+      if (url.includes('group-scheme/copy')) {
+        console.log(222)
+      }
+      // 没有具体参数的表单，和有reqBody的内容
+      resStr += 'data,\n'
       resStr += `...config
       })
-    },`;
-    }else if ((queryTypeStr && reqBodyTypeStr && (item.method.toUpperCase() === 'POST' || item.method.toUpperCase() === 'PUT'))) {
-      resStr += "data: reqBody,\n";
+    },`
+    } else if (
+      queryTypeStr &&
+      reqBodyTypeStr &&
+      (item.method.toUpperCase() === 'POST' || item.method.toUpperCase() === 'PUT')
+    ) {
+      if (url.includes('group-scheme/copy')) {
+        console.log(333)
+      }
+      // 有query参数和reqBody参数，并且是post或put
+      resStr += 'data: reqBody,\n'
       resStr += `...config
       })
-    },`;
-    }else {
+    },`
+    } else {
+      if (url.includes('group-scheme/copy')) {
+        console.log(444)
+      }
+      // 其他项
       resStr += `...config
       })
-    },`;
+    },`
     }
 
-    return resStr;
-  };
+    return resStr
+  }
 
   // 替换url中的占位符
   const replacePlaceholders = (str) => {
     return str.replace(/\{(\w+)\}/g, function (match, p1) {
-      return "${data." + p1 + "}";
-    });
-  };
+      return '${data.' + p1 + '}'
+    })
+  }
 
   // url参数number兼容string
   const urlNumber2String = (type) => {
-    return type === "number" ? "number | string" : type;
-  };
+    return type === 'number' ? 'number | string' : type
+  }
 
   // 获取interface文件内容
   const getInterfaceFileContent = () => {
-    let content = "";
+    let content = ''
     typePinYinArr.forEach((item) => {
-      let str = "";
+      let str = ''
       if (item.type) {
         str += `
-    ${item.description ? `/**${filterDescription(item.description)} */` : ""}
+    ${item.description ? `/**${filterDescription(item.description)} */` : ''}
  declare interface ${item.typePinYinName} {
-`;
+`
         const defaultFn = () => {
           item.type?.forEach((it) => {
             if (it.description) {
-              str += `/**${filterDescription(it.description)} */\n`;
+              str += `/**${filterDescription(it.description)} */\n`
             }
-            str += `${it.key}${it.required ? "" : "?"}: ${it.value};\n`;
-          });
-        };
+            str += `${it.key}${it.required ? '' : '?'}: ${it.value};\n`
+          })
+        }
         if (customInterFacePlugin) {
-          const customInterfaceObj = customInterFacePlugin(item);
+          const customInterfaceObj = customInterFacePlugin(item)
           if (Object.keys(customInterfaceObj).includes(item.typePinYinName)) {
-            str += customInterfaceObj[item.typePinYinName];
+            str += customInterfaceObj[item.typePinYinName]
           } else {
-            defaultFn();
+            defaultFn()
           }
         } else {
-          defaultFn();
+          defaultFn()
         }
 
         str += `
     }\n
-    `;
+    `
       } else if (item._enum) {
         str += `
-    ${item.description ? `/**${filterDescription(item.description)} */` : ""}
+    ${item.description ? `/**${filterDescription(item.description)} */` : ''}
  declare enum ${item.typePinYinName} {
-`;
+`
         item._enum?.forEach((it) => {
           if (it.description) {
-            str += `/**${filterDescription(it.description)} */\n`;
+            str += `/**${filterDescription(it.description)} */\n`
           }
-          str += `${it.key}= ${it.value},\n`;
-        });
+          str += `${it.key}= ${it.value},\n`
+        })
 
         str += `
     }\n
-    `;
+    `
       }
-      content += str;
-    });
-    return content;
-  };
+      content += str
+    })
+    return content
+  }
 
   const getApiIndexFileContent = () => {
-    let content = ``;
-    needExtendTemplate && (content += `import {useExtApi} from './ext'\n`);
+    let content = ``
+    needExtendTemplate && (content += `import {useExtApi} from './ext'\n`)
     group.forEach((groupItem) => {
-      content += `import {use${toPascalCase(
-        groupItem.groupName
-      )}Api} from './${apiOutDir}/${groupItem.groupName}'\n`;
-    });
-    content += `\n`;
-    content += `export const ${exportApiName} = {\n`;
+      content += `import {use${toPascalCase(groupItem.groupName)}Api} from './${apiOutDir}/${groupItem.groupName}'\n`
+    })
+    content += `\n`
+    content += `export const ${exportApiName} = {\n`
     group.forEach((groupItem) => {
-      content += `...use${toPascalCase(groupItem.groupName)}Api(),\n`;
-    });
-    needExtendTemplate && (content += `...useExtApi(),\n`);
-    content += `}`;
-    return content;
-  };
+      content += `...use${toPascalCase(groupItem.groupName)}Api(),\n`
+    })
+    needExtendTemplate && (content += `...useExtApi(),\n`)
+    content += `}`
+    return content
+  }
 
   const genExtFile = () => {
     // 定义目标目录和文件路径
-    const dirPath = path.join(__dirname, "ext");
-    const filePath = path.join(dirPath, "index.ts");
+    const dirPath = path.join(__dirname, 'ext')
+    const filePath = path.join(dirPath, 'index.ts')
     const fileContent = `
-    import request from '${requestUrl || "./request"}'
+    import request from '${requestUrl || './request'}'
 
 /**手动补充扩展的api */
 /**
@@ -633,32 +620,32 @@ export function useExtApi() {
   return {}
 }
 
-    `;
+    `
 
     // 判断目录是否存在
     if (!fs.existsSync(dirPath)) {
       // 如果目录不存在，则创建目录
-      fs.mkdirSync(dirPath);
+      fs.mkdirSync(dirPath)
       // 创建文件并写入内容
-      fs.writeFileSync(filePath, fileContent, "utf8");
-      console.log("ext/index.ts完成写入");
+      fs.writeFileSync(filePath, fileContent, 'utf8')
+      console.log('ext/index.ts完成写入')
     } else if (!fs.existsSync(filePath)) {
       // 如果目录存在但文件不存在，则创建文件并写入内容
-      fs.writeFileSync(filePath, fileContent, "utf8");
-      console.log("ext/index.ts完成写入");
+      fs.writeFileSync(filePath, fileContent, 'utf8')
+      console.log('ext/index.ts完成写入')
     }
-  };
+  }
 
-  getApiUrlAndParams();
-  getInterfaceTypes();
-  getApiQueryParamsType();
-  getApiFileContent();
-  const interfaceFileContent = getInterfaceFileContent();
-  genFile(interfaceFileContent, "interfaces.d.ts", interfaceOutDir);
-  const apiIndexFileContent = getApiIndexFileContent();
-  genFile(apiIndexFileContent, "index.ts", "");
-  needExtendTemplate && genExtFile();
-};
+  getApiUrlAndParams()
+  getInterfaceTypes()
+  getApiQueryParamsType()
+  getApiFileContent()
+  const interfaceFileContent = getInterfaceFileContent()
+  genFile(interfaceFileContent, 'interfaces.d.ts', interfaceOutDir)
+  const apiIndexFileContent = getApiIndexFileContent()
+  genFile(apiIndexFileContent, 'index.ts', '')
+  needExtendTemplate && genExtFile()
+}
 
 /**
  * api生成工具
@@ -689,46 +676,44 @@ export const genApi = ({
                          customUrlPlugin,
                          customGroupPlugin,
                          customReqNamePlugin,
-                         customInterFacePlugin,
+                         customInterFacePlugin
                        }) => {
   const todo = (openAPI) => {
     // 处理转译字符
-    openAPI = JSON.parse(
-      decodeURIComponent(JSON.stringify(openAPI))
-    );
+    openAPI = JSON.parse(decodeURIComponent(JSON.stringify(openAPI)))
     tool({
       openAPI,
       outDir,
       baseUrl,
       apiOutDir,
-      exportApiName: exportApiName || "apis",
+      exportApiName: exportApiName || 'apis',
       interfaceOutDir,
       requestUrl,
       needExtendTemplate,
       customUrlPlugin,
       customGroupPlugin,
       customReqNamePlugin,
-      customInterFacePlugin,
-    });
-  };
+      customInterFacePlugin
+    })
+  }
   if (!swaggerJsonUrl && !apiJsonData) {
-    throw "没有传入 swaggerJsonUrl 或 apiJsonData";
+    throw '没有传入 swaggerJsonUrl 或 apiJsonData'
   }
   if (!swaggerJsonUrl && apiJsonData) {
-    todo(apiJsonData);
-    return false;
+    todo(apiJsonData)
+    return false
   }
   fetch(swaggerJsonUrl)
     .then((response) => {
       if (!response.ok) {
-        throw new Error("获取apijson请求报错 " + response.statusText);
+        throw new Error('获取apijson请求报错 ' + response.statusText)
       }
-      return response.json();
+      return response.json()
     })
     .then((data) => {
-      todo(data);
+      todo(data)
     })
     .catch((error) => {
-      console.error("There was a problem with the fetch operation:", error);
-    });
-};
+      console.error('There was a problem with the fetch operation:', error)
+    })
+}

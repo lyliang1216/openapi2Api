@@ -505,13 +505,17 @@ const tool = ({
         }
       })
     },`;
-    }else if ((!queryTypeStr && reqBodyTypeStr) || (isFormData && !!item.params?.length)) {
+    }else if ((!queryTypeStr && reqBodyTypeStr) || (isFormData)) {
       resStr += "data,\n";
       resStr += `...config
       })
     },`;
     }else if ((queryTypeStr && reqBodyTypeStr && (item.method.toUpperCase() === 'POST' || item.method.toUpperCase() === 'PUT'))) {
       resStr += "data: reqBody,\n";
+      resStr += `...config
+      })
+    },`;
+    }else {
       resStr += `...config
       })
     },`;

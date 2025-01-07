@@ -96,7 +96,6 @@ const tool = ({
             if (reqContent[contentTypeItem].schema) {
               const {properties, required} =
                 reqContent[contentTypeItem].schema;
-              // TODO 需要细化FormData类型
               api.params = getPropertiesParams(properties, required);
               api.paramsType = "FormData";
             }
@@ -191,7 +190,7 @@ const tool = ({
           ? getTypeName(properties[formDataKey].$ref)
           : properties[formDataKey].format === "binary"
             ? "File"
-            : properties[formDataKey].type,
+            : JavaType2JavaScriptType[properties[formDataKey].type],
         description: properties[formDataKey].description,
         required: !!requiredList?.includes(formDataKey),
       };
@@ -407,6 +406,27 @@ const tool = ({
     });
   };
 
+  const getReqConfig = (config)=>{
+    let queryTypeStr = ''
+    let descStr = ''
+    queryTypeStr += `{`;
+    queryTypeStr += config
+      .map(
+        (q) => `${q.name}${q.required ? "" : "?"}:${urlNumber2String(q.type)}`
+      )
+      .join(",");
+    queryTypeStr += `}`;
+    descStr = config
+      .map(
+        (q, i) =>
+          `* @param data.${q.name} ${q.description}${
+            i === config.length - 1 ? "" : "\n"
+          }`
+      )
+      .join("");
+    return {queryTypeStr, descStr};
+  }
+
   // 生成请求字符串内容
   const genReqStrContent = (item) => {
     let url = replacePlaceholders(item.url);
@@ -415,9 +435,8 @@ const tool = ({
     let queryTypeStr = "";
     let descStr = "";
     let reqBodyTypeStr = item.paramsType;
-    // TODO FormData判断需要细化
     const isFormData = item.paramsType === "FormData";
-    if (item.query && item.query.length && !isFormData) {
+    if (item.query && item.query.length) {
       const querys = item.query.filter((it) => it.in === "query");
       if (querys.length) {
         queryStr = querys
@@ -425,21 +444,12 @@ const tool = ({
           .join("&");
         url += `?${queryStr}`;
       }
-      queryTypeStr += `{`;
-      queryTypeStr += item.query
-        .map(
-          (q) => `${q.name}${q.required ? "" : "?"}:${urlNumber2String(q.type)}`
-        )
-        .join(",");
-      queryTypeStr += `}`;
-      descStr = item.query
-        .map(
-          (q, i) =>
-            `* @param data.${q.name} ${q.description}${
-              i === item.query.length - 1 ? "" : "\n"
-            }`
-        )
-        .join("");
+      queryTypeStr = getReqConfig(item.query).queryTypeStr
+      descStr = getReqConfig(item.query).descStr
+    }
+    if ((isFormData && item.params?.length)) {
+      queryTypeStr = getReqConfig(item.params).queryTypeStr
+      descStr = getReqConfig(item.params).descStr
     }
     let resStr = "";
     resStr += `/** 
@@ -450,7 +460,12 @@ const tool = ({
     resStr += `*/\n`;
     const paramsStr = () => {
       if (isFormData) {
-        return "data:FormData,"
+        if (!item.params?.length) {
+          return "data:FormData,"
+        }else {
+          return `data:${queryTypeStr},`
+        }
+
       }
       if (item.query && item.query.length && reqBodyTypeStr && (item.method.toUpperCase() === 'POST' || item.method.toUpperCase() === 'PUT')) {
         return `data:${queryTypeStr}, reqBody:${reqBodyTypeStr},`
@@ -465,18 +480,42 @@ const tool = ({
     }
 
     resStr += `${processUrl(item.url)}${method}(${paramsStr()} config={}): Promise<${item.resType || "void"}> {\n`;
+    if (isFormData && item.params?.length) {
+      resStr += `const _data = new FormData();\n`
+      item.params.forEach((it) => {
+        const current = item.params.find(c => c.name === it.name)
+        if (current.type === 'File') {
+          resStr += `_data.append('${it.name}', data.${it.name} ?? '');\n`
+        }else {
+          resStr += `_data.append('${it.name}', JSON.stringify(data.${it.name} ?? ''));\n`
+        }
+      })
+      const _config = ``
+    }
     resStr += `return request({
         url: \`${baseUrl || ""}${url}\`,
         method: '${item.method.toUpperCase()}',\n`;
-    if ((!queryTypeStr && reqBodyTypeStr) || isFormData) {
-      resStr += "data,\n";
-    }
-    if ((queryTypeStr && reqBodyTypeStr && (item.method.toUpperCase() === 'POST' || item.method.toUpperCase() === 'PUT'))) {
-      resStr += "data: reqBody,\n";
-    }
-    resStr += `...config
+
+    if (isFormData && item.params?.length) {
+      resStr += "data: _data,\n";
+      resStr += `...config,
+      headers: {
+          'Content-Type': 'multipart/form-data',
+          ...((config as any).headers || {})
+        }
       })
     },`;
+    }else if ((!queryTypeStr && reqBodyTypeStr) || (isFormData && !!item.params?.length)) {
+      resStr += "data,\n";
+      resStr += `...config
+      })
+    },`;
+    }else if ((queryTypeStr && reqBodyTypeStr && (item.method.toUpperCase() === 'POST' || item.method.toUpperCase() === 'PUT'))) {
+      resStr += "data: reqBody,\n";
+      resStr += `...config
+      })
+    },`;
+    }
 
     return resStr;
   };

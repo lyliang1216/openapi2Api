@@ -153,6 +153,8 @@ const tool = ({
               api.resType = "ArrayBuffer";
             } else if (schema?.items?.type && schema.type === "array") {
               api.resType = `${getTypeName(schema?.items?.type)}[]`;
+            } else if (schema?.items?.$ref && schema.type === "array") {
+              api.resType = `${getTypeName(schema?.items?.$ref) || 'any'}[]`;
             } else {
               api.resType = getTypeName(schema.type);
             }

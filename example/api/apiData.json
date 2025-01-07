@@ -203,6 +203,9 @@
     },
     {
       "name": "view/BimConfigController"
+    },
+    {
+      "name": "node-red"
     }
   ],
   "paths": {
@@ -2319,7 +2322,7 @@
     },
     "/systemMsg/list": {
       "get": {
-        "summary": "list",
+        "summary": "列表查询",
         "deprecated": false,
         "description": "",
         "tags": [
@@ -2361,7 +2364,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseListSystemMsgVO"
+                  "$ref": "#/components/schemas/ResponseListSystemMsgVO",
+                  "description": ""
                 },
                 "examples": {
                   "1": {
@@ -2399,7 +2403,7 @@
     },
     "/systemMsg/page": {
       "get": {
-        "summary": "page",
+        "summary": "分页查询",
         "deprecated": false,
         "description": "",
         "tags": [
@@ -2511,7 +2515,7 @@
     },
     "/systemMsg/count": {
       "get": {
-        "summary": "count",
+        "summary": "数量统计",
         "deprecated": false,
         "description": "",
         "tags": [
@@ -10556,7 +10560,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "integer",
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
                 "description": ""
               }
             }
@@ -10568,8 +10575,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseString",
-                  "description": ""
+                  "$ref": "#/components/schemas/ResponseBoolean"
                 },
                 "examples": {
                   "1": {
@@ -12778,7 +12784,7 @@
     },
     "/aiAlgorithm/list": {
       "get": {
-        "summary": "list",
+        "summary": "列表查询",
         "deprecated": false,
         "description": "",
         "tags": [
@@ -12811,7 +12817,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseListAiAlgorithmVO"
+                  "$ref": "#/components/schemas/ResponseListAiAlgorithmVO",
+                  "description": "Response<List<AiAlgorithmVO>>"
                 },
                 "examples": {
                   "1": {
@@ -12846,7 +12853,7 @@
     },
     "/aiAlgorithm/page": {
       "get": {
-        "summary": "page",
+        "summary": "分页查询",
         "deprecated": false,
         "description": "",
         "tags": [
@@ -12897,7 +12904,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponsePageAiAlgorithmVO"
+                  "$ref": "#/components/schemas/ResponsePageAiAlgorithmVO",
+                  "description": "Response<Page<AiAlgorithmVO>>"
                 },
                 "examples": {
                   "1": {
@@ -12947,7 +12955,7 @@
     },
     "/aiAlgorithm/add": {
       "post": {
-        "summary": "add",
+        "summary": "新增",
         "deprecated": false,
         "description": "",
         "tags": [
@@ -12981,7 +12989,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseAiAlgorithmVO"
+                  "$ref": "#/components/schemas/ResponseAiAlgorithmVO",
+                  "description": "Response<String>"
                 },
                 "examples": {
                   "1": {
@@ -13013,7 +13022,7 @@
     },
     "/aiAlgorithm/edit": {
       "post": {
-        "summary": "edit",
+        "summary": "编辑",
         "deprecated": false,
         "description": "",
         "tags": [
@@ -13070,7 +13079,7 @@
     },
     "/aiAlgorithm/delete": {
       "post": {
-        "summary": "delete",
+        "summary": "删除",
         "deprecated": false,
         "description": "",
         "tags": [
@@ -13130,7 +13139,7 @@
     },
     "/aiAlgorithm/execute": {
       "get": {
-        "summary": "execute",
+        "summary": "执行",
         "deprecated": false,
         "description": "",
         "tags": [
@@ -13172,7 +13181,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseObject"
+                  "$ref": "#/components/schemas/ResponseObject",
+                  "description": "Response<Object>"
                 },
                 "examples": {
                   "1": {
@@ -15459,6 +15469,150 @@
                     "summary": "成功示例",
                     "value": [
                       ""
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/physicalPoint/getS7PlcDataType": {
+      "get": {
+        "summary": "getS7PlcDataType",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "communication/(PhysicalPoint)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": [
+                      ""
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/physicalPoint/getRequestParamProcess": {
+      "get": {
+        "summary": "getRequestParamProcess",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "communication/(PhysicalPoint)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": [
+                      ""
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/physicalPoint/getModbusPlcDataType": {
+      "get": {
+        "summary": "getModbusPlcDataType",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "communication/(PhysicalPoint)表控制层"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JSONObject",
+                    "description": "点位配置信息"
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": [
+                      {
+                        "": {}
+                      }
                     ]
                   }
                 }
@@ -24237,13 +24391,54 @@
         "security": []
       }
     },
-    "/send2": {
-      "post": {
-        "summary": "模拟物理点位数据采集",
+    "/api/abc": {
+      "get": {
+        "summary": "算法接口",
         "deprecated": false,
         "description": "",
-        "tags": [],
+        "tags": [
+          "node-red"
+        ],
         "parameters": [
+          {
+            "name": "value",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "true",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "device_default_control_state",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pointId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "1872539314412322817",
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "ambitionToken",
             "in": "header",
@@ -24257,7 +24452,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "type": "object",
                 "properties": {}
@@ -24282,22 +24477,50 @@
         "security": []
       }
     },
-    "/api/hello": {
+    "/node/info": {
       "get": {
-        "summary": "未命名接口",
+        "summary": "节点查询",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "node-red"
+        ],
+        "parameters": [
+          {
+            "name": "ambitionToken",
+            "in": "header",
+            "description": "",
+            "example": "{{ACCESS_TOKEN}}",
+            "schema": {
+              "type": "string",
+              "default": "{{ACCESS_TOKEN}}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/send2": {
+      "post": {
+        "summary": "模拟物理点位数据采集",
         "deprecated": false,
         "description": "",
         "tags": [],
         "parameters": [
-          {
-            "name": "a",
-            "in": "query",
-            "description": "",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "ambitionToken",
             "in": "header",
@@ -24311,7 +24534,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/x-www-form-urlencoded": {
+            "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {}
@@ -25748,7 +25971,7 @@
         "type": "object",
         "properties": {
           "key": {
-            "$ref": "#/components/schemas/key3"
+            "$ref": "#/components/schemas/key"
           }
         }
       },
@@ -29875,8 +30098,7 @@
           },
           "asc": {
             "type": "boolean",
-            "description": "是否正序排列，默认 true",
-            "default": "true"
+            "description": "是否正序排列，默认 true"
           }
         }
       },

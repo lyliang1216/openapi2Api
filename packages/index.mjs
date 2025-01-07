@@ -479,9 +479,6 @@ const tool = ({
       })
     },`
     } else if ((!queryTypeStr && reqBodyTypeStr) || isFormData) {
-      if (url.includes('group-scheme/copy')) {
-        console.log(222)
-      }
       // 没有具体参数的表单，和有reqBody的内容
       resStr += 'data,\n'
       resStr += `...config
@@ -492,18 +489,12 @@ const tool = ({
       reqBodyTypeStr &&
       (item.method.toUpperCase() === 'POST' || item.method.toUpperCase() === 'PUT')
     ) {
-      if (url.includes('group-scheme/copy')) {
-        console.log(333)
-      }
       // 有query参数和reqBody参数，并且是post或put
       resStr += 'data: reqBody,\n'
       resStr += `...config
       })
     },`
     } else {
-      if (url.includes('group-scheme/copy')) {
-        console.log(444)
-      }
       // 其他项
       resStr += `...config
       })

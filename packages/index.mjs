@@ -414,12 +414,10 @@ const tool = ({
         queryStr = querys.map((it) => `${it.name}=\$\{data.${it.name}\}`).join('&')
         url += `?${queryStr}`
       }
-      queryTypeStr = getReqConfig(item.query).queryTypeStr
-      descStr = getReqConfig(item.query).descStr
     }
-    if (isFormData && item.params?.length) {
-      queryTypeStr = getReqConfig(item.params).queryTypeStr
-      descStr = getReqConfig(item.params).descStr
+    if ((isFormData && item.params?.length) || (item.query && item.query.length)) {
+      queryTypeStr = getReqConfig([...(item.query || []), ...(item.params || [])]).queryTypeStr
+      descStr = getReqConfig([...(item.query || []), ...(item.params || [])]).descStr
     }
     let resStr = ''
     resStr += `/**

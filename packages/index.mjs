@@ -187,7 +187,7 @@ const tool = ({
       return {
         name: formDataKey,
         type: properties[formDataKey].$ref
-          ? getTypeName(properties[formDataKey].$ref)
+          ? 'I' + getTypeName(properties[formDataKey].$ref)
           : properties[formDataKey].format === 'binary'
             ? 'File'
             : JavaType2JavaScriptType[properties[formDataKey].type],

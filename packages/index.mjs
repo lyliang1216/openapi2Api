@@ -175,10 +175,9 @@ const tool = ({
     const typeName = schemasRef.replace('#/components/schemas/', '')
     if (customResponsesTypePlugin) {
       return customResponsesTypePlugin(typeName)
-    }else {
+    } else {
       return typeName
     }
-
   }
 
   // 获取请求参数
@@ -189,7 +188,7 @@ const tool = ({
         type: properties[formDataKey].$ref
           ? 'I' + getTypeName(properties[formDataKey].$ref)
           : properties[formDataKey].format === 'binary'
-            ? 'File'
+            ? 'File | File[]'
             : JavaType2JavaScriptType[properties[formDataKey].type],
         description: properties[formDataKey].description,
         required: !!requiredList?.includes(formDataKey)
@@ -464,8 +463,14 @@ const tool = ({
       resStr += `const _data = new FormData();\n`
       item.params.forEach((it) => {
         const current = item.params.find((c) => c.name === it.name)
-        if (current.type === 'File') {
-          resStr += `_data.append('${it.name}', data.${it.name} ?? '');\n`
+        if (current.type === 'File | File[]') {
+          resStr += `if (Array.isArray(data.${it.name})) {
+            data.${it.name}.forEach((c) => {
+            _data.append('${it.name}', c ?? '');
+            })
+          } else {
+            _data.append('${it.name}', data.${it.name} ?? '');
+          }\n`
         } else {
           resStr += `_data.append('${it.name}', JSON.stringify(data.${it.name} ?? ''));\n`
         }

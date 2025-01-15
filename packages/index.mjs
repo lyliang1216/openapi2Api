@@ -472,7 +472,7 @@ const tool = ({
             _data.append('${it.name}', data.${it.name} ?? '');
           }\n`
         } else {
-          resStr += `_data.append('${it.name}', JSON.stringify(data.${it.name} ?? ''));\n`
+          resStr += `_data.append('${it.name}', typeof data.${it.name} === 'string' ? data.${it.name} : JSON.stringify(data.${it.name} ?? ''));\n`
         }
       })
     }

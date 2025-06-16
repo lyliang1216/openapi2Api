@@ -31,5 +31,8 @@
   "bugs": {
     "url": "https://github.com/lyliang1216/openapi2Api/issues"
   },
-  "homepage": "https://github.com/lyliang1216/openapi2Api#readme"
+  "homepage": "https://github.com/lyliang1216/openapi2Api#readme",
+  "devDependencies": {
+    "axios": "^1.10.0"
+  }
 }

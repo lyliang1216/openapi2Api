@@ -56,7 +56,7 @@ const tool = ({
 
   // 获取api集合，和请求参数
   const getApiUrlAndParams = () => {
-    const { paths } = openAPI
+    const {paths} = openAPI
     // 遍历所有url
     Object.keys(paths).forEach((url) => {
       // 遍历每个url下的所有请求方式
@@ -76,6 +76,7 @@ const tool = ({
           api.query = apiConfig.parameters
             .filter((queryItem) => queryItem.in !== 'header')
             .map((queryItem) => {
+
               const type = queryItem.schema.type
               const itemType = queryItem.schema?.items?.type
               const normalType = JavaType2JavaScriptType[type] || 'any'
@@ -101,7 +102,7 @@ const tool = ({
           if (reqContent['multipart/form-data']) {
             const contentTypeItem = Object.keys(reqContent)[0]
             if (reqContent[contentTypeItem].schema) {
-              const { properties, required } = reqContent[contentTypeItem].schema
+              const {properties, required} = reqContent[contentTypeItem].schema
               api.params = getPropertiesParams(properties, required)
               api.paramsType = 'FormData'
             }
@@ -155,7 +156,6 @@ const tool = ({
         } else {
           api.resType = 'void'
         }
-
         apis.push(api)
       })
     })
@@ -204,7 +204,7 @@ const tool = ({
         const key = match[1] // 括号前的内容
         const description = match[2] // 括号内的内容
         const value = match[3] // 等号后面的内容
-        return { key, description, value }
+        return {key, description, value}
       }
       return null
     })
@@ -225,7 +225,7 @@ const tool = ({
     if (typePinYinArr.find((item) => item.description === typeStr)) {
       return false
     }
-    const { properties, description, required: requireList, enum: _enum } = openAPI.components.schemas[typeStr]
+    const {properties, description, required: requireList, enum: _enum} = openAPI.components.schemas[typeStr]
     const name = 'I' + getPinYin(typeStr)
     const interfaceConfig = {
       typePinYinName: name.replace(/[^a-zA-Z0-9]/g, ''),
@@ -377,9 +377,35 @@ const tool = ({
     })
   }
 
+  const mergeByName = (data) => {
+    const map = new Map();
+
+    data.forEach(item => {
+      const key = item.groupName;
+
+      if (!map.has(key)) {
+        // 如果是第一次出现这个 name，直接放入 map
+        map.set(key, {
+          groupName: item.groupName,
+          description: item.description,
+          items: [...item.items]
+        });
+      } else {
+        const existing = map.get(key);
+        // 合并 description:
+        existing.description += ',' + item.description;
+        // 合并 items 并去重
+        existing.items = [...new Set([...existing.items, ...item.items])];
+      }
+    });
+
+    return Array.from(map.values());
+  }
+
   // 生成api文件
   const getApiFileContent = () => {
     group = groupBy(apis, 'group')
+    group = mergeByName(group)
     group.forEach((groupItem) => {
       let fileStr = `import request from '${requestUrl || './request'}'
     /**${filterDescription(groupItem.description)} */
@@ -403,7 +429,7 @@ const tool = ({
     descStr = config
       .map((q, i) => `* @param data.${q.name} ${q.description}${i === config.length - 1 ? '' : '\n'}`)
       .join('')
-    return { queryTypeStr, descStr }
+    return {queryTypeStr, descStr}
   }
 
   // 生成请求字符串内容
@@ -684,7 +710,6 @@ export const genApi = ({
                        }) => {
   const todo = (openAPI) => {
     // 处理转译字符
-    openAPI = JSON.parse(decodeURIComponent(JSON.stringify(openAPI)))
     tool({
       openAPI,
       outDir,

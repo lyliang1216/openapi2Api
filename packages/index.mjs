@@ -4,6 +4,7 @@ import pinyin from 'pinyin'
 
 /**
  * api生成工具
+ * @param {Object} param 传入参数
  * @param {*} param.openAPI api json内容
  * @param {*} param.baseUrl baseUrl 会拼接在最后生成的url前
  * @param {*} param.outDir 工具输出目录
@@ -677,6 +678,7 @@ export function useExtApi() {
 
 /**
  * api生成工具
+ * @param {Object} param 传入参数
  * @param {*} param.swaggerJsonUrl api json地址
  * @param {*} param.apiJsonData api json数据
  * @param {*} param.baseUrl baseUrl 会拼接在最后生成的url前

@@ -3,38 +3,41 @@ import axios from 'axios'
 
 // import apiJsonData from "./apiData.json" assert {type: "json"};
 
-const res = await axios.post('https://api.apifox.com/api/v1/export/openapi?__xAuthorization=Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYwOTA0MywidHMiOiI0YWU2Yjc4ZjU2N2E3ZjVhIiwiaWF0IjoxNzQ3NjQzNDcyNjk3fQ.855jUsOFTDQgCyc2EWCbweaxGsdCTSDN0oaCHxAhwls&__xProjectId=6281722&locale=zh-CN', {
-  "projectId": 6281722,
-  "type": 1,
-  "format": "json",
-  "version": "3.0",
-  "apiDetailId": [],
-  "includeTags": [],
-  "excludeTags": [],
-  "checkedFolder": [],
-  "selectedEnvironments": [],
-  "excludeExtension": true,
-  "excludeTagsWithFolder": false,
-  "moduleId": 3646634
-})
+const res = await axios.post(
+  'https://api.apifox.com/api/v1/export/openapi?__xAuthorization=Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYwOTA0MywidHMiOiI0YWU2Yjc4ZjU2N2E3ZjVhIiwiaWF0IjoxNzQ3NjQzNDcyNjk3fQ.855jUsOFTDQgCyc2EWCbweaxGsdCTSDN0oaCHxAhwls&__xProjectId=6562717&locale=zh-CN',
+  {
+    "projectId": 6562717,
+    "type": 1,
+    "format": "json",
+    "version": "3.0",
+    "apiDetailId": [],
+    "includeTags": [],
+    "excludeTags": [],
+    "checkedFolder": [],
+    "selectedEnvironments": [],
+    "excludeExtension": true,
+    "excludeTagsWithFolder": false,
+    "moduleId": 5602048
+  }
+)
 
-const apiJsonData = res.data
+const apiJsonData = JSON.parse(decodeURIComponent(JSON.stringify(res.data)))
 
 genApi({
   apiJsonData,
-  outDir: "/",
-  apiOutDir: "modules",
-  exportApiName: "apis",
-  interfaceOutDir: "interfaces",
-  requestUrl: "@/utils/service",
+  outDir: '/',
+  apiOutDir: 'modules',
+  exportApiName: 'api',
+  interfaceOutDir: 'interfaces',
+  requestImportStr: `import { request } from '@/utils/service'`,
   needExtendTemplate: true,
-  customUrlPlugin:(url,tags)=>{
+  customUrlPlugin: (url, tags) => {
     if (tags[0] === 'util-api/SmsController') {
-      return '/util-api'+url
+      return '/util-api' + url
     }
-    if (url.startsWith('/v1')){
-      return '/'+tags[0].split('/')[0]+url
+    if (url.startsWith('/${fwk.app.apiPrefix}')) {
+      return url.replace('${fwk.app.apiPrefix}', tags[0].split('/')[0])
     }
-    return url.replace('${fwk.app.apiPrefix}', tags[0].split('/')[0])
+    return '/' + tags[0].split('/')[0] + url
   }
-});
+})

@@ -11,7 +11,7 @@ import pinyin from 'pinyin'
  * @param {*} param.apiOutDir api输出目录
  * @param {*} param.exportApiName 导出的api集合名称
  * @param {*} param.interfaceOutDir interface输出目录
- * @param {*} param.requestUrl request引入地址
+ * @param {*} param.requestImportStr request引入地址
  * @param {*} param.needExtendTemplate 是否需要拓展api模板
  * @param {*} param.customUrlPlugin 自定义url插件
  * @param {*} param.customGroupPlugin 自定义group插件
@@ -26,7 +26,7 @@ const tool = ({
                 apiOutDir,
                 exportApiName,
                 interfaceOutDir,
-                requestUrl,
+                requestImportStr,
                 needExtendTemplate,
                 customUrlPlugin,
                 customGroupPlugin,
@@ -62,6 +62,7 @@ const tool = ({
     Object.keys(paths).forEach((url) => {
       // 遍历每个url下的所有请求方式
       Object.keys(paths[url]).forEach((method) => {
+        console.log(url,'url')
         // url每个请求方式的配置
         const apiConfig = paths[url][method]
 
@@ -408,7 +409,7 @@ const tool = ({
     group = groupBy(apis, 'group')
     group = mergeByName(group)
     group.forEach((groupItem) => {
-      let fileStr = `import request from '${requestUrl || './request'}'
+      let fileStr = `${requestImportStr}
     /**${filterDescription(groupItem.description)} */
       export function use${toPascalCase(groupItem.groupName)}Api() {
       return {\n`
@@ -628,7 +629,7 @@ const tool = ({
     const dirPath = path.join(__dirname, 'ext')
     const filePath = path.join(dirPath, 'index.ts')
     const fileContent = `
-    import request from '${requestUrl || './request'}'
+    ${requestImportStr}
 
 /**手动补充扩展的api */
 /**
@@ -686,7 +687,7 @@ export function useExtApi() {
  * @param {*} param.apiOutDir api输出目录
  * @param {*} param.exportApiName 导出的api集合名称
  * @param {*} param.interfaceOutDir interface输出目录
- * @param {*} param.requestUrl request引入地址
+ * @param {*} param.requestImportStr request引入地址
  * @param {*} param.needExtendTemplate 是否需要拓展api模板
  * @param {*} param.customUrlPlugin 自定义url插件
  * @param {*} param.customGroupPlugin 自定义group插件
@@ -702,7 +703,7 @@ export const genApi = ({
                          apiOutDir,
                          exportApiName,
                          interfaceOutDir,
-                         requestUrl,
+                         requestImportStr,
                          needExtendTemplate,
                          customUrlPlugin,
                          customGroupPlugin,
@@ -719,7 +720,7 @@ export const genApi = ({
       apiOutDir,
       exportApiName: exportApiName || 'apis',
       interfaceOutDir,
-      requestUrl,
+      requestImportStr,
       needExtendTemplate,
       customUrlPlugin,
       customGroupPlugin,

@@ -62,7 +62,6 @@ const tool = ({
     Object.keys(paths).forEach((url) => {
       // 遍历每个url下的所有请求方式
       Object.keys(paths[url]).forEach((method) => {
-        console.log(url,'url')
         // url每个请求方式的配置
         const apiConfig = paths[url][method]
 
@@ -78,7 +77,6 @@ const tool = ({
           api.query = apiConfig.parameters
             .filter((queryItem) => queryItem.in !== 'header')
             .map((queryItem) => {
-
               const type = queryItem.schema.type
               const itemType = queryItem.schema?.items?.type
               const normalType = JavaType2JavaScriptType[type] || 'any'
@@ -96,6 +94,7 @@ const tool = ({
               }
             })
         }
+
         // 获取requestBody参数
         if (apiConfig.requestBody) {
           const reqContent = apiConfig.requestBody.content
@@ -113,8 +112,7 @@ const tool = ({
             if (reqContent[contentTypeItem].schema) {
               // 一般请求对象
               if (reqContent[contentTypeItem].schema.$ref) {
-                const reqBodyTypeStr = getTypeName(reqContent[contentTypeItem].schema.$ref)
-                api.paramsType = reqBodyTypeStr
+                api.paramsType = getTypeName(reqContent[contentTypeItem].schema.$ref)
               } else if (reqContent[contentTypeItem].schema.items) {
                 // 存在数组的
                 if (reqContent[contentTypeItem].schema.items.type) {
@@ -134,7 +132,25 @@ const tool = ({
                   }
                 }
               } else if (reqContent[contentTypeItem].schema.type) {
-                api.paramsType = JavaType2JavaScriptType[reqContent[contentTypeItem].schema.type] || 'any'
+                if (reqContent[contentTypeItem].schema.type === 'object') {
+                  const properties = reqContent[contentTypeItem].schema?.properties || {}
+                  const required = reqContent[contentTypeItem].schema?.required || []
+                  const postParamsNoTsType = Object.keys(properties).map(filed => {
+                    return {
+                      name: filed,
+                      type: JavaType2JavaScriptType[properties[filed].type] || 'any',
+                      description: properties[filed].description,
+                      required: required.includes(filed),
+                    }
+                  })
+                  if (postParamsNoTsType.length) {
+                    api.paramsType = getReqConfig(postParamsNoTsType).queryTypeStr
+                  } else {
+                    api.paramsType = JavaType2JavaScriptType[reqContent[contentTypeItem].schema.type] || 'any'
+                  }
+                } else {
+                  api.paramsType = JavaType2JavaScriptType[reqContent[contentTypeItem].schema.type] || 'any'
+                }
               }
             }
           }

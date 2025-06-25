@@ -257,15 +257,16 @@ const tool = ({
         return {
           key: item,
           value:
-            type === 'array'
-              ? properties[item].items?.$ref
-                ? `I${getTypeName(properties[item].items?.$ref)}[]`
-                : properties[item].items.type
-                  ? `${JavaType2JavaScriptType[properties[item].items.type]}[]`
-                  : '[]'
-              : properties[item].$ref
-                ? getTypeName(properties[item].$ref)
-                : JavaType2JavaScriptType[type] || type,
+            ((type === 'string' || JavaType2JavaScriptType[type] === 'number') && properties[item]?.enum?.length) ? `'${properties[item].enum.join("'|'")}'` :
+              type === 'array'
+                ? properties[item].items?.$ref
+                  ? `I${getTypeName(properties[item].items?.$ref)}[]`
+                  : properties[item].items.type
+                    ? `${JavaType2JavaScriptType[properties[item].items.type]}[]`
+                    : '[]'
+                : properties[item].$ref
+                  ? getTypeName(properties[item].$ref)
+                  : JavaType2JavaScriptType[type] || type,
           description: properties[item].description,
           required: requireList && requireList.includes(item)
         }

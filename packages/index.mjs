@@ -247,7 +247,7 @@ const tool = ({
     const name = 'I' + getPinYin(typeStr)
     const interfaceConfig = {
       typePinYinName: (customAbnormalTypeNamePlugin ? customAbnormalTypeNamePlugin(name) : name).replace(/[^a-zA-Z0-9]/g, ''),
-      typeName: customAbnormalTypeNamePlugin ? customAbnormalTypeNamePlugin(typeStr) : typeStr,
+      typeName: (customAbnormalTypeNamePlugin ? customAbnormalTypeNamePlugin(typeStr) : typeStr).replace(/[^a-zA-Z0-9]/g, ''),
       description: description || customAbnormalTypeNamePlugin ? customAbnormalTypeNamePlugin(typeStr) : typeStr,
     }
     // 存在参数

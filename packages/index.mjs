@@ -121,9 +121,6 @@ const tool = ({
                     api.paramsType = JavaType2JavaScriptType[reqContent[contentTypeItem].schema.items.type] + '[]'
                   } else {
                     api.paramsType = reqContent[contentTypeItem].schema.items.type
-                    if (api.paramsType === 'ComBamboocloudCdpGeneralCommonDtoVendorStatisticsVendorhotelstatisticsdtoSummaryqueryreq') {
-                      console.log(333)
-                    }
                   }
                 }
                 if (reqContent[contentTypeItem].schema.items.$ref) {
@@ -148,20 +145,11 @@ const tool = ({
                   })
                   if (postParamsNoTsType.length) {
                     api.paramsType = getReqConfig(postParamsNoTsType).queryTypeStr
-                    if (api.paramsType === 'ComBamboocloudCdpGeneralCommonDtoVendorStatisticsVendorhotelstatisticsdtoSummaryqueryreq') {
-                      console.log(444)
-                    }
                   } else {
                     api.paramsType = JavaType2JavaScriptType[reqContent[contentTypeItem].schema.type] || 'any'
-                    if (api.paramsType === 'ComBamboocloudCdpGeneralCommonDtoVendorStatisticsVendorhotelstatisticsdtoSummaryqueryreq') {
-                      console.log(555)
-                    }
                   }
                 } else {
                   api.paramsType = JavaType2JavaScriptType[reqContent[contentTypeItem].schema.type] || 'any'
-                  if (api.paramsType === 'ComBamboocloudCdpGeneralCommonDtoVendorStatisticsVendorhotelstatisticsdtoSummaryqueryreq') {
-                    console.log(666)
-                  }
                 }
               }
             }
@@ -259,8 +247,8 @@ const tool = ({
     const name = 'I' + getPinYin(typeStr)
     const interfaceConfig = {
       typePinYinName: (customAbnormalTypeNamePlugin ? customAbnormalTypeNamePlugin(name) : name).replace(/[^a-zA-Z0-9]/g, ''),
-      typeName: typeStr,
-      description: description || typeStr
+      typeName: customAbnormalTypeNamePlugin ? customAbnormalTypeNamePlugin(typeStr) : typeStr,
+      description: description || customAbnormalTypeNamePlugin ? customAbnormalTypeNamePlugin(typeStr) : typeStr,
     }
     // 存在参数
     if (properties) {
@@ -518,7 +506,6 @@ const tool = ({
       }
       return ''
     }
-
     resStr += `${processUrl(item.url)}${method}(${paramsStr()} config={}): Promise<${item.resType || 'void'}> {\n`
     if (isFormData && item.params?.length) {
       resStr += `const _data = new FormData();\n`

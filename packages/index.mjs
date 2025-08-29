@@ -16,8 +16,8 @@ import pinyin from 'pinyin'
  * @param {*} param.customUrlPlugin 自定义url插件
  * @param {*} param.customGroupPlugin 自定义group插件
  * @param {*} param.customReqNamePlugin 自定义请求方法名称插件
- * @param {*} param.customInterFacePlugin 自定义interface内容插件
- * @param {*} param.customResponsesTypePlugin 自定义responses类型插件
+ * @param {*} param.customInterFacePlugin 自定义interface内容插件，整个对象
+ * @param {*} param.customAbnormalTypeNamePlugin 自定义异常类型名称插件，请求类型和返回类型名称异常处理
  */
 const tool = ({
                 openAPI,
@@ -32,7 +32,7 @@ const tool = ({
                 customGroupPlugin,
                 customReqNamePlugin,
                 customInterFacePlugin,
-                customResponsesTypePlugin
+                customAbnormalTypeNamePlugin
               }) => {
   const __dirname = process.cwd() + (outDir[0] === '/' ? '' : '/') + outDir
   // 类型转换
@@ -112,7 +112,7 @@ const tool = ({
             if (reqContent[contentTypeItem].schema) {
               // 一般请求对象
               if (reqContent[contentTypeItem].schema.$ref) {
-                api.paramsType = getTypeName(reqContent[contentTypeItem].schema.$ref)
+                api.paramsType = 'I' + getTypeName(reqContent[contentTypeItem].schema.$ref)
               } else if (reqContent[contentTypeItem].schema.items) {
                 // 存在数组的
                 if (reqContent[contentTypeItem].schema.items.type) {
@@ -121,6 +121,9 @@ const tool = ({
                     api.paramsType = JavaType2JavaScriptType[reqContent[contentTypeItem].schema.items.type] + '[]'
                   } else {
                     api.paramsType = reqContent[contentTypeItem].schema.items.type
+                    if (api.paramsType === 'ComBamboocloudCdpGeneralCommonDtoVendorStatisticsVendorhotelstatisticsdtoSummaryqueryreq') {
+                      console.log(333)
+                    }
                   }
                 }
                 if (reqContent[contentTypeItem].schema.items.$ref) {
@@ -145,11 +148,20 @@ const tool = ({
                   })
                   if (postParamsNoTsType.length) {
                     api.paramsType = getReqConfig(postParamsNoTsType).queryTypeStr
+                    if (api.paramsType === 'ComBamboocloudCdpGeneralCommonDtoVendorStatisticsVendorhotelstatisticsdtoSummaryqueryreq') {
+                      console.log(444)
+                    }
                   } else {
                     api.paramsType = JavaType2JavaScriptType[reqContent[contentTypeItem].schema.type] || 'any'
+                    if (api.paramsType === 'ComBamboocloudCdpGeneralCommonDtoVendorStatisticsVendorhotelstatisticsdtoSummaryqueryreq') {
+                      console.log(555)
+                    }
                   }
                 } else {
                   api.paramsType = JavaType2JavaScriptType[reqContent[contentTypeItem].schema.type] || 'any'
+                  if (api.paramsType === 'ComBamboocloudCdpGeneralCommonDtoVendorStatisticsVendorhotelstatisticsdtoSummaryqueryreq') {
+                    console.log(666)
+                  }
                 }
               }
             }
@@ -191,8 +203,8 @@ const tool = ({
   // 获取类型名称
   const getTypeName = (schemasRef) => {
     const typeName = schemasRef.replace('#/components/schemas/', '')
-    if (customResponsesTypePlugin) {
-      return customResponsesTypePlugin(typeName)
+    if (customAbnormalTypeNamePlugin) {
+      return customAbnormalTypeNamePlugin(typeName)
     } else {
       return typeName
     }
@@ -246,7 +258,7 @@ const tool = ({
     const {properties, description, required: requireList, enum: _enum} = openAPI.components.schemas[typeStr]
     const name = 'I' + getPinYin(typeStr)
     const interfaceConfig = {
-      typePinYinName: name.replace(/[^a-zA-Z0-9]/g, ''),
+      typePinYinName: (customAbnormalTypeNamePlugin ? customAbnormalTypeNamePlugin(name) : name).replace(/[^a-zA-Z0-9]/g, ''),
       typeName: typeStr,
       description: description || typeStr
     }
@@ -304,7 +316,11 @@ const tool = ({
       }
       const findItem2 = typePinYinArr.find((t) => t.typeName === item.resType)
       if (findItem2) {
-        item.resType = findItem2.typePinYinName
+        if (customAbnormalTypeNamePlugin) {
+          item.resType = customAbnormalTypeNamePlugin(findItem2.typePinYinName)
+        } else {
+          item.resType = findItem2.typePinYinName
+        }
       }
     })
   }
@@ -709,8 +725,8 @@ export function useExtApi() {
  * @param {*} param.customUrlPlugin 自定义url插件
  * @param {*} param.customGroupPlugin 自定义group插件
  * @param {*} param.customReqNamePlugin 自定义请求方法名称插件
- * @param {*} param.customInterFacePlugin 自定义interface内容插件
- * @param {*} param.customResponsesTypePlugin 自定义responses类型插件
+ * @param {*} param.customInterFacePlugin 自定义interface内容插件，整个对象
+ * @param {*} param.customAbnormalTypeNamePlugin 自定义异常类型名称插件，请求类型和返回类型名称异常处理
  */
 export const genApi = ({
                          swaggerJsonUrl,
@@ -726,7 +742,7 @@ export const genApi = ({
                          customGroupPlugin,
                          customReqNamePlugin,
                          customInterFacePlugin,
-                         customResponsesTypePlugin
+                         customAbnormalTypeNamePlugin
                        }) => {
   const todo = (openAPI) => {
     // 处理转译字符
@@ -743,7 +759,7 @@ export const genApi = ({
       customGroupPlugin,
       customReqNamePlugin,
       customInterFacePlugin,
-      customResponsesTypePlugin
+      customAbnormalTypeNamePlugin
     })
   }
   if (!swaggerJsonUrl && !apiJsonData) {

@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import pinyin from 'pinyin'
+import {unwrapData} from "../client/index.js";
 
 /**
  * api生成工具
@@ -13,6 +14,7 @@ import pinyin from 'pinyin'
  * @param {*} param.interfaceOutDir interface输出目录
  * @param {*} param.requestImportStr request引入地址
  * @param {*} param.needExtendTemplate 是否需要拓展api模板
+ * @param {*} param.exposeParamsName 需要直接暴露的返回值参数名
  * @param {*} param.customUrlPlugin 自定义url插件
  * @param {*} param.customGroupPlugin 自定义group插件
  * @param {*} param.customReqNamePlugin 自定义请求方法名称插件
@@ -28,11 +30,12 @@ const tool = ({
                 interfaceOutDir,
                 requestImportStr,
                 needExtendTemplate,
+                exposeParamsName,
                 customUrlPlugin,
                 customGroupPlugin,
                 customReqNamePlugin,
                 customInterFacePlugin,
-                customAbnormalTypeNamePlugin
+                customAbnormalTypeNamePlugin,
               }) => {
   const __dirname = process.cwd() + (outDir[0] === '/' ? '' : '/') + outDir
   // 类型转换
@@ -430,7 +433,10 @@ const tool = ({
     group = groupBy(apis, 'group')
     group = mergeByName(group)
     group.forEach((groupItem) => {
-      let fileStr = `${requestImportStr}
+      const unwrapMethods = exposeParamsName?`import { genApi } from 'openapi2api'\n
+      import { UnwrappedResponse, unwrapData } from 'openapi2api/client`:''
+      let fileStr = `${requestImportStr}\n
+      ${unwrapMethods}
     /**${filterDescription(groupItem.description)} */
       export function use${toPascalCase(groupItem.groupName)}Api() {
       return {\n`
@@ -506,7 +512,9 @@ const tool = ({
       }
       return ''
     }
-    resStr += `${processUrl(item.url)}${method}(${paramsStr()} config={}): Promise<${item.resType || 'void'}> {\n`
+    // exposeParamsName 如果需要直接暴露参数，需要解包一下
+    const responseType = exposeParamsName?`UnwrappedResponse<${item.resType || 'void'}>`:`${item.resType || 'void'}`
+    resStr += `${processUrl(item.url)}${method}(${paramsStr()} config={}): Promise<${responseType}> {\n`
     if (isFormData && item.params?.length) {
       resStr += `const _data = new FormData();\n`
       item.params.forEach((it) => {
@@ -524,7 +532,10 @@ const tool = ({
         }
       })
     }
-    resStr += `return request({
+    // exposeParamsName 如果需要直接暴露参数，需要解包一下
+    const requestMethodStart = exposeParamsName?'unwrapData(' :''
+    const requestMethodEnd = exposeParamsName?')' :''
+    resStr += `return ${requestMethodStart}request({
         url: \`${baseUrl || ''}${url}\`,
         method: '${item.method.toUpperCase()}',\n`
     // 表单，并且有具体参数
@@ -535,7 +546,7 @@ const tool = ({
           'Content-Type': 'multipart/form-data',
           ...((config as any).headers || {})
         }
-      })
+      })${requestMethodEnd}
     },`
     } else if ((!queryTypeStr && reqBodyTypeStr) || isFormData) {
       // 没有具体参数的表单，和有reqBody的内容
@@ -709,6 +720,7 @@ export function useExtApi() {
  * @param {*} param.interfaceOutDir interface输出目录
  * @param {*} param.requestImportStr request引入地址
  * @param {*} param.needExtendTemplate 是否需要拓展api模板
+ * @param {*} param.exposeParamsName 需要直接暴露的返回值参数名
  * @param {*} param.customUrlPlugin 自定义url插件
  * @param {*} param.customGroupPlugin 自定义group插件
  * @param {*} param.customReqNamePlugin 自定义请求方法名称插件
@@ -725,11 +737,12 @@ export const genApi = ({
                          interfaceOutDir,
                          requestImportStr,
                          needExtendTemplate,
+                         exposeParamsName,
                          customUrlPlugin,
                          customGroupPlugin,
                          customReqNamePlugin,
                          customInterFacePlugin,
-                         customAbnormalTypeNamePlugin
+                         customAbnormalTypeNamePlugin,
                        }) => {
   const todo = (openAPI) => {
     // 处理转译字符
@@ -742,11 +755,12 @@ export const genApi = ({
       interfaceOutDir,
       requestImportStr,
       needExtendTemplate,
+      exposeParamsName,
       customUrlPlugin,
       customGroupPlugin,
       customReqNamePlugin,
       customInterFacePlugin,
-      customAbnormalTypeNamePlugin
+      customAbnormalTypeNamePlugin,
     })
   }
   if (!swaggerJsonUrl && !apiJsonData) {

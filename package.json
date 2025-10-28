@@ -2,20 +2,34 @@
   "name": "openapi2api",
   "version": "1.1.43",
   "description": "openapi生成api工具",
-  "main": "./dist/bundle.mjs",
-  "module": "./dist/bundle.mjs",
+  "type": "module",
+  "main": "./dist/generator/generator.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/client/index.js",
+      "types": "./dist/client/index.d.ts"
+    },
+    "./client": {
+      "import": "./dist/client/index.js",
+      "types": "./dist/client/index.d.ts"
+    },
+    "./generator": {
+      "import": "./dist/generator/generator.mjs"
+    }
+  },
   "files": [
-    "dist/*",
-    "index.d.ts"
+    "dist/"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "npx rimraf dist && npm run build:client && npm run build:generator",
+    "build:client": "tsc",
+    "build:generator": "mkdir -p dist/generator && cp packages/generator/generator.mjs dist/generator/",
+    "prepublishOnly": "npm run build",
     "pub": "npm version patch && git push && npm run build && npm publish",
     "gen:apis": "node ./example/api/genapi.mjs"
   },
   "dependencies": {
-    "pinyin": "^4.0.0-alpha.2",
-    "vite": "^5.4.2"
+    "pinyin": "^4.0.0-alpha.2"
   },
   "repository": {
     "type": "git",
@@ -33,6 +47,8 @@
   },
   "homepage": "https://github.com/lyliang1216/openapi2Api#readme",
   "devDependencies": {
-    "axios": "^1.10.0"
+    "axios": "^1.10.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.9.3"
   }
 }

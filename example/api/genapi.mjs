@@ -1,4 +1,5 @@
-import {genApi} from "../../packages/index.mjs";
+// import {genApi} from "../../packages/generator/generator.mjs";
+import {genApi} from "../../dist/generator/generator.mjs";
 import axios from 'axios'
 
 // import apiJsonData from "./apiData.json" assert {type: "json"};
@@ -31,6 +32,7 @@ genApi({
   interfaceOutDir: 'interfaces',
   requestImportStr: `import { request } from '@/utils/service'`,
   needExtendTemplate: true,
+  exposeParamsName: 'data',
   customUrlPlugin: (url, tags) => {
     if (tags[0] === 'util-api/SmsController') {
       return '/util-api' + url

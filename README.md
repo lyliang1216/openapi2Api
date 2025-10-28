@@ -60,6 +60,7 @@ genApi({
 | interfaceOutDir              | interface 输出目录名                                                                                      |
 | requestImportStr             | request 引入地址字符串，传入完整 import 导入字符串                                                                    |
 | needExtendTemplate           | 是否需要拓展 api 的模板，并且在 api 中会自动引入拓展文件                                                                    |
+| exposeParamsName             | 需要直接暴露返回值中的参数，如果不存在或返回值不是对象，则会返回原始数据                                                                 |
 | customUrlPlugin              | 自定义 url 插件，参数 1：原始 url，参数 2：tags，需要返回格式化后的 url                                                       |
 | customGroupPlugin            | 自定义 group 插件，参数：格式化后的 url，需要返回当前 url 的分组，用于创建文件分组                                                    |
 | customReqNamePlugin          | 自定义请求方法名称插件，参数 1：格式化后的 url，参数 2：默认生成的 name 名称，需要返回自定义的 name                                          |

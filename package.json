@@ -6,8 +6,7 @@
   "main": "./dist/generator/generator.mjs",
   "exports": {
     ".": {
-      "import": "./dist/client/index.js",
-      "types": "./dist/client/index.d.ts"
+      "import": "./dist/generator/generator.mjs"
     },
     "./client": {
       "import": "./dist/client/index.js",

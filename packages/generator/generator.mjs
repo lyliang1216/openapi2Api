@@ -1,7 +1,6 @@
 import fs from 'fs'
 import path from 'path'
 import pinyin from 'pinyin'
-import {unwrapData} from "../client/index.js";
 
 /**
  * api生成工具
@@ -433,8 +432,7 @@ const tool = ({
     group = groupBy(apis, 'group')
     group = mergeByName(group)
     group.forEach((groupItem) => {
-      const unwrapMethods = exposeParamsName?`import { genApi } from 'openapi2api'\n
-      import { UnwrappedResponse, unwrapData } from 'openapi2api/client`:''
+      const unwrapMethods = exposeParamsName?`import { UnwrappedResponse, unwrapData } from 'openapi2api/client'`:''
       let fileStr = `${requestImportStr}\n
       ${unwrapMethods}
     /**${filterDescription(groupItem.description)} */
@@ -552,7 +550,7 @@ const tool = ({
       // 没有具体参数的表单，和有reqBody的内容
       resStr += 'data,\n'
       resStr += `...config
-      })
+      })${requestMethodEnd}
     },`
     } else if (
       queryTypeStr &&
@@ -562,12 +560,12 @@ const tool = ({
       // 有query参数和reqBody参数，并且是post或put
       resStr += 'data: reqBody,\n'
       resStr += `...config
-      })
+      })${requestMethodEnd}
     },`
     } else {
       // 其他项
       resStr += `...config
-      })
+      })${requestMethodEnd}
     },`
     }
 

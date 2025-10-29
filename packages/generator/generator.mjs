@@ -10,6 +10,7 @@ import pinyin from 'pinyin'
  * @param {*} param.outDir 工具输出目录
  * @param {*} param.apiOutDir api输出目录
  * @param {*} param.exportApiName 导出的api集合名称
+ * @param {*} param.exportApiFileName 导出的api集合文件名
  * @param {*} param.interfaceOutDir interface输出目录
  * @param {*} param.requestImportStr request引入地址
  * @param {*} param.needExtendTemplate 是否需要拓展api模板
@@ -26,6 +27,7 @@ const tool = ({
                 outDir,
                 apiOutDir,
                 exportApiName,
+                exportApiFileName,
                 interfaceOutDir,
                 requestImportStr,
                 needExtendTemplate,
@@ -432,7 +434,7 @@ const tool = ({
     group = groupBy(apis, 'group')
     group = mergeByName(group)
     group.forEach((groupItem) => {
-      const unwrapMethods = exposeParamsName?`import { UnwrappedResponse, unwrapData } from 'openapi2api/client'`:''
+      const unwrapMethods = exposeParamsName ? `import { UnwrappedResponse, unwrapData } from 'openapi2api/client'` : ''
       let fileStr = `${requestImportStr}\n
       ${unwrapMethods}
     /**${filterDescription(groupItem.description)} */
@@ -443,8 +445,17 @@ const tool = ({
         fileStr += '\n'
       })
       fileStr += `}}`
-      genFile(fileStr, groupItem.groupName + '.ts', apiOutDir)
+      genFile(fileStr, handleFileName(groupItem.groupName) + '.ts', apiOutDir)
     })
+  }
+
+  // 如果有汉字，就处理成拼音
+  const handleFileName = (str) => {
+    if (/[\u4e00-\u9fa5]/.test(str)) {
+      return getPinYin(str)
+    } else {
+      return str
+    }
   }
 
   const getReqConfig = (config) => {
@@ -511,7 +522,7 @@ const tool = ({
       return ''
     }
     // exposeParamsName 如果需要直接暴露参数，需要解包一下
-    const responseType = exposeParamsName?`UnwrappedResponse<${item.resType || 'void'}>`:`${item.resType || 'void'}`
+    const responseType = exposeParamsName ? `UnwrappedResponse<${item.resType || 'void'}>` : `${item.resType || 'void'}`
     resStr += `${processUrl(item.url)}${method}(${paramsStr()} config={}): Promise<${responseType}> {\n`
     if (isFormData && item.params?.length) {
       resStr += `const _data = new FormData();\n`
@@ -531,8 +542,8 @@ const tool = ({
       })
     }
     // exposeParamsName 如果需要直接暴露参数，需要解包一下
-    const requestMethodStart = exposeParamsName?'unwrapData(' :''
-    const requestMethodEnd = exposeParamsName?')' :''
+    const requestMethodStart = exposeParamsName ? 'unwrapData(' : ''
+    const requestMethodEnd = exposeParamsName ? ')' : ''
     resStr += `return ${requestMethodStart}request({
         url: \`${baseUrl || ''}${url}\`,
         method: '${item.method.toUpperCase()}',\n`
@@ -702,7 +713,7 @@ export function useExtApi() {
   const interfaceFileContent = getInterfaceFileContent()
   genFile(interfaceFileContent, 'interfaces.d.ts', interfaceOutDir)
   const apiIndexFileContent = getApiIndexFileContent()
-  genFile(apiIndexFileContent, 'index.ts', '')
+  genFile(apiIndexFileContent, exportApiFileName + '.ts', '')
   needExtendTemplate && genExtFile()
 }
 
@@ -715,6 +726,7 @@ export function useExtApi() {
  * @param {*} param.outDir 工具输出目录
  * @param {*} param.apiOutDir api输出目录
  * @param {*} param.exportApiName 导出的api集合名称
+ * @param {*} param.exportApiFileName 导出的api集合文件名
  * @param {*} param.interfaceOutDir interface输出目录
  * @param {*} param.requestImportStr request引入地址
  * @param {*} param.needExtendTemplate 是否需要拓展api模板
@@ -732,6 +744,7 @@ export const genApi = ({
                          outDir,
                          apiOutDir,
                          exportApiName,
+                         exportApiFileName,
                          interfaceOutDir,
                          requestImportStr,
                          needExtendTemplate,
@@ -750,6 +763,7 @@ export const genApi = ({
       baseUrl,
       apiOutDir,
       exportApiName: exportApiName || 'apis',
+      exportApiFileName: exportApiFileName || 'index',
       interfaceOutDir,
       requestImportStr,
       needExtendTemplate,

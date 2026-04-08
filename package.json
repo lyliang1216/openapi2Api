@@ -22,7 +22,7 @@
   "scripts": {
     "build": "npx rimraf dist && npm run build:client && npm run build:generator",
     "build:client": "tsc",
-    "build:generator": "mkdir -p dist/generator && cp packages/generator/generator.mjs dist/generator/",
+    "build:generator": "mkdir -p dist/generator && cp packages/generator/*.mjs dist/generator/",
     "prepublishOnly": "npm run build",
     "pub": "npm version patch && git push && npm run build && npm publish",
     "gen:apis": "node ./example/api/genapi.mjs"

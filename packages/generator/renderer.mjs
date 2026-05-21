@@ -183,66 +183,154 @@ export const createRenderer = ({
     })
   }
 
+  // 渲染单个 interface / enum 声明片段。
+  const getInterfaceItemContent = (item) => {
+    // 单个 interface/enum 片段内容。
+    let str = ''
+
+    if (item.type) {
+      str += `
+    ${item.description ? `/**${filterDescription(item.description)} */` : ''}
+ declare interface ${item.typePinYinName} {
+`
+
+      const defaultFn = () => {
+        item.type.forEach((currentType) => {
+          if (currentType.description) {
+            str += `/**${filterDescription(currentType.description)} */\n`
+          }
+          str += `${currentType.key}${currentType.required ? '' : '?'}: ${currentType.value};\n`
+        })
+      }
+
+      if (customInterFacePlugin) {
+        const customInterfaceObj = customInterFacePlugin(item)
+        // 插件命中时完全接管当前 interface 内容。
+        if (customInterfaceObj && Object.keys(customInterfaceObj).includes(item.typePinYinName)) {
+          str += customInterfaceObj[item.typePinYinName]
+        } else {
+          defaultFn()
+        }
+      } else {
+        defaultFn()
+      }
+
+      str += `
+    }\n
+    `
+    } else if (item._enum?.length) {
+      str += `
+    ${item.description ? `/**${filterDescription(item.description)} */` : ''}
+ declare enum ${item.typePinYinName} {
+`
+      item._enum.forEach((currentEnum) => {
+        if (currentEnum.description) {
+          str += `/**${filterDescription(currentEnum.description)} */\n`
+        }
+        str += `${currentEnum.key}= ${currentEnum.value},\n`
+      })
+
+      str += `
+    }\n
+    `
+    }
+
+    return str
+  }
+
   // 输出全量 interface / enum 声明文件。
   const getInterfaceFileContent = (interfaceTypes) => {
     // interfaces.d.ts 的完整输出内容。
     let content = ''
 
     interfaceTypes.forEach((item) => {
-      // 单个 interface/enum 片段内容。
-      let str = ''
-
-      if (item.type) {
-        str += `
-    ${item.description ? `/**${filterDescription(item.description)} */` : ''}
- declare interface ${item.typePinYinName} {
-`
-
-        const defaultFn = () => {
-          item.type.forEach((currentType) => {
-            if (currentType.description) {
-              str += `/**${filterDescription(currentType.description)} */\n`
-            }
-            str += `${currentType.key}${currentType.required ? '' : '?'}: ${currentType.value};\n`
-          })
-        }
-
-        if (customInterFacePlugin) {
-          const customInterfaceObj = customInterFacePlugin(item)
-          // 插件命中时完全接管当前 interface 内容。
-          if (customInterfaceObj && Object.keys(customInterfaceObj).includes(item.typePinYinName)) {
-            str += customInterfaceObj[item.typePinYinName]
-          } else {
-            defaultFn()
-          }
-        } else {
-          defaultFn()
-        }
-
-        str += `
-    }\n
-    `
-      } else if (item._enum?.length) {
-        str += `
-    ${item.description ? `/**${filterDescription(item.description)} */` : ''}
- declare enum ${item.typePinYinName} {
-`
-        item._enum.forEach((currentEnum) => {
-          if (currentEnum.description) {
-            str += `/**${filterDescription(currentEnum.description)} */\n`
-          }
-          str += `${currentEnum.key}= ${currentEnum.value},\n`
-        })
-
-        str += `
-    }\n
-    `
-      }
-
-      content += str
+      content += getInterfaceItemContent(item)
     })
 
     return content
+  }
+
+  // 建立 interface 名称索引，兼容原始 schema 名和最终声明名两种引用形式。
+  const getInterfaceIndex = (interfaceTypes) => {
+    const interfaceMap = new Map()
+    const aliasMap = new Map()
+
+    interfaceTypes.forEach((item) => {
+      interfaceMap.set(item.typePinYinName, item)
+      aliasMap.set(item.typePinYinName, item.typePinYinName)
+      aliasMap.set(item.typeName, item.typePinYinName)
+    })
+
+    return {interfaceMap, aliasMap}
+  }
+
+  // 从类型字符串中识别已知 interface / enum 名称。
+  const getInterfaceNamesFromType = (typeStr, aliasMap) => {
+    if (!typeStr) {
+      return []
+    }
+
+    const typeNames = new Set()
+    const words = String(typeStr).match(/[A-Za-z_][A-Za-z0-9_]*/g) || []
+
+    words.forEach((word) => {
+      if (aliasMap.has(word)) {
+        typeNames.add(aliasMap.get(word))
+      }
+    })
+
+    return Array.from(typeNames)
+  }
+
+  // 按 api 分组收集当前模块直接或间接引用到的 interface / enum。
+  const getGroupInterfaceTypes = (groupItem, interfaceMap, aliasMap, assignedTypeNames) => {
+    const currentInterfaceTypes = []
+    const pendingTypeNames = []
+
+    const addTypeName = (typeName) => {
+      if (!typeName || assignedTypeNames.has(typeName) || pendingTypeNames.includes(typeName)) {
+        return
+      }
+      if (!interfaceMap.has(typeName)) {
+        return
+      }
+      pendingTypeNames.push(typeName)
+      assignedTypeNames.add(typeName)
+    }
+
+    const addTypeStr = (typeStr) => {
+      getInterfaceNamesFromType(typeStr, aliasMap).forEach(addTypeName)
+    }
+
+    groupItem.items.forEach((item) => {
+      addTypeStr(item.paramsType)
+      addTypeStr(item.resType)
+      item.query?.forEach((currentQuery) => addTypeStr(currentQuery.type))
+      item.params?.forEach((currentParam) => addTypeStr(currentParam.type))
+    })
+
+    while (pendingTypeNames.length) {
+      const currentTypeName = pendingTypeNames.shift()
+      const currentInterface = interfaceMap.get(currentTypeName)
+      currentInterfaceTypes.push(currentInterface)
+      currentInterface.type?.forEach((currentType) => addTypeStr(currentType.value))
+    }
+
+    return currentInterfaceTypes
+  }
+
+  // 按 api 模块输出同名 interface / enum 声明文件。
+  const getInterfaceFileContentByGroups = (groups, interfaceTypes) => {
+    const {interfaceMap, aliasMap} = getInterfaceIndex(interfaceTypes)
+    const assignedTypeNames = new Set()
+
+    return groups.map((groupItem) => {
+      const currentInterfaceTypes = getGroupInterfaceTypes(groupItem, interfaceMap, aliasMap, assignedTypeNames)
+      return {
+        fileName: `${handleFileName(groupItem.groupName)}.d.ts`,
+        content: getInterfaceFileContent(currentInterfaceTypes),
+      }
+    })
   }
 
   // 输出统一聚合入口，保持对外访问方式不变。
@@ -313,6 +401,7 @@ export function useExtApi() {
   return {
     getApiFileContent,
     getInterfaceFileContent,
+    getInterfaceFileContentByGroups,
     getApiIndexFileContent,
     genExtFile,
   }

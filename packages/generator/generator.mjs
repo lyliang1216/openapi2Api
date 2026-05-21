@@ -1,3 +1,4 @@
+import fs from 'fs'
 import path from 'path'
 import { genFile, resolveOutputRootDir } from './utils.mjs'
 import { createParser } from './parser.mjs'
@@ -51,7 +52,13 @@ const tool = ({
   const groups = parser.groupBy(apis)
 
   renderer.getApiFileContent(groups)
-  genFile(renderer.getInterfaceFileContent(interfaceTypes), 'interfaces.d.ts', interfaceOutputDir)
+  const legacyInterfaceFilePath = path.join(interfaceOutputDir, 'interfaces.d.ts')
+  if (fs.existsSync(legacyInterfaceFilePath)) {
+    fs.unlinkSync(legacyInterfaceFilePath)
+  }
+  renderer.getInterfaceFileContentByGroups(groups, interfaceTypes).forEach((interfaceFileItem) => {
+    genFile(interfaceFileItem.content, interfaceFileItem.fileName, interfaceOutputDir)
+  })
   genFile(renderer.getApiIndexFileContent(groups, exportApiName, apiOutDir), `${exportApiFileName}.ts`, outputRootDir)
 
   if (needExtendTemplate) {

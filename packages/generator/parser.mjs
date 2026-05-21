@@ -14,6 +14,15 @@ export const createParser = ({ openAPI, customAbnormalTypeNamePlugin, customUrlP
     return rawTypeName
   }
 
+  // 将类型字符串里的 schema 名统一替换成最终声明名，兼容 Foo[] / Record<string, Foo> 等嵌套写法。
+  const replaceSchemaTypeNames = (typeStr, typeNameMap) => {
+    if (!typeStr) {
+      return typeStr
+    }
+
+    return String(typeStr).replace(/[A-Za-z_][A-Za-z0-9_]*/g, (word) => typeNameMap.get(word) || word)
+  }
+
   // 统一把 OpenAPI schema 转成 TS 类型字符串，后续渲染层只消费这个结果。
   const resolveSchemaType = (schema) => {
     if (!schema) {
@@ -250,9 +259,7 @@ export const createParser = ({ openAPI, customAbnormalTypeNamePlugin, customUrlP
     interfaceTypes.forEach((item) => {
       item.type?.forEach((propertyItem) => {
         // 这里把属性值里的原始 schema 名映射成最终输出的 interface 名。
-        if (typeNameMap.has(propertyItem.value)) {
-          propertyItem.value = typeNameMap.get(propertyItem.value)
-        }
+        propertyItem.value = replaceSchemaTypeNames(propertyItem.value, typeNameMap)
       })
     })
 
@@ -263,13 +270,15 @@ export const createParser = ({ openAPI, customAbnormalTypeNamePlugin, customUrlP
   const getApiQueryParamsType = (apis, typeNameMap) => {
     apis.forEach((item) => {
       // 请求体类型名可能还是原始 schema 名，这里统一替换成最终输出名。
-      if (item.paramsType && typeNameMap.has(item.paramsType)) {
-        item.paramsType = typeNameMap.get(item.paramsType)
-      }
+      item.paramsType = replaceSchemaTypeNames(item.paramsType, typeNameMap)
       // 响应体类型名也做同样替换。
-      if (item.resType && typeNameMap.has(item.resType)) {
-        item.resType = typeNameMap.get(item.resType)
-      }
+      item.resType = replaceSchemaTypeNames(item.resType, typeNameMap)
+      item.query?.forEach((currentQuery) => {
+        currentQuery.type = replaceSchemaTypeNames(currentQuery.type, typeNameMap)
+      })
+      item.params?.forEach((currentParam) => {
+        currentParam.type = replaceSchemaTypeNames(currentParam.type, typeNameMap)
+      })
     })
   }
 
